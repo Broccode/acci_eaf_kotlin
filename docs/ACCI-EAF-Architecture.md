@@ -65,7 +65,6 @@ The ACCI EAF includes a "Control Plane UI" for administrative tasks. While this 
 15. Security Best Practices
 16. Key Reference Documents
 17. Change Log
-18. Prompt for Design Architect: ACCI EAF Control Plane UI Frontend Architecture
 
 *(The table of contents has been updated to reflect all created sections.)*
 
@@ -1793,70 +1792,3 @@ This section lists key documents that are either inputs to this architecture, pr
 |                                            |                  |         |                                              |                 |
 
 *(This log will be updated as the architecture evolves.)*
-
-## 18. Prompt for Design Architect: ACCI EAF Control Plane UI Frontend Architecture
-
-**To: Design Architect / Frontend Lead Architect**
-
-**Subject: Detailed Frontend Architecture for ACCI EAF Control Plane UI**
-
-This prompt initiates the design of the detailed frontend architecture for the **ACCI EAF (Axians Competence Center Infrastructure Enterprise Application Framework) Control Plane User Interface**. The Control Plane UI is a critical administrative interface for managing tenants, users, licenses, internationalization, and other core aspects of the EAF.
-
-You are tasked with creating a comprehensive **Frontend Architecture Document** (e.g., `ACCI-EAF-Frontend-Architecture.md`) that will guide the development of this UI.
-
-**Key Inputs:**
-
-1. **This Main Architecture Document (ACCI EAF Architecture Document):**
-    * Pay close attention to the "Definitive Tech Stack Selections" section, which mandates **React (v19.1)** and **React-Admin (v5.8.1)** as the foundational technologies for the Control Plane UI.
-    * The "API Reference" section details the `eaf-controlplane-api` (Base URL: `/controlplane/api/v1`) that this UI will consume. OpenAPI specifications for this backend API will be provided in `docs/api/controlplane-v1.yml`.
-    * The "Project Structure" section allocates the `controlplane-ui/` directory for the frontend application.
-    * Understand the overall project context, goals, and non-functional requirements.
-2. **ACCI EAF Product Requirements Document (PRD):**
-    * The "User Interaction and Design Goals" section of the PRD is crucial. It outlines the vision for the UI, target devices (desktop-first), key views/screens required for MVP, and explicitly states **React-Admin as the functional and stylistic inspiration**.
-    * Functional requirements for the Control Plane UI are derived from Epics such as Epic 4 (Mandanten- & Basis-Benutzerverwaltung), Epic 6 (i18n Control Plane Integration), and parts of Epic 3, 5, 8.
-3. **Definitive Tech Stack Selections (from this document):**
-    * React: `19.1`
-    * React-Admin: `5.8.1`
-    * State Management: React-Admin built-in/recommended (e.g., Ra-Store, React Context). Please elaborate on the specific strategy.
-    * Testing: Jest (`29.7.0`), React Testing Library (`16.3.x`), Playwright (`1.52.x`).
-
-**Core Tasks & Deliverables for the Frontend Architecture Document:**
-
-1. **Confirm/Refine Technology Versions:** While core versions are set, confirm any necessary peer/plugin dependencies and their versions compatible with React-Admin `5.8.1` and React `19.1`.
-2. **Application Structure:**
-    * Define a detailed folder and file structure within the `controlplane-ui/` directory. This should cover components, views/pages, services/API connectors, state management logic, custom hooks, styles, assets, navigation, configuration, and tests.
-    * Specify how Vite-based starter templates (if used as a base for the React-Admin setup, or if Vite is chosen as the build tool) influence this structure.
-3. **Component Strategy:**
-    * Outline the approach to component design (e.g., reusable UI components, presentational vs. container components, smart vs. dumb components).
-    * Define a strategy for leveraging and customizing React-Admin's extensive set of components (e.g., `<List>`, `<Datagrid>`, `<Edit>`, `<SimpleForm>`, `<TextInput>`).
-    * Guidelines for creating custom components where React-Admin's defaults are insufficient.
-4. **State Management:**
-    * Elaborate on the chosen state management strategy. If relying on React-Admin's internal capabilities (e.g., Ra-Store, which uses React Context and Redux principles internally for some parts), detail how global vs. local state will be handled.
-    * If additional global state management (e.g., Zustand, Redux Toolkit, or more extensive use of React Context) is needed alongside React-Admin, justify and detail its integration.
-5. **API Communication & Data Handling:**
-    * Specify how React-Admin Data Providers will be configured or customized to interact with the `eaf-controlplane-api` (REST dialect, authentication, error handling, optimistic updates if used).
-    * Define patterns for data fetching, caching (if applicable beyond what the data provider offers), and data transformation between the API and UI components.
-    * Outline strategies for handling API errors gracefully in the UI.
-6. **Styling and Theming:**
-    * Define the styling approach (e.g., CSS Modules, styled-components, Emotion, Tailwind CSS if integrated, or primarily relying on and customizing React-Admin's theming capabilities which often use Material UI or a similar system).
-    * Specify how to achieve the "neutral" branding requirement mentioned in the PRD.
-7. **Routing:**
-    * Detail the routing strategy using React Router (typically bundled and managed by React-Admin for its resources).
-    * Define how custom pages/routes outside of standard React-Admin resource views will be integrated.
-8. **Frontend Testing Strategy:**
-    * Provide specific guidelines for unit testing components (with Jest & React Testing Library).
-    * Outline approaches for integration testing (e.g., testing views composed of multiple components interacting with mock data providers).
-    * Detail the strategy for E2E tests with Playwright (key user flows, page object model conventions if used).
-    * Specify frontend code coverage expectations and reporting tools.
-9. **Build & Bundling Strategy:**
-    * Confirm the build tool (e.g., Webpack as often used by Create React App / React-Admin, or Vite if chosen for a custom setup).
-    * Outline key configurations, optimization strategies (code splitting, lazy loading), and environment variable handling.
-10. **Internationalization (i18n) in the Frontend:**
-    * Specify how the i18n features provided by React-Admin (or a complementary library like `i18next`) will be used to consume and display translations managed via the `eaf-controlplane-api`.
-11. **Developer Experience (DX):**
-    * Outline any specific tools, linters (e.g., ESLint, Prettier), or practices to enhance DX for the frontend team, ensuring consistency with the overall project's coding standards where applicable.
-
-**Operational Mode:**
-Please operate in your specialized "Frontend Architecture Mode" to address these tasks, working collaboratively and incrementally if preferred.
-
-The goal is to produce a clear, actionable Frontend Architecture Document that enables efficient and high-quality development of the ACCI EAF Control Plane UI.

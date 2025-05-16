@@ -661,8 +661,6 @@ Das ACCI EAF, insbesondere durch seine `eaf-iam`- und Benachrichtigungsfunktione
 * **Rate Limits:** Zu definieren. Aufrufe an `/validations` können von vielen bereitgestellten Instanzen häufig erfolgen, daher sind geeignete Strategien (z.B. pro `activationId` oder pro Client-IP/Anwendungs-ID, die den Kunden repräsentiert) erforderlich.
 * **Link zur detaillierten API-Spezifikation:** *(Platzhalter: Eine OpenAPI (Swagger)-Spezifikation wird im Rahmen des Entwicklungsprozesses für diese API generiert und gepflegt. Sie befindet sich in `docs/api/licenseserver-v1.yml` oder ist über einen Swagger UI-Endpunkt verfügbar.)*
 
-# Weitere Abschnitte werden folgen
-
 ## 8\\. Datenmodelle
 
 Dieser Abschnitt definiert die Hauptdatenstrukturen, die innerhalb des ACCI EAF verwendet werden. Dies umfasst Kerndomänenobjekte, Überlegungen zu API-Payloads und Datenbankschemastrukturen sowohl für den Event Store als auch für Read Models. Angesichts der Verwendung von Kotlin werden Datenstrukturen beispielhaft anhand von Kotlin Data Classes oder Interfaces dargestellt.
@@ -1209,8 +1207,6 @@ sequenceDiagram
 11. **Read Model aktualisieren:** Der Projektor erstellt oder aktualisiert den Datensatz für diese Aktivierung in der `read_activated_licenses`-Tabelle in seiner Read Model Datenbank.
 12. **Aktivierung lokal speichern:** Die EAF-basierte Anwendung empfängt die erfolgreichen Aktivierungsdetails und sollte sie lokal speichern (z.B. in einer Konfigurationsdatei, gesichertem Speicher) für zukünftige Offline-Validierungen und um wiederholte Online-Aktivierungen zu vermeiden.
 
-# Weitere Abschnitte werden folgen
-
 ## 10\\. Definitive Technologie-Stack-Auswahl
 
 Dieser Abschnitt beschreibt die endgültigen Technologieentscheidungen für das ACCI EAF-Projekt. Diese Auswahl ist die alleinige Wahrheitsquelle für alle Technologieentscheidungen. Andere Architekturdokumente (z.B. für das Frontend) müssen sich auf diese Auswahl beziehen und ihre spezifische Anwendung erläutern, anstatt sie neu zu definieren.
@@ -1252,8 +1248,6 @@ Dieser Abschnitt beschreibt die endgültigen Technologieentscheidungen für das 
 |                             | Micrometer                                                        | (Version über Spring Boot)              | Fassade für Anwendungsmetriken                                                       | Ermöglicht Metrik-Export (z.B. an Prometheus). Erwähnt in PRD.                                           |
 |                             | springdoc-openapi                                                 | `Version passend zu Spring Boot 3.4.x` | Generiert OpenAPI 3-Dokumentation aus Spring Boot-Controllern                        | Automatisiert API-Dokumentationserstellung.                                                                 |
 |                             | Liquibase                                                         | 4.31.1                                 | Werkzeug zur Verwaltung von Datenbankschemaänderungen (Read Models etc.)               | Notwendig für versionierte DB-Migrationen.                                                                  |
-
-# Weitere Abschnitte werden folgen
 
 ## 11\\. Infrastruktur- und Bereitstellungsübersicht
 
@@ -1313,8 +1307,6 @@ Dieser Abschnitt beschreibt die Infrastrukturumgebung, für die das ACCI EAF und
         3. Eine sorgfältige Verwaltung von Docker-Image-Tags innerhalb des TAR-Archivs (z.B. `image:tag_version_X`) und entsprechenden `docker-compose.yml`-Dateien ist entscheidend.
   * **Datenbank-Rollback:** Liquibase unterstützt Rollback-Befehle für Schemaänderungen. Datenzustands-Rollbacks erfordern typischerweise die Wiederherstellung aus einem Datenbank-Backup. Verfahren zur Datenbanksicherung liegen in der Verantwortung des Kunden, können aber von ACCI beraten werden.
 
-# Weitere Abschnitte werden folgen
-
 ## 12\\. Fehlerbehandlungsstrategie
 
 Eine robuste Fehlerbehandlungsstrategie ist entscheidend für die Stabilität, Wartbarkeit und Diagnosefähigkeit des ACCI EAF und der darauf basierenden Anwendungen. Dieser Abschnitt beschreibt den allgemeinen Ansatz, Protokollierungspraktiken und spezifische Fehlerbehandlungsmuster.
@@ -1373,8 +1365,6 @@ Eine robuste Fehlerbehandlungsstrategie ist entscheidend für die Stabilität, W
   * **Transaktionsmanagement:**
     * **Lokale Transaktionen (z.B. Read Model-Aktualisierungen):** Standard-Spring-`@Transactional`-Annotationen werden verwendet, um ACID-Transaktionen für Datenbankoperationen innerhalb von Event-Projektoren oder Diensten zu verwalten, die direkt mit PostgreSQL für zustandsbehaftete Daten interagieren. Wenn ein Event-Handler mehrere Aktualisierungen verarbeitet, sollten diese idealerweise innerhalb einer einzigen Transaktion erfolgen.
     * **Verteilte Transaktionen / Sagas (Konsistenz über Aggregate hinweg):** Für Geschäftsprozesse, die sich über mehrere Aggregate erstrecken und letztendliche Konsistenz erfordern, werden **Axon Sagas** verwendet. Sagas lauschen auf Events und senden neue Befehle, um den Prozess zu orchestrieren. Sagas müssen Kompensationslogik (kompensierende Aktionen/Befehle) implementieren, um Fehler in jedem Schritt der verteilten Transaktion zu behandeln und sicherzustellen, dass das System in einen konsistenten Zustand zurückgeführt werden kann.
-
-# Weitere Abschnitte werden folgen
 
 ## 13\\. Coding-Standards (ACCI Kotlin Coding Standards v1.0)
 
@@ -1468,4 +1458,170 @@ Die Hauptziele dieser Standards sind die Sicherstellung von Codequalität, Konsi
     * **Regelmäßige Updates:** Planen Sie regelmäßige, kontrollierte Updates von Abhängigkeiten, um Sicherheitspatches und Verbesserungen zu integrieren. Solche Updates müssen gründlich getestet werden.
   * **Abhängigkeitsbereiche (Scopes):** Verwenden Sie geeignete Gradle-Abhängigkeitskonfigurationen (`implementation`, `api`, `compileOnly`, `runtimeOnly`, `testImplementation` usw.), um Compile-Zeit- und Laufzeit-Klassenpfade korrekt zu verwalten und um zu vermeiden, dass transitive Abhängigkeiten unnötig aus den APIs von Modulen offengelegt werden. Verwenden Sie `api` sparsam und nur, wenn ein Modul absichtlich Typen aus einer Abhängigkeit als Teil seiner eigenen öffentlichen API verfügbar macht.
 
-# Weitere Abschnitte werden folgen
+## 14. Gesamt-Teststrategie
+
+Dieser Abschnitt beschreibt die umfassende Teststrategie des Projekts, an die sich der gesamte von KI-generierte und von Menschen geschriebene Code halten muss. Sie ergänzt die im Abschnitt "Definitive Technologie-Stack-Auswahl" ausgewählten Testwerkzeuge und die NFRs bezüglich der Testabdeckung. Ein mehrschichtiger Testansatz wird verfolgt, um die Softwarequalität sicherzustellen.
+
+* **Primäre Testwerkzeuge & Frameworks:**
+  * **Backend (Kotlin/JVM):**
+    * **Unit- & Integrationstests:** JUnit Jupiter (`5.12.2`), MockK (`1.14.2`) für Mocking, Kotest (`5.9.1`) oder AssertJ für Assertions.
+    * **Axon-spezifische Tests:** Axon Test Fixture (Version abgestimmt auf Axon Framework `4.11.2`).
+    * **Abhängigkeiten für Integrationstests:** Testcontainers (`1.21.0` für Java) zur Verwaltung von Docker-basierten Abhängigkeiten wie PostgreSQL.
+    * **Codeabdeckung:** JaCoCo Gradle-Plugin.
+  * **Frontend (Control Plane UI - React):**
+    * **Unit- & Komponententests:** Jest (`29.7.0`), React Testing Library (`16.3.x`).
+    * **End-to-End (E2E) Tests:** Playwright (`1.52.x`).
+  * **CI-Integration:** Alle automatisierten Tests (Unit, Integration, relevante E2E) werden als Teil der CI/CD-Pipeline (GitHub Actions) für jeden Pull-Request und jeden Commit im Hauptbranch ausgeführt. Builds schlagen fehl, wenn Tests fehlschlagen oder die Abdeckung unter definierte Schwellenwerte fällt.
+
+* **Unit-Tests:**
+  * **Umfang:** Testen einzelner Funktionen, Methoden, Klassen oder kleiner, isolierter Module (z.B. ein einzelner Spring-Service, die Logik einer Domänenentität, eine Hilfsfunktion, die Befehls-/Ereignishandler eines Axon-Aggregats in Isolation). Der Fokus liegt auf der Überprüfung von Geschäftslogik, Algorithmen, Transformationsregeln und Randbedingungen isoliert von externen Abhängigkeiten.
+  * **Speicherort & Benennung (Kotlin - Backend):**
+    * Wie in den "Kodierungsstandards" definiert: Unit-Testdateien müssen sich im Verzeichnis `src/test/kotlin/` ihres jeweiligen Moduls befinden. Die Paketstruktur innerhalb von `src/test/kotlin/` muss die Paketstruktur des zu testenden Codes widerspiegeln.
+    * Testklassendateien müssen nach der Klasse benannt werden, die sie testen, mit dem Suffix `Test` (z.B. `TenantServiceTest.kt`).
+  * **Mocking/Stubbing (Backend):**
+    * **MockK** ist die bevorzugte Bibliothek zum Erstellen von Mocks, Stubs und Spies in Kotlin-Unit-Tests.
+    * Alle externen Abhängigkeiten (z.B. andere Dienste, Datenbank-Repositories, Netzwerk-Clients, Dateisysteminteraktionen, Systemzeit falls relevant) müssen gemockt oder gestubbt werden, um sicherzustellen, dass Tests isoliert sind und schnell laufen.
+    * **Axon Test Fixture:** Wird zum Testen von Axon-Aggregaten verwendet, indem ein Test im Given-When-Then-Stil für Befehlshandler und Event-Sourcing-Logik bereitgestellt wird.
+  * **Verantwortung des KI-Agenten:** KI-Agenten, die mit der Codegenerierung oder -änderung beauftragt sind, müssen umfassende Unit-Tests generieren, die alle öffentlichen Methoden neuer/geänderter Klassen, signifikante Logikpfade (einschließlich Happy Paths und Edge Cases) sowie Fehlerbedingungen abdecken.
+
+* **Integrationstests (Backend):**
+  * **Umfang:** Testen der Interaktion und Zusammenarbeit zwischen mehreren Komponenten oder Diensten innerhalb der Anwendungsgrenze oder zwischen der Anwendung und externer Infrastruktur, die sie direkt kontrolliert (wie eine Datenbank). Beispiele:
+    * API-Endpunkt bis zur Serviceschicht und (Test-)Datenbank.
+    * Interaktion zwischen einem Axon Command Handler, Event Store und einem Event Handler, der ein Read Model aktualisiert.
+    * Kommunikation zwischen verschiedenen internen EAF-Modulen, wenn sie direkte synchrone oder asynchrone Schnittstellen haben (über die Kerninteraktionen des Event Bus für CQRS hinaus).
+  * **Speicherort & Benennung (Backend):**
+    * Befinden sich typischerweise in `src/test/kotlin/` neben den Unit-Tests, können aber unterschieden werden durch:
+      * Eine spezifische Namenskonvention (z.B. `*IntegrationTest.kt`).
+      * Platzierung in einem dedizierten Paket (z.B. `com.axians.accieaf.[module].integration`).
+    * Alternativ kann ein separates Gradle-Source-Set (z.B. `src/integrationTest/kotlin`) konfiguriert werden, wenn eine stärkere Trennung gewünscht ist.
+  * **Umgebung & Abhängigkeiten:**
+    * **Testcontainers:** Verwendung von Testcontainers zur Verwaltung der Lebenszyklen externer Abhängigkeiten wie PostgreSQL-Instanzen für Integrationstests. Dies stellt sicher, dass Tests gegen eine reale Datenbank-Engine in einer sauberen, isolierten Umgebung laufen.
+    * Die Testunterstützung von Spring Boot (`@SpringBootTest`) wird verwendet, um Anwendungskontexte für das Testen von Dienstinteraktionen zu laden.
+  * **Verantwortung des KI-Agenten:** KI-Agenten können mit der Generierung von Integrationstests für wichtige Dienstinteraktionen oder API-Endpunkte basierend auf definierten Spezifikationen beauftragt werden, insbesondere wenn die Zusammenarbeit von Komponenten kritisch ist.
+
+* **End-to-End (E2E) Tests (Hauptsächlich für Control Plane UI):**
+  * **Umfang:** Validieren vollständiger Benutzerabläufe oder kritischer Pfade durch das System aus der Perspektive des Endbenutzers. Für das ACCI EAF gilt dies hauptsächlich für die Control Plane UI und ihre Interaktion mit der `eaf-controlplane-api`.
+  * **Werkzeuge:** **Playwright (`1.52.x`)** wird für E2E-Tests der Control Plane UI verwendet.
+  * **Testszenarien:** Basierend auf User Stories und Akzeptanzkriterien für die Funktionen der Control Plane UI (z.B. Anmelden, Erstellen eines Mandanten, Zuweisen einer Lizenz, Konfigurieren eines IdP).
+  * **Ausführung:** E2E-Tests sind ressourcenintensiver und laufen typischerweise seltener als Unit-/Integrationstests (z.B. nächtliche Builds, Pre-Release-Pipelines), aber kritische Smoke-Tests könnten bei jedem PR ausgeführt werden.
+  * **Verantwortung des KI-Agenten:** KI-Agenten können mit der Generierung von E2E-Test-Stubs oder -Skripten (z.B. Playwright Page Object Models, grundlegende Testszenarien) basierend auf User Stories oder UI-Spezifikationen beauftragt werden.
+
+* **Testabdeckung:**
+  * **Ziel (gemäß PRD NFR 4a):**
+    * Kern-EAF-Module (`eaf-*`) streben eine **100%ige Unit-Testabdeckung für kritische Geschäftslogik** an.
+    * Für neue Geschäftslogik, die innerhalb des EAF oder darauf basierender Anwendungen entwickelt wird, wird eine hohe Unit-Testabdeckung von **>80% (Zeilen- und Zweigabdeckung)** angestrebt.
+  * **Messung:** Das **JaCoCo** Gradle-Plugin wird verwendet, um die Codeabdeckung für Kotlin/JVM-Code zu messen und zu berichten. Abdeckungsberichte werden als Teil des CI-Builds generiert.
+  * **Qualität vor Quantität:** Obwohl Abdeckungsziele wichtig sind, stehen die Qualität, Relevanz und Effektivität der Tests an erster Stelle. Tests müssen aussagekräftig sein und das tatsächliche Verhalten und die Anforderungen überprüfen.
+
+## 15. Sicherheits-Best-Practices
+
+Sicherheit ist ein vorrangiges Anliegen für das ACCI EAF und die darauf aufbauenden Anwendungen. Die folgenden Best Practices sind verbindlich und müssen von allen Entwicklern (menschliche und KI-Agenten) während des gesamten Entwicklungszyklus aktiv berücksichtigt werden. Diese Praktiken zielen darauf ab, häufige Schwachstellen (einschließlich der in den OWASP Top 10 genannten) zu mindern und die Einhaltung der relevanten NFRs sicherzustellen.
+
+* **Eingabebereinigung und -validierung (OWASP A03:2021-Injection):**
+  * **API-Eingabevalidierung:** Alle Daten, die von externen Quellen (API-Anforderungs-Payloads, Abfrageparameter, Header) von einer beliebigen EAF-API (z.B. `eaf-controlplane-api`, `eaf-license-server`) empfangen werden, müssen an der Grenze vor der Verarbeitung streng validiert werden.
+    * Nutzen Sie die Spring Validation API (Bean Validation mit JSR 303/380-Annotationen wie `@Valid`, `@NotNull`, `@NotEmpty`, `@Size`, `@Pattern`, benutzerdefinierte Validatoren) für DTOs in `@RestController`-Methoden.
+    * Die Validierung sollte Datentypen, Formate, Längen, Bereiche und zulässige Zeichensätze abdecken.
+  * **Kontextbezogenes Escaping/Encoding für andere Eingaben:** Daten aus weniger direkten Quellen (z.B. Konfigurationsdateien, Datenbank, Nachrichten von anderen internen Systemen), die in potenziell riskanten Operationen verwendet werden könnten (wie das Erstellen von Protokollnachrichten, Abfragen oder Dateipfaden), sollten sorgfältig behandelt werden, unter Verwendung geeigneter Escaping- oder Encoding-Verfahren, wenn sie jemals in Ausgaben reflektiert oder in sensiblen Senken verwendet werden.
+  * **Verhinderung von Log-Injection:** Stellen Sie beim Protokollieren von benutzerdefinierten oder externen Daten sicher, dass diese vom strukturierten Logging-Framework ordnungsgemäß behandelt werden, um Log-Fälschung oder die Injektion bösartiger Zeichen (z.B. CRLF-Injection) zu verhindern. Parametrisierte Protokollierung hilft dabei erheblich.
+
+* **Ausgabe-Encoding (OWASP A03:2021-Injection, speziell XSS):**
+  * **JSON-APIs:** Für REST-APIs wie `eaf-controlplane-api` und `eaf-license-server`, die JSON zurückgeben, handhabt Spring Boot mit Jackson automatisch das korrekte JSON-Encoding, was XSS-Schwachstellen innerhalb eines JSON-Kontexts mindert. Stellen Sie sicher, dass die Content-Typen korrekt auf `application/json` gesetzt sind.
+  * **Control Plane UI (React):** Die React-basierte Control Plane UI ist für ihre eigene XSS-Prävention verantwortlich. Das beinhaltet:
+    * Nutzung der standardmäßigen JSX-String-Kodierung von React.
+    * Vermeidung der direkten Verwendung von `dangerouslySetInnerHTML` mit nicht bereinigtem, vom Benutzer bereitgestelltem Inhalt.
+    * Verwendung geeigneter, geprüfter Bibliotheken zum Rendern komplexer Inhalte wie Markdown, wenn dieser von Benutzern stammen kann.
+  * **Daten an die UI:** Obwohl die Backend-API JSON bereitstellt, sollten alle Daten, die aus Benutzereingaben stammen und an eine UI zurückgesendet werden, von der UI weiterhin als potenziell nicht vertrauenswürdig behandelt und mit geeigneten Ausgabe-Encoding- oder Bereinigungsmechanismen innerhalb des UI-Frameworks gehandhabt werden.
+
+* **Geheimnisverwaltung:**
+  * **Keine hartcodierten Geheimnisse:** Geheimnisse (Passwörter, API-Schlüssel, Client-Secrets, Verschlüsselungsschlüssel, Datenbankanmeldeinformationen) dürfen **niemals** im Quellcode hartcodiert, in die Versionskontrolle eingecheckt oder in Build-Artefakte aufgenommen werden.
+  * **Externalisierte Konfiguration:** Geheimnisse müssen extern verwaltet und der Anwendung zur Laufzeit über die externalisierten Konfigurationsmechanismen von Spring Boot bereitgestellt werden. Für Docker Compose-Deployments auf Kunden-VMs bedeutet dies typischerweise:
+    * Verwendung einer `.env`-Datei (außerhalb der Versionskontrolle und auf der VM gesichert), die Docker Compose als Umgebungsvariablen in die Container injiziert.
+    * Direktes Mounten von Geheimnisdateien in Container (z.B. über Docker Compose `secrets` oder Volume Mounts) und Konfiguration von Spring Boot, um diese zu lesen.
+  * **Protokollierung:** Stellen Sie sicher, dass Geheimnisse niemals protokolliert werden. Konfigurieren Sie bei Bedarf Log-Maskierung für bekannte Geheimnismuster, obwohl die Vermeidung der Protokollierung an erster Stelle steht.
+  * **`eaf-iam` Client Secrets:** Client Secrets für von `eaf-iam` generierte Dienstkonten müssen sicher gehandhabt, nur bei der Erstellung zurückgegeben und innerhalb des EAF gehasht gespeichert werden.
+
+* **Abhängigkeitssicherheit & Software Bill of Materials (SBOM):**
+  * **Schwachstellen-Scanning:** Implementieren Sie automatisches Scannen von Abhängigkeitsschwachstellen mit Werkzeugen wie dem **OWASP Dependency-Check Gradle-Plugin**. Dieser Scan muss in die CI/CD-Pipeline integriert und so konfiguriert werden, dass der Build fehlschlägt, wenn kritische oder schwerwiegende Schwachstellen in Projektabhängigkeiten oder deren transitiven Abhängigkeiten erkannt werden.
+  * **Regelmäßige Updates:** Überprüfen und aktualisieren Sie Abhängigkeiten regelmäßig auf ihre neuesten sicheren Versionen, gemäß der in "Abhängigkeitsmanagement" definierten Richtlinie.
+  * **SBOM-Generierung & -Überprüfung (PRD NFR 9):**
+    * Generieren Sie automatisch eine SBOM (Software Bill of Materials) in einem Standardformat (z.B. CycloneDX, SPDX) für jede EAF-Version und für darauf aufbauende Anwendungen. Dies wird Teil der CI/CD-Pipeline sein.
+    * Etablieren Sie einen Prozess zur kontinuierlichen Überprüfung dieser SBOMs auf Lizenzkonformität und neu entdeckte Schwachstellen in Drittanbieterkomponenten (z.B. mit OWASP Dependency Track oder ähnlichen Werkzeugen).
+
+* **Authentifizierungs- und Autorisierungsprüfungen (über `eaf-iam`):**
+  * **Authentifizierung erzwingen:** Alle API-Endpunkte (außer möglicherweise einige wenige explizit öffentliche wie Health Checks, falls vorhanden) müssen eine robuste Authentifizierung unter Verwendung von Mechanismen erzwingen, die von `eaf-iam` bereitgestellt oder integriert werden (z.B. tokenbasiert für API-Clients, OIDC/SAML für Benutzer über die Control Plane UI). Dies wird über Spring Security integriert.
+  * **Autorisierung erzwingen:** Die Autorisierung (Berechtigungs-/Rollenbasierte Zugriffskontrolle - RBAC) basierend auf Definitionen innerhalb von `eaf-iam` muss für alle geschützten Ressourcen und Operationen erzwungen werden. Dies sollte auf der Serviceschicht oder den API-Eingangspunkten erfolgen, unter Nutzung der Methodensicherheit von Spring Security (`@PreAuthorize`, `@PostAuthorize`) oder feingranularer Prüfungen innerhalb der Geschäftslogik, wo dies angemessen ist.
+
+* **Prinzip der geringsten Rechte (Principle of Least Privilege):**
+  * **Datenbankbenutzer:** Dem/den von den ACCI EAF-Anwendungen genutzten PostgreSQL-Benutzerkonto/-konten (z.B. `eaf-controlplane-api`, `eaf-license-server`, Axon Event Store-Benutzer) dürfen nur die minimal notwendigen DML/DDL-Berechtigungen (SELECT, INSERT, UPDATE, DELETE auf bestimmte Tabellen/Schemata) gewährt werden, die für ihren Betrieb erforderlich sind. Vermeiden Sie die Verwendung von PostgreSQL-Superuser-Konten für die Anwendungs-Laufzeit.
+  * **Betriebssystem-Dienstkonten (Docker-Kontext):** Docker-Container sollten so konfiguriert werden, dass sie nach Möglichkeit mit Nicht-Root-Benutzern ausgeführt werden. Definieren Sie spezifische Benutzer in Dockerfiles.
+  * **Anwendungsberechtigungen:** Innerhalb der Anwendungslogik sollten Komponenten nur Zugriff auf die Daten und Operationen haben, die für ihre spezifische Funktion notwendig sind.
+
+* **API-Sicherheit (Allgemein):**
+  * **Ausschließlich HTTPS:** Jegliche externe API-Kommunikation (zu und von `eaf-controlplane-api`, `eaf-license-server`) muss über HTTPS erfolgen. Die SSL/TLS-Terminierung kann von einem Reverse-Proxy (z.B. Nginx/Traefik-Container innerhalb des Docker Compose-Stacks) gehandhabt oder direkt in Spring Boot konfiguriert werden (seltener für Edge-Traffic, aber möglich).
+  * **Ratenbegrenzung & Drosselung:** Implementieren Sie Ratenbegrenzung für alle öffentlich zugänglichen API-Endpunkte, um sich vor Denial-of-Service (DoS)-Angriffen und API-Missbrauch zu schützen. Dies kann mit Bibliotheken wie Resilience4j (`RateLimiter`) innerhalb von Spring Boot-Anwendungen oder über einen Reverse-Proxy implementiert werden.
+  * **HTTP-Sicherheitsheader:** Konfigurieren Sie geeignete HTTP-Sicherheitsheader, die von API-Antworten zurückgegeben werden, um die Browsersicherheit für die Control Plane UI zu verbessern. Dazu gehören:
+    * `Strict-Transport-Security (HSTS)`
+    * `X-Content-Type-Options: nosniff`
+    * `X-Frame-Options: DENY` (oder `SAMEORIGIN`)
+    * `Content-Security-Policy (CSP)` (kann komplex sein, ist aber sehr effektiv)
+    * `X-XSS-Protection` (obwohl weitgehend durch CSP abgelöst)
+        Diese können in Spring Security oder dem Reverse-Proxy konfiguriert werden.
+  * **Eingabevalidierung:** (Wiederholt) Entscheidend zur Verhinderung von Injection-Angriffen und zur Gewährleistung der Datenintegrität.
+
+* **Fehlerbehandlung & Informationsweitergabe:**
+  * Wie in der "Fehlerbehandlungsstrategie" definiert: Stellen Sie sicher, dass Fehlermeldungen, die an API-Clients zurückgegeben oder in UIs angezeigt werden, **keine** sensiblen internen Systeminformationen preisgeben (z.B. Stacktraces, detaillierte SQL-Fehlermeldungen, interne Dateipfade, Bibliotheksversionen).
+  * Protokollieren Sie detaillierte technische Fehler serverseitig für Diagnosezwecke. Stellen Sie dem Client generische, benutzerfreundliche Fehlermeldungen oder Korrelations-IDs zur Verfügung.
+
+* **Regelmäßige Sicherheitsaudits & -tests (PRD NFR 2f):**
+  * **Interne Code-Reviews:** Sicherheitsaspekte müssen Teil regelmäßiger Code-Reviews sein.
+  * **Penetrationstests:** Planen und führen Sie externe Penetrationstests für das EAF und kritische EAF-basierte Anwendungen vor wichtigen Produktions-Deployments oder größeren Releases durch.
+  * **SAST/DAST:** Erwägen Sie die Integration von Static Application Security Testing (SAST)-Werkzeugen in die CI/CD-Pipeline. Dynamic Application Security Testing (DAST) kann auf laufenden Anwendungen in Testumgebungen durchgeführt werden.
+
+* **Andere relevante Sicherheitspraktiken:**
+  * **Datenverschlüsselung:**
+    * **In Transit:** HTTPS ist für die externe Kommunikation obligatorisch. Die Kommunikation zwischen Containern innerhalb des Docker Compose-Stacks auf demselben Host (z.B. API zu Datenbank) kann das Docker-Netzwerk verwenden; wenn dieses Netzwerk nicht als vollständig vertrauenswürdig gilt oder wenn die Compliance dies erfordert, sollte Inter-Service-TLS in Betracht gezogen werden.
+    * **At Rest:**
+      * Sensible Konfigurationsdaten (z.B. Geheimnisse in `.env`-Dateien auf der VM) müssen durch geeignete VM-Host-Sicherheit und Dateiberechtigungen geschützt werden (Verantwortung des Kunden).
+      * Für in PostgreSQL gespeicherte Daten (z.B. gehashte Passwörter in `eaf-iam`, sensible Audit-Log-Einträge) sollten Optionen wie Transparent Data Encryption (TDE) von PostgreSQL über Erweiterungen (z.B. `pgcrypto` für Spaltenverschlüsselung bei Bedarf, obwohl dies die Komplexität erhöht) oder die Verschlüsselung auf Dateisystemebene auf dem VM-Host (Verantwortung des Kunden) in Betracht gezogen werden.
+    * **FIPS 140-2/3-Konformität (PRD NFR 2c):** Alle kryptografischen Operationen (Passwort-Hashing, JWT-Signierung/-Validierung, TLS-Konfiguration usw.) müssen unter Verwendung von Bibliotheken und JVM-Konfigurationen durchgeführt werden, die FIPS 140-2/3-validierte kryptografische Module unterstützen oder verwenden. Dies erfordert eine sorgfältige Auswahl und Konfiguration der JVM (z.B. IBM Semeru Runtimes im FIPS-Modus oder OpenJDK mit einem FIPS-zertifizierten Anbieter wie BouncyCastle-FIPS) und kryptografischer Bibliotheken.
+  * **Sitzungsverwaltung (Control Plane UI):**
+    * Wenn traditionelle Sitzungs-Cookies vom Authentifizierungsmechanismus der UI verwendet werden (obwohl tokenbasiert über API mit React wahrscheinlicher ist), stellen Sie sicher, dass sie sicher konfiguriert sind: `HttpOnly`, `Secure` (wenn UI HTTPS ist), `SameSite`-Attribute.
+    * Verwenden Sie für die tokenbasierte Authentifizierung (z.B. von `eaf-iam` ausgestellte und von der UI konsumierte JWTs) kurzlebige Zugriffstoken und sichere Mechanismen zum Speichern und Aktualisieren von Token, wenn Aktualisierungstoken verwendet werden.
+  * **Audit-Protokollierung (`eaf-observability`):**
+    * Stellen Sie sicher, dass umfassende und unveränderliche Audit-Protokolle alle sicherheitsrelevanten Ereignisse erfassen: erfolgreiche/fehlgeschlagene Anmeldungen, Abmeldungen, wichtige administrative Aktionen (Mandantenerstellung, Benutzeränderung, Rollenänderungen, Lizenzzuweisungen), Zugriff auf sensible Daten, Änderungen an Sicherheitskonfigurationen.
+    * Schützen Sie Audit-Protokolle vor unbefugtem Zugriff und Manipulation. Stellen Sie sicher, dass sie ausreichende Details enthalten (Zeitstempel, Benutzer, Aktion, Ergebnis, relevante Ressourcen-IDs).
+
+## 16. Wichtige Referenzdokumente
+
+Dieser Abschnitt listet wichtige Dokumente auf, die entweder Eingaben für diese Architektur sind, weitere Details zu spezifischen Aspekten liefern oder als ergänzende Artefakte erstellt werden.
+
+1. **ACCI EAF Product Requirements Document (PRD):**
+    * *Speicherort:* `docs/ACCI-EAF-PRD.md` (oder der vom Produktmanagement bereitgestellte Speicherort)
+    * *Beschreibung:* Das primäre Dokument, das die funktionalen und nicht-funktionalen Anforderungen, Ziele, den Kontext, User Stories (Epics) und zentrale technische Entscheidungen für das ACCI EAF detailliert beschreibt. Dieses Architekturdokument basiert grundlegend auf dem PRD.
+
+2. **Offizielle Kotlin Coding Conventions:**
+    * *Speicherort:* [https://kotlinlang.org/docs/coding-conventions.html](https://kotlinlang.org/docs/coding-conventions.html)
+    * *Beschreibung:* Der offizielle Styleguide für die Kotlin-Entwicklung, der die Grundlage der in diesem Dokument detaillierten "ACCI Kotlin Coding Standards v1.0" bildet.
+
+3. **ACCI EAF API-Spezifikationen (OpenAPI):**
+    * *Speicherort (Geplant):*
+        * `docs/api/controlplane-v1.yml` (oder `.json`)
+        * `docs/api/licenseserver-v1.yml` (oder `.json`)
+    * *Beschreibung:* Detaillierte OpenAPI 3.x-Spezifikationen für die von `eaf-controlplane-api` und `eaf-license-server` bereitgestellten RESTful APIs. Diese werden während der Entwicklung generiert/gepflegt.
+
+4. **Architectural Decision Records (ADRs):**
+    * *Speicherort (Geplant):* `docs/adr/`
+    * *Beschreibung:* Eine Sammlung von Aufzeichnungen, die wichtige architekturelle Entscheidungen, ihren Kontext, Kompromisse und Konsequenzen dokumentieren. *(Die Projektstruktur wurde um dieses Verzeichnis erweitert.)*
+
+5. **Frontend-Architekturdokument (Control Plane UI - falls separat erstellt):**
+    * *Speicherort (Hypothetisch):* `docs/ACCI-EAF-Frontend-Architecture.md`
+    * *Beschreibung:* Falls ein separates detailliertes Architekturdokument für die React-basierte Control Plane UI vom Design-Architekten erstellt wird, würde es hier referenziert werden. Dieses Dokument würde die Komponentenstruktur, das detaillierte Zustandsmanagement, spezifische UI-Bibliotheksverwendungsmuster usw. basierend auf den Richtlinien dieses Hauptarchitekturdokuments und dem "Prompt für Design-Architekt" (siehe unten) ausarbeiten.
+
+## 17. Änderungsprotokoll
+
+| Änderung                                   | Datum            | Version | Beschreibung                                 | Autor           |
+| :----------------------------------------- | :--------------- | :------ | :------------------------------------------- | :-------------- |
+| Erster Entwurf des Architekturdokuments    | 16. Mai 2025     | 0.1.0   | Erster vollständiger Entwurf basierend auf PRD und Inputs | Architect Agent |
+|                                            |                  |         |                                              |                 |
+
+*(Dieses Protokoll wird aktualisiert, während sich die Architektur weiterentwickelt.)*
