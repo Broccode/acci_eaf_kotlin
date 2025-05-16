@@ -14,53 +14,53 @@ The ACCI EAF includes a "Control Plane UI" for administrative tasks. While this 
 3. Technical Summary
 4. High-Level Overview
 5. Component View
-      * Architectural / Design Patterns Adopted
+    * Architectural / Design Patterns Adopted
 6. Project Structure
-      * Key Directory Descriptions
-      * Notes
+    * Key Directory Descriptions
+    * Notes
 7. API Reference
-      * External APIs Consumed
-          * 1. LDAP / Active Directory
-          * 2. SMTP Server
-          * 3. OpenID Connect (OIDC) Provider
-          * 4. SAML 2.0 Identity Provider (IdP)
-      * Internal APIs Provided
-          * 1. ACCI EAF Control Plane API (`eaf-controlplane-api`)
-          * 2. ACCI EAF License Server API (`eaf-license-server`)
+    * External APIs Consumed
+        1. LDAP / Active Directory
+        2. SMTP Server
+        3. OpenID Connect (OIDC) Provider
+        4. SAML 2.0 Identity Provider (IdP)
+    * Internal APIs Provided
+        1. ACCI EAF Control Plane API (`eaf-controlplane-api`)
+        2. ACCI EAF License Server API (`eaf-license-server`)
 8. Data Models
-      * Core Application Entities / Domain Objects
-          * 1. Tenant
-          * 2. User (IAM User)
-          * 3. ServiceAccount (IAM Service Account)
-          * 4. ActivatedLicense
-      * API Payload Schemas (If distinct)
-      * Database Schemas (If applicable)
-          * 1. Event Store Schema
-          * 2. Read Model Schemas (Examples)
-          * 3. Configuration / State Data Schemas (Examples)
+    * Core Application Entities / Domain Objects
+        1. Tenant
+        2. User (IAM User)
+        3. ServiceAccount (IAM Service Account)
+        4. ActivatedLicense
+    * API Payload Schemas (If distinct)
+    * Database Schemas (If applicable)
+        1. Event Store Schema
+        2. Read Model Schemas (Examples)
+        3. Configuration / State Data Schemas (Examples)
 9. Core Workflow / Sequence Diagrams
-      * 1. User Authentication via External OIDC Provider
-      * 2. Command Processing and Event Sourcing Flow
-      * 3. Tenant Creation in Detail
-      * 4. Online License Activation
+    * 1. User Authentication via External OIDC Provider
+    * 2. Command Processing and Event Sourcing Flow
+    * 3. Tenant Creation in Detail
+    * 4. Online License Activation
 10. Definitive Tech Stack Selections
 11. Infrastructure and Deployment Overview
 12. Error Handling Strategy
 13. Coding Standards (ACCI Kotlin Coding Standards v1.0)
-      * Primary Language & Runtime(s)
-      * Style Guide & Linter
-      * Naming Conventions
-      * File Structure
-      * Asynchronous Operations
-      * Type Safety
-      * Comments & Documentation
-      * Dependency Management
-      * Detailed Language & Framework Conventions
-          * Kotlin Specifics
-          * Spring Boot Specifics
-          * Axon Framework Specifics
-          * Key Library Usage Conventions (General Kotlin/Java)
-          * Code Generation Anti-Patterns to Avoid
+    * Primary Language & Runtime(s)
+    * Style Guide & Linter
+    * Naming Conventions
+    * File Structure
+    * Asynchronous Operations
+    * Type Safety
+    * Comments & Documentation
+    * Dependency Management
+    * Detailed Language & Framework Conventions
+        * Kotlin Specifics
+        * Spring Boot Specifics
+        * Axon Framework Specifics
+        * Key Library Usage Conventions (General Kotlin/Java)
+        * Code Generation Anti-Patterns to Avoid
 14. Overall Testing Strategy
 15. Security Best Practices
 16. Key Reference Documents
@@ -446,8 +446,8 @@ The ACCI EAF, particularly through its `eaf-iam` and notification capabilities, 
   * Preferred JWS (JSON Web Signature) algorithm for ID Token validation.
 * **Error Handling:** OAuth 2.0 and OIDC specific error codes (e.g., `invalid_request`, `unauthorized_client`, `access_denied`, `invalid_grant`) returned by the OIDC Provider will be handled. ID Token validation failures (signature, issuer, audience, expiry, nonce) must lead to authentication failure.
 * **Link to Official Docs:**
-  * OpenID Connect Core 1.0: [https://openid.net/specs/openid-connect-core-1\_0.html](https://openid.net/specs/openid-connect-core-1_0.html)
-  * OpenID Connect Discovery 1.0: [https://openid.net/specs/openid-connect-discovery-1\_0.html](https://openid.net/specs/openid-connect-discovery-1_0.html)
+  * OpenID Connect Core 1.0: [https://openid.net/specs/openid-connect-core-1_0.html](https://openid.net/specs/openid-connect-core-1_0.html)
+  * OpenID Connect Discovery 1.0: [https://openid.net/specs/openid-connect-discovery-1_0.html](https://openid.net/specs/openid-connect-discovery-1_0.html)
 
 #### 7.1.4 SAML 2.0 Identity Provider (IdP)
 
@@ -484,7 +484,7 @@ The ACCI EAF, particularly through its `eaf-iam` and notification capabilities, 
   * Binding types to use for requests and responses (e.g., HTTP-POST, HTTP-Redirect).
 * **Error Handling:** SAML status codes within responses indicate success or failure. Validation failures of SAML Assertions (signature, issuer, audience, conditions, subject confirmation, replay attacks) must lead to authentication failure. Errors during protocol exchange (e.g., invalid AuthnRequest) are also possible.
 * **Link to Official Docs:**
-  * OASIS SAML 2.0 Standard: [https://www.oasis-open.org/standards\#samlv2.0](https://www.google.com/search?q=https://www.oasis-open.org/standards%23samlv2.0) (includes Core, Bindings, Profiles specifications).
+  * OASIS SAML 2.0 Standard: [https://www.oasis-open.org/standards#samlv2.0](https://www.google.com/search?q=https://www.oasis-open.org/standards%23samlv2.0) (includes Core, Bindings, Profiles specifications).
 
 ### 7.2 Internal APIs Provided
 
@@ -1272,14 +1272,14 @@ This section outlines the definitive technology choices for the ACCI EAF project
 
 | Category             | Technology              | Version / Details                      | Description / Purpose                                       | Justification (Optional)                                                                 |
 | :------------------- | :---------------------- | :------------------------------------- | :---------------------------------------------------------- | :--------------------------------------------------------------------------------------- |
-| **Languages** | Kotlin                  | 2.1.21                                 | Primary language for backend EAF modules and applications   | Modern, concise, null-safe, excellent Java interoperability, good IDE support. Specified by PRD. |
-| **Runtime** | JVM (IBM Semeru Runtimes for Power or OpenJDK) | Java 21 (LTS)                          | Execution environment for Kotlin/Spring Boot applications on ppc64le | Standard für Kotlin/Java. IBM Semeru bietet optimierte Builds für Power-Architektur. JDK 21 als LTS.     |
-| **Frameworks** | Spring Boot             | 3.4.5                                  | Core application framework for backend modules and services     | Umfassend, etabliert, unterstützt schnelle Entwicklung, gute Integrationen. Von PRD vorgegeben. |
+| **Languages**        | Kotlin                  | 2.1.21                                 | Primary language for backend EAF modules and applications   | Modern, concise, null-safe, excellent Java interoperability, good IDE support. Specified by PRD. |
+| **Runtime**          | JVM (IBM Semeru Runtimes for Power or OpenJDK) | Java 21 (LTS)                          | Execution environment for Kotlin/Spring Boot applications on ppc64le | Standard für Kotlin/Java. IBM Semeru bietet optimierte Builds für Power-Architektur. JDK 21 als LTS.     |
+| **Frameworks**       | Spring Boot             | 3.4.5                                  | Core application framework for backend modules and services     | Umfassend, etabliert, unterstützt schnelle Entwicklung, gute Integrationen. Von PRD vorgegeben. |
 |                      | Axon Framework          | 4.11.2 \<br/\>(Upgrade auf v5 geplant)     | Framework for DDD, CQRS, Event Sourcing                     | Spezialisiert auf die gewählten Architekturmuster, gute Integration mit Spring. Von PRD vorgegeben. |
 |                      | React                   | 19.1                                   | JavaScript library for building the Control Plane UI          | Populär, komponentenbasiert, großes Ökosystem. Von PRD vorgegeben.                          |
-| **Databases** | PostgreSQL              | 17.5                                   | Primary RDBMS for Event Store, Read Models, and State Data | Leistungsstark, Open Source, ACID-konform, gute Unterstützung für JSON. Von PRD vorgegeben.    |
-| **Build Tool** | Gradle                  | 8.14                                   | Build automation for the monorepo                           | Flexibel, gut für Kotlin & Multi-Projekt-Builds, Dependency Management. Von PRD vorgegeben. |
-| **Infrastructure** | Docker                  | Neueste stabile Engine-Version         | Containerization for deployment and development consistency on ppc64le | Ermöglicht portable Umgebungen, vereinfacht Deployment. Erwähnt in PRD NFRs.                   |
+| **Databases**        | PostgreSQL              | 17.5                                   | Primary RDBMS for Event Store, Read Models, and State Data | Leistungsstark, Open Source, ACID-konform, gute Unterstützung für JSON. Von PRD vorgegeben.    |
+| **Build Tool**       | Gradle                  | 8.14                                   | Build automation for the monorepo                           | Flexibel, gut für Kotlin & Multi-Projekt-Builds, Dependency Management. Von PRD vorgegeben. |
+| **Infrastructure**   | Docker                  | Neueste stabile Engine-Version         | Containerization for deployment and development consistency on ppc64le | Ermöglicht portable Umgebungen, vereinfacht Deployment. Erwähnt in PRD NFRs.                   |
 |                      | Docker Compose          | Neueste stabile Version                | Orchestration of local development/test containers (App, DB, etc.) and production stack on single VM | Vereinfacht das Setup von Multi-Container-Umgebungen lokal und in Produktion (gemäß Anforderung). |
 | **UI Libraries (Control Plane)** | React-Admin             | 5.8.1                                  | Admin framework for building the Control Plane UI (data grids, forms, etc.) | Bietet viele Out-of-the-Box-Komponenten für Admin-Oberflächen, inspiriert Design laut PRD. |
 | **State Management (Control Plane)** | React-Admin built-in / recommended (e.g., React Context, Ra-Store) | Gekoppelt an React-Admin Version        | Frontend state management for Control Plane UI                | Von React-Admin bereitgestellt oder direkt integrierbar.                                 |
@@ -1291,8 +1291,8 @@ This section outlines the definitive technology choices for the ACCI EAF project
 | **Testing (Frontend - CP UI)** | Jest                    | 29.7.0                                 | JavaScript testing framework                                | Weit verbreitet für React-Tests.                                                         |
 |                      | React Testing Library   | 16.3.x                                 | For testing React components                                | Fördert Best Practices beim Testen von UI-Komponenten.                                    |
 |                      | Playwright              | 1.52.x                                 | For End-to-End testing of the Control Plane UI            | Mächtiges Werkzeug für zuverlässige E2E-Tests.                                         |
-| **CI/CD** | GitHub Actions          | N/A (Service)                          | Automation for build, test, and deployment pipelines        | Integriert in GitHub, flexibel konfigurierbar. Gemäß Projektstruktur.                     |
-| **Other Tools** | Logback                 | (Version via Spring Boot)              | Logging framework for backend                               | Standard in Spring Boot.                                                                 |
+| **CI/CD**            | GitHub Actions          | N/A (Service)                          | Automation for build, test, and deployment pipelines        | Integriert in GitHub, flexibel konfigurierbar. Gemäß Projektstruktur.                     |
+| **Other Tools**      | Logback                 | (Version via Spring Boot)              | Logging framework for backend                               | Standard in Spring Boot.                                                                 |
 |                      | Micrometer              | (Version via Spring Boot)              | Application metrics facade                                  | Ermöglicht Metrik-Export (z.B. an Prometheus). Erwähnt in PRD.                           |
 |                      | springdoc-openapi       | `Version passend zu Spring Boot 3.4.x` | Generates OpenAPI 3 documentation from Spring Boot controllers | Automatisiert API-Dokumentationserstellung.                                              |
 |                      | Liquibase               | 4.31.1                                 | Tool for managing database schema changes (Read Models, etc.) | Notwendig für versionierte DB-Migrationen.                                               |
@@ -1631,7 +1631,7 @@ This section outlines the project's comprehensive testing strategy, which all AI
   * **Scope:** Test individual functions, methods, classes, or small, isolated modules (e.g., a single Spring service, a domain entity's logic, a utility function, an Axon Aggregate's command/event handlers in isolation). The focus is on verifying business logic, algorithms, transformation rules, and boundary conditions in isolation from external dependencies.
   * **Location & Naming (Kotlin - Backend):**
     * As defined in "Coding Standards": Unit test files must be located in the `src/test/kotlin/` directory of their respective module. The package structure within `src/test/kotlin/` must mirror the package structure of the code being tested.
-    * Test class files must be named after the class they are testing, appended with `Test` (e.g., `TenantServiceTest.kt`).
+    * Test class files must be named after the class they are testing, appended with `Test`. For example, a class `com.axians.accieaf.iam.application.TenantService` located in `eaf-iam/src/main/kotlin/com/axians/accieaf/iam/application/TenantService.kt` will have its corresponding test class as `com.axians.accieaf.iam.application.TenantServiceTest` in `eaf-iam/src/test/kotlin/com/axians/accieaf/iam/application/TenantServiceTest.kt`.
   * **Mocking/Stubbing (Backend):**
     * **MockK** is the preferred library for creating mocks, stubs, and spies in Kotlin unit tests.
     * All external dependencies (e.g., other services, database repositories, network clients, file system interactions, system time if relevant) must be mocked or stubbed to ensure tests are isolated and run quickly.
