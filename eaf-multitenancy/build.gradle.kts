@@ -2,8 +2,8 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
-    id("org.springframework.boot") apply false
-    id("io.spring.dependency-management")
+    id("org.springframework.boot") version "3.2.3" apply false
+    id("io.spring.dependency-management") version "1.1.4"
 }
 
 dependencyManagement {
