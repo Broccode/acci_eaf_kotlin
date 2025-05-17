@@ -1,0 +1,27 @@
+# Entwicklungsprofil für EAF Core
+
+# Server Konfiguration für Entwicklung
+server:
+  port: 8080
+
+# Logging Konfiguration für Entwicklung
+logging:
+  level:
+    com.acci.eaf: DEBUG
+    org.axonframework: DEBUG
+
+# Axon Konfiguration für Entwicklung
+axon:
+  eventhandling:
+    processors:
+      name:
+        mode: tracking
+        source: eventBus
+
+# Datenbankverbindung für Entwicklung (für zukünftige Verwendung)
+# spring:
+#   datasource:
+#     url: jdbc:postgresql://localhost:5432/eaf_dev
+#     username: eafuser
+#     password: eafpassword
+#     driver-class-name: org.postgresql.Driver 

@@ -1,0 +1,23 @@
+# Testprofil für EAF Core
+
+# Server Konfiguration für Tests
+server:
+  port: 0 # Zufälliger Port für Tests
+
+# Logging Konfiguration für Tests
+logging:
+  level:
+    com.acci.eaf: DEBUG
+    org.axonframework: INFO
+    
+# Axon Konfiguration für Tests
+axon:
+  axonserver:
+    enabled: false
+  serializer:
+    events: jackson
+  eventhandling:
+    processors:
+      name:
+        mode: tracking
+        source: eventBus 

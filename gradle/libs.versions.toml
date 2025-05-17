@@ -14,6 +14,9 @@ spring-boot = "3.2.3"
 spring-cloud = "2023.0.1"
 spring-dependency-mgmt = "1.1.4"
 
+# Axon Framework
+axon = "4.9.1"
+
 # Logging
 slf4j = "2.0.12"
 log4j = "2.22.1"
@@ -68,6 +71,10 @@ spring-boot-starter-cache = { module = "org.springframework.boot:spring-boot-sta
 spring-boot-configuration-processor = { module = "org.springframework.boot:spring-boot-configuration-processor" }
 spring-cloud-starter-config = { module = "org.springframework.cloud:spring-cloud-starter-config" }
 
+# Axon Framework
+axon-spring-boot-starter = { module = "org.axonframework:axon-spring-boot-starter", version.ref = "axon" }
+axon-test = { module = "org.axonframework:axon-test", version.ref = "axon" }
+
 # Logging
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
@@ -114,6 +121,7 @@ spring-webflux = ["spring-boot-starter-webflux", "spring-boot-starter-validation
 spring-security = ["spring-boot-starter-security", "jwt-api", "jwt-impl", "jwt-jackson"]
 spring-data = ["spring-boot-starter-data-jpa", "spring-boot-starter-cache"]
 spring-observability = ["spring-boot-starter-actuator"]
+axon = ["axon-spring-boot-starter"]
 logging = ["slf4j-api", "log4j-core", "log4j-slf4j"]
 testing-core = ["junit-jupiter", "mockk"]
 testing-kotest = ["kotest-runner", "kotest-assertions", "kotest-property"]

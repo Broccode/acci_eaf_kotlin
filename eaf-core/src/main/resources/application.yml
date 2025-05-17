@@ -1,0 +1,43 @@
+# Hauptkonfigurationsdatei für EAF Core
+
+spring:
+  application:
+    name: eaf-core
+  profiles:
+    active: dev
+
+# Server Konfiguration
+server:
+  port: 8080
+
+# Axon Konfiguration
+axon:
+  serializer:
+    general: jackson # Verwende Jackson für Serialisierung
+  axonserver:
+    enabled: false # Deaktiviere AxonServer, da wir In-Memory-Speicher verwenden
+
+# Logging Konfiguration
+logging:
+  level:
+    root: INFO
+    com.acci.eaf: DEBUG
+    org.axonframework: INFO
+    org.springframework: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# Actuator Konfiguration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+    info:
+      enabled: true
+  health:
+    defaults:
+      enabled: true 
