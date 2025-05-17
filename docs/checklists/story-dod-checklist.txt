@@ -24,6 +24,7 @@ Before marking a story as 'Review', please go through each item in this checklis
     - [ ] All required integration tests (if applicable) as per the story and `docs/testing-strategy.md` are implemented.
     - [ ] All tests (unit, integration, E2E if applicable) pass successfully.
     - [ ] Test coverage meets project standards (if defined).
+    - [ ] When Mockito is used, tests MUST enable strict stubbing (no unnecessary stubs, `lenient()` only with explicit justification) and otherwise follow the Mockito guidelines documented in `docs/testing-strategy.md`.
 
 4.  **Functionality & Verification:**
     - [ ] Functionality has been manually verified by the developer (e.g., running the app locally, checking UI, testing API endpoints).

@@ -95,3 +95,88 @@ ACCI-EAF/
 * **Build Output:** Compiled artifacts (JARs, WARs if any) for each module will typically be found in their respective `build/libs/` directories. Runnable applications (like `eaf-controlplane-api` or `eaf-license-server`) will produce executable JARs.
 * **IDE Integration:** This structure is standard for Gradle multi-project builds and should be well-supported by IDEs like IntelliJ IDEA (with excellent Kotlin and Gradle support).
 * **Hexagonal Structure within Modules:** As mentioned in "Key Directory Descriptions", it's expected that individual EAF modules (especially those containing significant business logic like `eaf-iam` or `eaf-licensing`) will internally adopt a package structure reflecting Hexagonal Architecture (e.g., `com.axians.accieaf.[module].domain`, `com.axians.accieaf.[module].application`, `com.axians.accieaf.[module].adapter.rest`, `com.axians.accieaf.[module].adapter.persistence`). This will be further detailed in the "Coding Standards" section.
+
+## Core Modules
+
+### eaf-core
+
+The `eaf-core` module contains the foundational components of the ACCI Enterprise Application Framework (EAF). This includes:
+
+* Core interfaces and abstractions
+* Common utilities and helpers
+* Cross-cutting concerns
+* Shared models and DTOs
+
+### eaf-multitenancy
+
+The `eaf-multitenancy` module houses all tenant-specific logic, entities, and services. It is responsible for:
+
+* Definition of the `Tenant` entity and related DTOs
+* Tenant persistence and CRUD operations
+* Tenant validation rules
+* Tenant context propagation (in future stories)
+* Row-level security implementation (in future stories)
+
+This module is a dependency for other modules that need to be tenant-aware, including `eaf-core` when it needs to perform tenant-specific operations.
+
+## Project Layout
+
+The project follows a standard Kotlin/Spring Boot module structure:
+
+```
+acci_eaf_kotlin/
+├── build-logic/         # Custom Gradle plugins and build configuration
+├── config/              # Cross-project configuration files
+├── docs/                # Project documentation
+│   ├── checklists/      # Definition of Done checklists
+│   ├── stories/         # Detailed user stories
+│   └── templates/       # Document templates
+├── eaf-core/            # Core EAF module
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── kotlin/  # Main source code
+│   │   │   └── resources/ # Resources (e.g., application.yml)
+│   │   └── test/
+│   │       ├── kotlin/  # Test source code
+│   │       └── resources/ # Test resources
+├── eaf-multitenancy/    # Multitenancy implementation module
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── kotlin/  # Main source code
+│   │   │   └── resources/ # Resources (migrations, configs)
+│   │   └── test/
+│   │       ├── kotlin/  # Test source code
+│   │       └── resources/ # Test resources
+└── gradle/              # Gradle wrapper and scripts
+```
+
+## Module Interdependencies
+
+The dependencies between modules are as follows:
+
+* `eaf-multitenancy` depends on `eaf-core` for common utilities and abstractions
+* Other modules (to be added in future) will depend on both `eaf-core` and `eaf-multitenancy`
+
+## Package Structure
+
+Each module follows a standard package structure:
+
+```
+com.acci.eaf.<module-name>/
+├── domain/              # Domain models and entities
+├── repository/          # Data access repositories
+├── service/             # Business logic services
+│   └── impl/            # Service implementations
+├── dto/                 # Data transfer objects
+├── exception/           # Custom exceptions
+├── config/              # Module configuration
+└── util/                # Module-specific utilities
+```
+
+For `eaf-multitenancy` specifically, the main packages are:
+
+* `com.acci.eaf.multitenancy.domain` - Contains the Tenant entity and related domain models
+* `com.acci.eaf.multitenancy.repository` - Contains the TenantRepository
+* `com.acci.eaf.multitenancy.service` - Contains the TenantService interface and implementation
+* `com.acci.eaf.multitenancy.dto` - Contains DTOs for Tenant operations
+* `com.acci.eaf.multitenancy.exception` - Contains tenant-specific exceptions

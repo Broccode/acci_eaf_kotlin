@@ -5,6 +5,7 @@ includeBuild("build-logic")
 
 // Include core EAF modules
 include("eaf-core")
+include("eaf-multitenancy")
 
 // Settings for repositories
 dependencyResolutionManagement {

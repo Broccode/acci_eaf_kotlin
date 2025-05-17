@@ -24,6 +24,15 @@ This section outlines the project\'s comprehensive testing strategy, which all A
     * **MockK** is the preferred library for creating mocks, stubs, and spies in Kotlin unit tests.
     * All external dependencies (e.g., other services, database repositories, network clients, file system interactions, system time if relevant) must be mocked or stubbed to ensure tests are isolated and run quickly.
     * **Axon Test Fixture:** Use for testing Axon Aggregates by providing a given-when-then style of test for command handlers and event sourcing logic.
+    * **Additional Mockito Guidelines (if Mockito is used instead of MockK):**
+      * Mockito is not the preferred library for new Kotlin tests (MockK SHOULD be used). However, legacy tests using Mockito still exist. If Mockito is used, STRICT STUBBING **MUST** be enabled via `@ExtendWith(MockitoExtension::class)` (JUnit 5) without further configuration – this activates Mockito's `Strictness.WARN` mode which fails the test on unnecessary stubbing and unverified interactions.
+      * Use `lenient()` only as an explicit, *well-commented* exception when a particular stub really cannot be verified (e.g., setup in a reusable `@BeforeEach` where not every test uses the stubbed call). Blanket `lenient()` on whole test classes is **prohibited**.
+      * Prefer the type-safe `argumentCaptor` / `argThat` APIs over `any()` with generics to avoid *Cannot infer type for this parameter* compilation errors in Kotlin. When the generic type is required, use the variant with an explicit type parameter, e.g. `ArgumentMatchers.any<Map<String, Any>>()`.
+      * Always verify interactions on mocks with the most restrictive matcher possible (e.g., `verify(mock).someCall(expectedValue)` instead of a broad `any()` matcher).
+      * After each test, call `verifyNoMoreInteractions(mock1, mock2, …)` (or enable `Strictness.STRICT_STUBS`) to catch forgotten verifications early.
+      * Never stub methods that are never called – remove them or convert to `verify()` if the intention is to ensure they are **not** called. Unnecessary stubbing leads to `UnnecessaryStubbingException` when strictness is active.
+      * When migrating a Mockito test that uses generics to Kotlin, avoid the raw `any()` import clash with Kotlin's `any{}` by using `ArgumentMatchers.any()` or adding `@file:Suppress("UNCHECKED_CAST")` as a last resort (and document why).
+      * Consider gradually migrating Mockito based tests to MockK to leverage its Kotlin-idiomatic API and to reduce boilerplate.
   * **AI Agent Responsibility:** AI Agents tasked with code generation or modification must generate comprehensive unit tests covering all public methods of new/modified classes, significant logic paths (including happy paths and edge cases), and error conditions.
 
 * **Integration Tests (Backend):**

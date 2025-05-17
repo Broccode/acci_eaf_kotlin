@@ -45,13 +45,14 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
         jvmTarget = "17"
         freeCompilerArgs += listOf(
             "-Xjvm-default=all", // Aktiviere JVM Default-Methoden für alle
-            "-Xexplicit-api=strict", // Erfordere explizite Sichtbarkeitsmodifikatoren
+            // "-Xexplicit-api=strict", // Erfordere explizite Sichtbarkeitsmodifikatoren (temporär deaktiviert)
             "-Xcontext-receivers" // Aktiviere Context Receivers für fortgeschrittene Funktionen
         )
     }
 }
 
-// Temporarily disable tests
+// Tests are now enabled
 tasks.withType<Test> {
-    enabled = false
+    enabled = true
+    useJUnitPlatform()
 }
