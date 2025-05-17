@@ -29,3 +29,8 @@ This index provides a central catalog for all granulated documents derived from 
 * [Epic 8: Developer Experience & CLI](./epic-8.md)
 * [Epic 9: Control Plane (API & UI)](./epic-9.md)
 * [Epic 10: Online License Server & Activation](./epic-10.md)
+
+## Technical Documents
+
+* [Tenant Context Propagation](./technical/tenant-context-propagation.md) - Describes how tenant context flows through the application and how it is propagated through requests.
+* [Database RLS Strategy](./technical/database-rls-strategy.md) - Row-Level Security strategy for tenant data isolation in PostgreSQL.
