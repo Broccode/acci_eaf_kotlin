@@ -58,6 +58,9 @@ ehthumbs_vista.db
 *.zip
 *.tar.gz
 *.rar
+# Exception for Gradle Wrapper
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
 hs_err_pid*
 replay_pid*
 
