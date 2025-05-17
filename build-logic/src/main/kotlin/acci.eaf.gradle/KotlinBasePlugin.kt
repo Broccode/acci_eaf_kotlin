@@ -7,8 +7,9 @@ import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.kotlin.dsl.getByType
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.jlleitschuh.gradle.ktlint.KtlintPlugin
@@ -30,13 +31,13 @@ class KotlinBasePlugin : Plugin<Project> {
     private fun Project.setupKotlinConfig() {
         plugins.apply("org.jetbrains.kotlin.jvm")
 
-        tasks.withType<KotlinCompile>().configureEach {
-            kotlinOptions {
-                jvmTarget = JavaVersion.VERSION_17.toString()
-                apiVersion = "2.1"
-                languageVersion = "2.1"
-                allWarningsAsErrors = true
-                freeCompilerArgs = listOf(
+        configure<KotlinProjectExtension> {
+            compilerOptions {
+                jvmTarget.set(JvmTarget.JVM_21)
+                apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1)
+                languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1)
+                allWarningsAsErrors.set(true)
+                freeCompilerArgs.addAll(
                     "-Xjsr305=strict",          // Strict null safety for JSR-305 annotations
                     "-opt-in=kotlin.RequiresOptIn", // Allow usage of opt-in APIs
                     "-Xcontext-receivers"       // Enable context receivers feature
@@ -46,7 +47,7 @@ class KotlinBasePlugin : Plugin<Project> {
 
         configure<JavaPluginExtension> {
             toolchain {
-                languageVersion.set(JavaLanguageVersion.of(17))
+                languageVersion.set(JavaLanguageVersion.of(21))
             }
             withSourcesJar()
             withJavadocJar()

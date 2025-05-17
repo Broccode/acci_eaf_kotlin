@@ -137,8 +137,8 @@ jobs:
               --cache-from type=gha \
               --cache-to type=gha,mode=max \
               -f ./eaf-core/Dockerfile \
-              -t ${{ secrets.DOCKERHUB_USERNAME }}/eaf-core:${{ env.VERSION }} \
-              -t ${{ secrets.DOCKERHUB_USERNAME }}/eaf-core:latest \
+              -t ${{ secrets.DOCKERHUB_REPONAME }}/eaf-core:${{ env.VERSION }} \
+              -t ${{ secrets.DOCKERHUB_REPONAME }}/eaf-core:latest \
               --progress=plain \
               .; then
               echo "::endgroup::"
@@ -183,7 +183,7 @@ jobs:
               --output trivy-results.sarif \
               --severity CRITICAL,HIGH \
               --exit-code 1 \
-              '${{ secrets.DOCKERHUB_USERNAME }}/eaf-core:${{ env.VERSION }}'; then
+              '${{ secrets.DOCKERHUB_REPONAME }}/eaf-core:${{ env.VERSION }}'; then
               echo "::endgroup::"
               echo "Trivy scan succeeded on attempt $attempt"
               exit 0

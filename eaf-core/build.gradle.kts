@@ -37,13 +37,16 @@ dependencies {
     testImplementation(libs.bundles.testing.kotest)
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.axon.test)
+    
+    // H2 für Tests
+    testRuntimeOnly("com.h2database:h2:2.2.224")
 }
 
 // Konfiguriere die Java- und Kotlin-Kompilierungsoptionen entsprechend dem Projekt-Standard
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = "17"
-        freeCompilerArgs += listOf(
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+        freeCompilerArgs.addAll(
             "-Xjvm-default=all", // Aktiviere JVM Default-Methoden für alle
             // "-Xexplicit-api=strict", // Erfordere explizite Sichtbarkeitsmodifikatoren (temporär deaktiviert)
             "-Xcontext-receivers" // Aktiviere Context Receivers für fortgeschrittene Funktionen

@@ -10,7 +10,7 @@ COPY ./eaf-multitenancy ./eaf-multitenancy
 COPY ./build-logic ./build-logic
 COPY ./build.gradle.kts ./build.gradle.kts
 COPY ./settings.gradle.kts ./settings.gradle.kts
-RUN ./gradlew :eaf-core:build --no-daemon
+RUN chmod +x ./gradlew && ./gradlew :eaf-core:assemble --no-daemon
 
 # Runtime stage
 FROM eclipse-temurin:21-jre-alpine
