@@ -13,6 +13,9 @@ sed -i '' \
   -e 's/Haupt-Quellcode der Anwendung/Main application source code/g' \
   -e 's/Hauptkomponente der Anwendung; Setup von React-Admin, Router, Theme-Provider, etc\./Root component of the application; setup of React-Admin, Router, ThemeProvider, etc\./g' \
   -e 's/Einstiegspunkt der Anwendung; rendert die App-Komponente/Application entry point; renders the App component/g' \
+  -e 's/Statische Assets, die in Komponenten importiert werden (Bilder, Schriftarten etc\.)/Static assets imported in components (images, fonts, etc.)/g' \
+  -e 's/Typdefinitionen für Vite-Umgebungsvariablen\./Type definitions for Vite environment variables\./g' \
+  -e 's/z\\.B\\./e.g./g' \
 "$TMP"
 
 # Overwrite original

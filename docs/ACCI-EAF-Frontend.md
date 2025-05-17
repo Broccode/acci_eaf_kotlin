@@ -87,16 +87,16 @@ Die Frontend-Anwendung für das ACCI EAF Control Plane UI befindet sich im Verze
 
 ```plaintext
 controlplane-ui/
-├── public/                     # Static assets served directly by the web server (z.B. favicons, manifest.json).
+├── public/                     # Static assets served directly by the web server (e.g., favicons, manifest.json).
 │   └── locales/                # Localization files for i18n when loaded statically.
 │       ├── en.json
 │       └── de.json
 ├── src/                        # Main application source code.
 │   ├── App.tsx                 # Root component of the application; setup of React-Admin, Router, ThemeProvider, etc.
 │   ├── main.tsx                # Application entry point; renders the App component.
-│   ├── vite-env.d.ts           # Typdefinitionen für Vite-Umgebungsvariablen.
+│   ├── vite-env.d.ts           # Type definitions for Vite environment variables.
 │   │
-│   ├── assets/                 # Statische Assets, die in Komponenten importiert werden (Bilder, Schriftarten etc.).
+│   ├── assets/                 # Static assets imported in components (images, fonts, etc.).
 │   │   └── logo.svg
 │   │
 │   ├── components/             # Global wiederverwendbare UI-Komponenten, die nicht spezifisch für eine Ressource sind.
