@@ -1,0 +1,131 @@
+# Version Catalog für ACCI EAF
+# Zentralisierte Definition aller Abhängigkeitsversionen für das gesamte Projekt
+
+[versions]
+# Kotlin und JVM
+kotlin = "2.1.21"
+java = "17"
+coroutines = "1.8.0"
+serialization = "1.6.3"
+datetime = "0.5.0"
+
+# Spring-Bibliotheken
+spring-boot = "3.2.3"
+spring-cloud = "2023.0.1"
+spring-dependency-mgmt = "1.1.4"
+
+# Logging
+slf4j = "2.0.12"
+log4j = "2.22.1"
+
+# Datenbanken
+postgresql = "42.7.2"
+flyway = "10.8.1"
+hikari = "5.1.0"
+
+# Test-Bibliotheken
+junit = "5.10.2"
+mockk = "1.13.9"
+kotest = "5.8.0"
+testcontainers = "1.19.4"
+
+# Sicherheit
+bouncycastle = "1.77"
+jwt = "0.12.5"
+
+# Utility-Bibliotheken 
+apache-commons-lang = "3.14.0"
+apache-commons-collections = "4.4"
+apache-commons-io = "2.15.1"
+guava = "32.1.3-jre"
+resilience4j = "2.2.0"
+
+# Build-Tools
+detekt = "1.23.3"
+ktlint = "1.0.1"
+
+[libraries]
+# Kotlin und JVM
+kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "coroutines" }
+serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
+
+# Spring Framework
+spring-boot-bom = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
+spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter" }
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
+spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-boot-starter-cache = { module = "org.springframework.boot:spring-boot-starter-cache" }
+spring-boot-configuration-processor = { module = "org.springframework.boot:spring-boot-configuration-processor" }
+spring-cloud-starter-config = { module = "org.springframework.cloud:spring-cloud-starter-config" }
+
+# Logging
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
+log4j-slf4j = { module = "org.apache.logging.log4j:log4j-slf4j2-impl", version.ref = "log4j" }
+
+# Datenbanken
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
+hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
+
+# Test-Bibliotheken
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
+testcontainers-junit = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
+testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
+
+# Sicherheit
+bouncycastle = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncycastle" }
+jwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jwt" }
+jwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jwt" }
+jwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jwt" }
+
+# Utility-Bibliotheken
+apache-commons-lang = { module = "org.apache.commons:commons-lang3", version.ref = "apache-commons-lang" }
+apache-commons-collections = { module = "org.apache.commons:commons-collections4", version.ref = "apache-commons-collections" }
+apache-commons-io = { module = "commons-io:commons-io", version.ref = "apache-commons-io" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+resilience4j-core = { module = "io.github.resilience4j:resilience4j-core", version.ref = "resilience4j" }
+resilience4j-retry = { module = "io.github.resilience4j:resilience4j-retry", version.ref = "resilience4j" }
+resilience4j-circuitbreaker = { module = "io.github.resilience4j:resilience4j-circuitbreaker", version.ref = "resilience4j" }
+
+[bundles]
+kotlin-core = ["kotlin-stdlib", "kotlin-stdlib-jdk8", "kotlin-reflect"]
+kotlin-extensions = ["coroutines-core", "serialization-json", "datetime"]
+spring-web = ["spring-boot-starter-web", "spring-boot-starter-validation"]
+spring-webflux = ["spring-boot-starter-webflux", "spring-boot-starter-validation"]
+spring-security = ["spring-boot-starter-security", "jwt-api", "jwt-impl", "jwt-jackson"]
+spring-data = ["spring-boot-starter-data-jpa", "spring-boot-starter-cache"]
+spring-observability = ["spring-boot-starter-actuator"]
+logging = ["slf4j-api", "log4j-core", "log4j-slf4j"]
+testing-core = ["junit-jupiter", "mockk"]
+testing-kotest = ["kotest-runner", "kotest-assertions", "kotest-property"]
+testing-spring = ["spring-boot-starter-test"]
+testing-db = ["testcontainers", "testcontainers-junit", "testcontainers-postgresql"]
+commons = ["apache-commons-lang", "apache-commons-collections", "apache-commons-io", "guava"]
+resilience = ["resilience4j-core", "resilience4j-retry", "resilience4j-circuitbreaker"]
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+spring-dependency-mgmt = { id = "io.spring.dependency-management", version.ref = "spring-dependency-mgmt" } 

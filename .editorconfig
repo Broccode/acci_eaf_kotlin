@@ -1,0 +1,74 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# Top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+max_line_length = 120
+
+# Markdown files
+[*.{md,adoc,asciidoc}]
+trim_trailing_whitespace = false
+max_line_length = off
+
+# YAML Files
+[*.{yml,yaml}]
+indent_size = 2
+
+# XML, HTML, Properties files
+[*.{xml,html,properties}]
+indent_size = 2
+
+# JSON Files
+[*.{json,json5,jsonc}]
+indent_size = 2
+
+# Gradle Files
+[{*.gradle,*.gradle.kts,gradle.properties}]
+indent_size = 4
+
+# Kotlin Files - ktlint specific settings
+[*.{kt,kts}]
+# Disable wildcard imports
+ij_kotlin_imports_layout = *
+ij_kotlin_allow_trailing_comma = true
+ij_kotlin_allow_trailing_comma_on_call_site = true
+# Disable * imports
+ij_kotlin_name_count_to_use_star_import = 999
+ij_kotlin_name_count_to_use_star_import_for_members = 999
+# Keep line breaks
+ktlint_standard_argument-list-wrapping = disabled
+ktlint_standard_multiline-if-else = disabled
+ktlint_standard_string-template-indent = disabled
+ktlint_standard_trailing-comma-on-call-site = disabled
+ktlint_standard_multiline-expression-wrapping = disabled
+ktlint_function_signature_body_expression_wrapping = multiline
+ktlint_function_signature_rule_force_multiline_when_parameter_count_greater_or_equal_than = 3
+# Space rules
+ktlint_standard_no-empty-first-line-in-method-block = disabled
+ktlint_standard_no-blank-line-in-list = disabled
+ktlint_standard_no-consecutive-blank-lines = enabled
+ktlint_standard_no-empty-class-body = enabled
+# Chain call rules
+ktlint_standard_chain-method-rule = enabled
+ktlint_standard_chain-wrapping = enabled
+# Comment rules
+ktlint_standard_comment-wrapping = enabled
+ktlint_standard_comment-spacing = enabled
+# Import rules
+ktlint_standard_import-ordering = enabled
+ktlint_standard_no-wildcard-imports = enabled
+ktlint_standard_filename = enabled
+# Naming rules
+ktlint_standard_class-naming = enabled
+ktlint_standard_enum-entry-name-case = enabled
+ktlint_standard_function-naming = enabled
+ktlint_standard_package-name = enabled
+ktlint_standard_property-naming = enabled 
