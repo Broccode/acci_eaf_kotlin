@@ -87,47 +87,34 @@ Die Frontend-Anwendung für das ACCI EAF Control Plane UI befindet sich im Verze
 
 ```plaintext
 controlplane-ui/
-├── public/                     # Statische Assets, die direkt vom Webserver ausgeliefert werden (z.B. favicons, manifest.json).
-<!-- TODO: translate -->
-│   └── locales/                # Sprachdateien für i18n, wenn sie statisch geladen werden.
+├── public/                     # Static assets served directly by the web server (z.B. favicons, manifest.json).
+│   └── locales/                # Localization files for i18n when loaded statically.
 │       ├── en.json
 │       └── de.json
-├── src/                        # Haupt-Quellcode der Anwendung.
-│   ├── App.tsx                 # Hauptkomponente der Anwendung; Setup von React-Admin, Router, Theme-Provider, etc.
-│   ├── main.tsx                # Einstiegspunkt der Anwendung; rendert die App-Komponente.
-<!-- TODO: translate -->
+├── src/                        # Main application source code.
+│   ├── App.tsx                 # Root component of the application; setup of React-Admin, Router, ThemeProvider, etc.
+│   ├── main.tsx                # Application entry point; renders the App component.
 │   ├── vite-env.d.ts           # Typdefinitionen für Vite-Umgebungsvariablen.
 │   │
 │   ├── assets/                 # Statische Assets, die in Komponenten importiert werden (Bilder, Schriftarten etc.).
 │   │   └── logo.svg
 │   │
-<!-- TODO: translate -->
 │   ├── components/             # Global wiederverwendbare UI-Komponenten, die nicht spezifisch für eine Ressource sind.
 │   │   ├── common/             # Allgemeine, atomare UI-Elemente (z.B. benutzerdefinierter Button, spezielle Badges).
 │   │   │   └── BrandedHeader.tsx
-<!-- TODO: translate -->
 │   │   └── layout/             # Komponenten für das Seitenlayout (z.B. benutzerdefinierte Menüs, erweiterte AppBar-Funktionen).
 │   │       └── CustomMenu.tsx
 │   │
-<!-- TODO: translate -->
 │   ├── features/               # Module für jede Haupt-React-Admin-Ressource oder benutzerdefinierte Features (z.B. Mandanten, Benutzer).
-<!-- TODO: translate -->
 │   │   ├── tenants/            # Beispiel: Feature-Modul für "Mandanten".
-<!-- TODO: translate -->
 │   │   │   ├── TenantList.tsx  # React-Admin List Komponente für Mandanten.
-<!-- TODO: translate -->
 │   │   │   ├── TenantEdit.tsx  # React-Admin Edit Komponente für Mandanten.
-<!-- TODO: translate -->
 │   │   │   ├── TenantCreate.tsx# React-Admin Create Komponente für Mandanten.
 │   │   │   ├── TenantShow.tsx  # React-Admin Show Komponente (optional).
-<!-- TODO: translate -->
 │   │   │   └── components/     # Komponenten, die spezifisch für das Mandanten-Feature sind.
 │   │   │       └── TenantStatusChip.tsx
-<!-- TODO: translate -->
 │   │   ├── users/              # Feature-Modul für "Benutzer" (ähnliche Struktur wie tenants).
-<!-- TODO: translate -->
 │   │   ├── licenses/           # Feature-Modul für "Lizenzen" (ähnliche Struktur).
-<!-- TODO: translate -->
 │   │   └── i18nAdmin/          # Feature-Modul für die i18n-Verwaltung im UI (falls zutreffend).
 │   │       ├── LanguageList.tsx
 │   │       └── TranslationEditPage.tsx
@@ -140,19 +127,15 @@ controlplane-ui/
 │   │   └── useAppConfiguration.ts
 │   │
 │   ├── providers/              # React-Admin Provider Konfigurationen.
-<!-- TODO: translate -->
 │   │   ├── dataProvider.ts     # Konfigurierter React-Admin Data Provider für die eaf-controlplane-api.
 │   │   ├── authProvider.ts     # Konfigurierter React-Admin Auth Provider.
 │   │   └── i18nProvider.ts     # Konfigurierter React-Admin i18n Provider (kann auch Sprachdateien importieren).
 │   │
 │   ├── router/                 # Routing-Konfiguration.
-<!-- TODO: translate -->
 │   │   └── customRoutes.tsx    # Definitionen für benutzerdefinierte Routen außerhalb von React-Admin Ressourcen.
 │   │
-<!-- TODO: translate -->
 │   ├── store/                  # Zustandmanagement für nicht direkt React-Admin bezogene globale Zustände (z.B. mit React Context oder Zustand).
 │   │   ├── themeContext.tsx
-<!-- TODO: translate -->
 │   │   └── notificationStore.ts # Beispiel für Zustand mit Zustand
 │   │
 │   ├── styles/                 # Styling-bezogene Dateien.
@@ -161,7 +144,6 @@ controlplane-ui/
 │   │
 │   ├── types/                  # Globale TypeScript-Typdefinitionen und Interfaces.
 │   │   ├── index.d.ts          # Aggregiert Typen oder globale Erweiterungen.
-<!-- TODO: translate -->
 │   │   └── react-admin.d.ts    # Erweiterungen für React-Admin Typen falls nötig.
 │   │
 │   └── utils/                  # Globale Hilfsfunktionen und Konstanten.
@@ -169,42 +151,32 @@ controlplane-ui/
 │       └── constants.ts
 │
 ├── tests/                      # Test-spezifische Dateien und Konfigurationen.
-<!-- TODO: translate -->
 │   ├── setupTests.ts           # Setup-Datei für Tests (z.B. Jest/Vitest Konfiguration, globale Mocks).
 │   └── e2e/                    # End-to-End Tests mit Playwright.
 │       └── tenants.spec.ts
 │
 ├── index.html                  # Haupt-HTML-Datei (Vite-Konvention).
-<!-- TODO: translate -->
-├── package.json                # Projekt-Abhängigkeiten und Skripte.
-├── vite.config.ts              # Vite Build-Tool Konfigurationsdatei.
-├── tsconfig.json               # TypeScript Compiler-Konfiguration.
-<!-- TODO: translate -->
-├── postcss.config.js           # PostCSS Konfiguration (für Autoprefixer, etc.).
-<!-- TODO: translate -->
-└── README.md                   # Readme für das Frontend-Projekt.
+│   ├── package.json                # Projekt-Abhängigkeiten und Skripte.
+│   ├── vite.config.ts              # Vite Build-Tool Konfigurationsdatei.
+│   ├── tsconfig.json               # TypeScript Compiler-Konfiguration.
+│   │
+│   ├── postcss.config.js           # PostCSS Konfiguration (für Autoprefixer, etc.).
+│   │
+│   └── README.md                   # Readme für das Frontend-Projekt.
 ```
 
 ### Notes on Frontend Structure
 
 - **Einfluss von Vite:** Die Verwendung von Vite als Build-Tool beeinflusst diese Struktur wie folgt:
   - `index.html` befindet sich im Root-Verzeichnis des `controlplane-ui` Projekts.
-<!-- TODO: translate -->
   - Das `public/` Verzeichnis dient für statische Assets, die direkt und unverändert ausgeliefert werden.
-<!-- TODO: translate -->
   - `vite.config.ts` enthält die Build-, Entwicklungs-Server- und Optimierungskonfigurationen.
-<!-- TODO: translate -->
   - Umgebungsvariablen, die im Client-Code zugänglich sein sollen, müssen das Präfix `VITE_` tragen (z.B. `VITE_API_BASE_URL`).
-<!-- TODO: translate -->
-- **Modularität durch Features:** Die Strukturierung nach `features/` (oder alternativ `resources/`) fördert die Modularität und erleichtert die Verwaltung von Code, der zu spezifischen React-Admin Ressourcen oder Anwendungsbereichen gehört. Jedes Feature-Verzeichnis ist weitgehend eigenständig.
-<!-- TODO: translate -->
-- **Komponenten-Co-Location:** Komponenten-Tests (`*.test.tsx` oder `*.spec.tsx` für Unit- und Integrationstests mit Jest/Vitest und React Testing Library) werden direkt neben den zu testenden Dateien oder in einem `__tests__` Unterverzeichnis innerhalb des `src/` Baumes abgelegt. E2E-Tests (`tests/e2e/`) sind separat.
-<!-- TODO: translate -->
-- **CSS-Module:** CSS-Modul-Dateien (`*.module.css`) werden direkt neben den Komponenten abgelegt, die sie stylen, um lokale Gültigkeit und Kapselung der Styles zu gewährleisten.
-<!-- TODO: translate -->
-- **Provider-Kapselung:** React-Admin spezifische Provider (`dataProvider`, `authProvider`, `i18nProvider`) sind in einem eigenen `providers/` Verzeichnis gekapselt, um ihre Konfiguration zentral und übersichtlich zu halten.
-<!-- TODO: translate -->
-- **Strikte Einhaltung:** KI-Agenten und Entwickler MÜSSEN diese definierte Struktur strikt einhalten. Neue Dateien MÜSSEN basierend auf diesen Beschreibungen im entsprechenden Verzeichnis platziert werden.
+  - **Modularität durch Features:** Die Strukturierung nach `features/` (oder alternativ `resources/`) fördert die Modularität und erleichtert die Verwaltung von Code, der zu spezifischen React-Admin Ressourcen oder Anwendungsbereichen gehört. Jedes Feature-Verzeichnis ist weitgehend eigenständig.
+  - **Komponenten-Co-Location:** Komponenten-Tests (`*.test.tsx` oder `*.spec.tsx` für Unit- und Integrationstests mit Jest/Vitest und React Testing Library) werden direkt neben den zu testenden Dateien oder in einem `__tests__` Unterverzeichnis innerhalb des `src/` Baumes abgelegt. E2E-Tests (`tests/e2e/`) sind separat.
+  - **CSS-Module:** CSS-Modul-Dateien (`*.module.css`) werden direkt neben den Komponenten abgelegt, die sie stylen, um lokale Gültigkeit und Kapselung der Styles zu gewährleisten.
+  - **Provider-Kapselung:** React-Admin spezifische Provider (`dataProvider`, `authProvider`, `i18nProvider`) sind in einem eigenen `providers/` Verzeichnis gekapselt, um ihre Konfiguration zentral und übersichtlich zu halten.
+  - **Strikte Einhaltung:** KI-Agenten und Entwickler MÜSSEN diese definierte Struktur strikt einhalten. Neue Dateien MÜSSEN basierend auf diesen Beschreibungen im entsprechenden Verzeichnis platziert werden.
 
 ## Component Breakdown & Implementation Details
 
@@ -216,26 +188,19 @@ Dieser Abschnitt beschreibt die Konventionen und Vorlagen für die Definition vo
 <!-- TODO: translate -->
 - **Component Naming Convention:** **PascalCase für Dateinamen und Komponentennamen (z.B., `TenantForm.tsx`, `UserProfileCard.tsx`)**. Alle Komponentendateien MÜSSEN dieser Konvention folgen.
 - **Organization:**
-<!-- TODO: translate -->
   - **React-Admin Komponenten:** Der primäre Ansatz ist die Nutzung und Konfiguration der umfangreichen Komponentenbibliothek von React-Admin (z.B. `<List>`, `<Datagrid>`, `<Edit>`, `<SimpleForm>`, `<TextInput>`, `<ReferenceInput>`, etc.) für Standard-CRUD-Ansichten und -Operationen. Diese Komponenten werden direkt innerhalb der Feature-Module (z.B. `src/features/tenants/TenantList.tsx`) verwendet und über ihre Props konfiguriert.
-<!-- TODO: translate -->
   - **Globally Reusable Custom Components:** Eigene Komponenten, die anwendungsweit wiederverwendbar sind und nicht spezifisch für ein einzelnes Feature oder eine einzelne Ressource sind, werden in `src/components/common/` (für atomare UI-Elemente) oder `src/components/layout/` (für strukturelle Layout-Komponenten) abgelegt.
-<!-- TODO: translate -->
   - **Feature-Specific Custom Components:** Eigene Komponenten, die ausschließlich innerhalb eines bestimmten Features oder einer Ressource verwendet werden, werden im Unterverzeichnis `components/` des jeweiligen Feature-Moduls co-lokalisiert (z.B. `src/features/tenants/components/TenantStatusChip.tsx`).
-  - **Presentational vs. Container Components:** Diese Unterscheidung wird wie folgt gehandhabt:
-<!-- TODO: translate -->
-    - React-Admin Resource-Komponenten (z.B. `<List>`, `<Edit>`) agieren oft als Container-Komponenten, die Daten-Fetching und Business-Logik über Hooks (`useListController`, `useEditController`) verwalten.
-<!-- TODO: translate -->
-    - Benutzerdefinierte Komponenten sollten, wo sinnvoll, als Presentational Components gestaltet werden, die Daten und Callbacks über Props erhalten. Komplexere Logik oder Zustandsverwaltung kann in benutzerdefinierten Hooks gekapselt werden, die dann von "Smart" Wrapper-Komponenten oder direkt von Feature-Komponenten genutzt werden.
+- **Presentational vs. Container Components:** Diese Unterscheidung wird wie folgt gehandhabt:
+  - React-Admin Resource-Komponenten (z.B. `<List>`, `<Edit>`) agieren oft als Container-Komponenten, die Daten-Fetching und Business-Logik über Hooks (`useListController`, `useEditController`) verwalten.
+  - Benutzerdefinierte Komponenten sollten, wo sinnvoll, als Presentational Components gestaltet werden, die Daten und Callbacks über Props erhalten. Komplexere Logik oder Zustandsverwaltung kann in benutzerdefinierten Hooks gekapselt werden, die dann von "Smart" Wrapper-Komponenten oder direkt von Feature-Komponenten genutzt werden.
+
 - **Guidelines for Creating Custom Components:**
   - Benutzerdefinierte Komponenten werden erstellt, wenn:
-<!-- TODO: translate -->
     - React-Admin keine passende Komponente für die benötigte UI/UX bereitstellt.
     - Eine spezifische, stark gebrandete oder interaktive UI-Anforderung nicht durch Konfiguration der Standard-React-Admin-Komponenten erreicht werden kann.
-<!-- TODO: translate -->
     - Komplexe, wiederverwendbare UI-Logik gekapselt werden soll, die über mehrere Teile eines Features oder der Anwendung hinweg benötigt wird.
-<!-- TODO: translate -->
-  - Diese benutzerdefinierten Komponenten MÜSSEN der "Template for Component Specification" folgen.
+- Diese benutzerdefinierten Komponenten MÜSSEN der "Template for Component Specification" folgen.
 
 ### Template for Component Specification
 
@@ -249,29 +214,23 @@ Für jede signifikante *benutzerdefinierte* UI-Komponente, die aus der UI/UX-Spe
 - **Source File(s):** {z.B., `src/features/auditing/components/AuditLogEntry.tsx`. MUSS der exakte Pfad sein.}
 - **Visual Reference:** {Link zu einem spezifischen Figma-Frame/einer Komponente, einer Storybook-Seite oder einer detaillierten Beschreibung/Skizze, falls kein formales Design existiert. ERFORDERLICH.}
 - **Props (Properties):**
-<!-- TODO: translate -->
     {Listen Sie jede Prop auf, die die Komponente akzeptiert. Für jede Prop MÜSSEN alle Spalten in der Tabelle ausgefüllt werden.}
 
     | Prop Name     | Type                                                                 | Required? | Default Value | Description                                                                                                                               |
     | :------------ | :------------------------------------------------------------------- | :-------- | :------------ | :---------------------------------------------------------------------------------------------------------------------------------------- |
-<!-- TODO: translate -->
     | `exampleProp` | `string`                                                             | Yes       | N/A           | Die ID der anzuzeigenden Entität. MUSS eine gültige UUID sein.                                                                             |
     | `variant`     | `'compact' \| 'full'`                                                | No        | `'full'`      | Steuert den Anzeigemodus der Komponente.                                                                                                  |
-<!-- TODO: translate -->
     | `{anotherProp}` | `{Spezifischer Primitivtyp, importierter Typ oder Inline-Interface/Typdefinition}` | {Yes/No}  | {Falls vorhanden} | {MUSS den Zweck der Prop und alle Einschränkungen klar angeben, z.B. 'Muss eine positive Ganzzahl sein.'}                               |
 
 - **Internal State (if any):**
-<!-- TODO: translate -->
     {Beschreiben Sie jeden signifikanten internen Zustand, den die Komponente verwaltet. Listen Sie nur Zustände auf, die *nicht* von Props oder globalem Zustand abgeleitet sind. Wenn der Zustand komplex ist, überlegen Sie, ob er stattdessen von einem benutzerdefinierten Hook oder einer globalen Zustandsverwaltungslösung verwaltet werden sollte.}
 
     | State Variable  | Type      | Initial Value | Description                                                                |
     | :-------------- | :-------- | :------------ | :------------------------------------------------------------------------- |
-<!-- TODO: translate -->
     | `isLoading`     | `boolean` | `false`       | Verfolgt, ob Daten für die Komponente geladen werden.                      |
     | `{anotherState}`| `{type}`  | `{value}`     | {Beschreibung der Zustandsvariable und ihres Zwecks.}                      |
 
 - **Key UI Elements / Structure:**
-<!-- TODO: translate -->
     {Stellen Sie eine Pseudo-HTML- oder JSX-ähnliche Struktur bereit, die den DOM der Komponente repräsentiert. Fügen Sie gegebenenfalls wichtige bedingte Rendering-Logik ein. **Diese Struktur diktiert die primäre Ausgabe für den KI-Agenten.**}
 
     ```html
@@ -283,24 +242,18 @@ Für jede signifikante *benutzerdefinierte* UI-Komponente, die aus der UI/UX-Spe
     ```
 
 - **Events Handled / Emitted:**
-<!-- TODO: translate -->
-  - **Handles:** {z.B., `onClick` auf einem Detail-Button (löst `onViewDetails` Prop aus).}
-<!-- TODO: translate -->
-  - **Emits:** {Wenn die Komponente benutzerdefinierte Ereignisse/Callbacks auslöst, die nicht durch Props abgedeckt sind, beschreiben Sie diese mit ihrer exakten Signatur. z.B., `onExpand: (payload: { entryId: string; isExpanded: boolean }) => void`}
+- **Handles:** {z.B., `onClick` auf einem Detail-Button (löst `onViewDetails` Prop aus).}
+- **Emits:** {Wenn die Komponente benutzerdefinierte Ereignisse/Callbacks auslöst, die nicht durch Props abgedeckt sind, beschreiben Sie diese mit ihrer exakten Signatur. z.B., `onExpand: (payload: { entryId: string; isExpanded: boolean }) => void`}
 - **Actions Triggered (Side Effects):**
-<!-- TODO: translate -->
-  - **State Management:** {z.B., "Dispatched `uiSlice.actions.showNotification({ message: 'Aktion ausgeführt' })` aus `src/store/notificationStore.ts`. Action Payload MUSS mit dem definierten Action Creator übereinstimmen."}
-  - **API Calls:** {Spezifizieren Sie, welcher Service/welche Funktion aus der "API Interaction Layer" aufgerufen wird (normalerweise nicht direkt aus reinen Presentational Components). z.B., "Ruft `auditService.fetchDetails(entryId)` aus `src/features/auditing/services/auditService.ts` auf."}
+- **State Management:** {z.B., "Dispatched `uiSlice.actions.showNotification({ message: 'Aktion ausgeführt' })` aus `src/store/notificationStore.ts`. Action Payload MUSS mit dem definierten Action Creator übereinstimmen."}
+- **API Calls:** {Spezifizieren Sie, welcher Service/welche Funktion aus der "API Interaction Layer" aufgerufen wird (normalerweise nicht direkt aus reinen Presentational Components). z.B., "Ruft `auditService.fetchDetails(entryId)` aus `src/features/auditing/services/auditService.ts` auf."}
 - **Styling Notes:**
-<!-- TODO: translate -->
-  - {MUSS sich auf spezifische Design-System-Komponentennamen beziehen (z.B. "Verwendet `<Button variant='primary'>` von Material UI via React-Admin Theme") ODER CSS-Modul-Klassennamen angeben, die angewendet werden sollen (z.B. "Container verwendet `styles.auditEntryContainer`. Titel verwendet `styles.entryTitle` aus `AuditLogEntry.module.css`."). Jede dynamische Styling-Logik basierend auf Props oder Zustand MUSS beschrieben werden. KI-Agent sollte die Verwendung von CSS-Modulen für benutzerdefinierte Komponenten priorisieren.}
+    {MUSS sich auf spezifische Design-System-Komponentennamen beziehen (z.B. "Verwendet `<Button variant='primary'>` von Material UI via React-Admin Theme") ODER CSS-Modul-Klassennamen angeben, die angewendet werden sollen (z.B. "Container verwendet `styles.auditEntryContainer`. Titel verwendet `styles.entryTitle` aus `AuditLogEntry.module.css`."). Jede dynamische Styling-Logik basierend auf Props oder Zustand MUSS beschrieben werden. KI-Agent sollte die Verwendung von CSS-Modulen für benutzerdefinierte Komponenten priorisieren.}
 - **Accessibility Notes:**
-<!-- TODO: translate -->
-  - {MUSS spezifische ARIA-Attribute und deren Werte auflisten (z.B., `aria-label="Audit-Log Eintrag für Aktion X"`), erforderliches Tastaturnavigationsverhalten (z.B., "Gesamte Komponente ist via Tab erreichbar und Details können per Enter/Space ein-/ausgeklappt werden, falls interaktiv."), und alle Anforderungen an das Fokusmanagement (z.B., "Wenn diese Komponente ein Modal öffnet, MUSS der Fokus darin gefangen sein. Beim Schließen des Modals kehrt der Fokus zum auslösenden Element zurück.").}
+    {MUSS spezifische ARIA-Attribute und deren Werte auflisten (z.B., `aria-label="Audit-Log Eintrag für Aktion X"`), erforderliches Tastaturnavigationsverhalten (z.B., "Gesamte Komponente ist via Tab erreichbar und Details können per Enter/Space ein-/ausgeklappt werden, falls interaktiv."), und alle Anforderungen an das Fokusmanagement (z.B., "Wenn diese Komponente ein Modal öffnet, MUSS der Fokus darin gefangen sein. Beim Schließen des Modals kehrt der Fokus zum auslösenden Element zurück.").}
 
 -----
 
-<!-- TODO: translate -->
 *Wiederholen Sie die obige Vorlage für jede signifikante benutzerdefinierte Komponente.*
 
 -----
@@ -312,11 +265,8 @@ Dieser Abschnitt erweitert die im Abschnitt "Overall Frontend Philosophy & Patte
 
 - **Chosen Solution:**
 
-<!-- TODO: translate -->
     1. **React-Admin Internal State (Ra-Store):** Die primäre Lösung für alle Zustände, die direkt mit den von React-Admin verwalteten Ressourcen (z.B. Mandanten, Benutzer, Lizenzen) zusammenhängen. Dies umfasst das Abrufen von Daten, Caching, Optimistic Updates, Listenfilter/Sortierung, Auswahlzustände und den Zustand von Bearbeitungs-/Erstellungsformularen. Entwickler interagieren hiermit hauptsächlich über React-Admin Hooks (z.B. `useListController`, `useEditController`, `useCreateController`, `useDataProvider`) und die Konfiguration der Ressourcen.
-<!-- TODO: translate -->
     2. **React Context API:** Für globalen Zustand, der nicht direkt an React-Admin Ressourcen gebunden ist und eine mittlere Komplexität aufweist. Anwendungsfälle sind z.B. globale UI-Einstellungen (Theme-Präferenzen, falls dynamisch und nicht über React-Admin Theme lösbar), anwendungsweite Benachrichtigungen, die nicht durch das Standard-Benachrichtigungssystem von React-Admin abgedeckt werden, oder geteilter Zustand innerhalb eines spezifischen, komplexen benutzerdefinierten Features oder einer Seite, die nicht dem React-Admin Ressourcenmodell folgt.
-<!-- TODO: translate -->
     3. **Zustand (Potenziell):** Falls komplexere globale Zustandsszenarien auftreten, die nicht ressourcenspezifisch sind und mit React Context schwer zu verwalten wären (z.B. sehr komplexe Benutzer-Session-Details jenseits der Basisauthentifizierung, Zustandsverwaltung für einen mehrstufigen Wizard in einem benutzerdefinierten Nicht-React-Admin-Prozess), könnte Zustand als leichtgewichtige, Hook-basierte Alternative zu einer vollständigen Redux-Installation in Betracht gezogen werden. Die Notwendigkeit hierfür wird bei Bedarf evaluiert.
 <!-- TODO: translate -->
     4. **Local Component State (`useState`, `useReducer`):** Standardmäßig für UI-spezifischen, ephemeren Zustand innerhalb einzelner Komponenten (z.B. Zustand von Formulareingaben vor der Übergabe an React-Admin, Zustand von Dropdown-Menüs, UI-Schalter, die nur eine Komponente betreffen).
@@ -324,22 +274,22 @@ Dieser Abschnitt erweitert die im Abschnitt "Overall Frontend Philosophy & Patte
 - **Decision Guide for State Location:**
 
 <!-- TODO: translate -->
-  - **Ra-Store (React-Admin internal):** **MUSS** verwendet werden für alle Daten und UI-Zustände, die direkt mit den über `<Resource>` definierten Entitäten zusammenhängen. Dies ist der Standard und wird von React-Admin weitgehend automatisch verwaltet.
+- **Ra-Store (React-Admin internal):** **MUSS** verwendet werden für alle Daten und UI-Zustände, die direkt mit den über `<Resource>` definierten Entitäten zusammenhängen. Dies ist der Standard und wird von React-Admin weitgehend automatisch verwaltet.
 <!-- TODO: translate -->
-  - **React Context API (`src/store/contexts/`):** **MUSS** verwendet werden für:
-    - Theming-Variablen, die nicht Teil des statischen React-Admin Themes sind.
+- **React Context API (`src/store/contexts/`):** **MUSS** verwendet werden für:
+  - Theming-Variablen, die nicht Teil des statischen React-Admin Themes sind.
 <!-- TODO: translate -->
     - Globale anwendungsweite Konfigurationen oder Zustände, die von vielen Komponenten gelesen, aber selten geändert werden.
 <!-- TODO: translate -->
     - Zustand, der primär innerhalb eines bestimmten Komponentenbaums nach unten weitergegeben wird (z.B. innerhalb eines komplexen, benutzerdefinierten Layouts oder einer mehrstufigen Formularseite, die keinem React-Admin `Resource` entspricht).
 <!-- TODO: translate -->
-  - **Zustand (falls benötigt, in `src/store/slices/`):** Kann in Betracht gezogen werden für:
+- **Zustand (falls benötigt, in `src/store/slices/`):** Kann in Betracht gezogen werden für:
 <!-- TODO: translate -->
     - Komplexe, nicht-ressourcenbezogene globale Zustände, die häufige Updates erfordern oder von vielen, nicht direkt hierarchisch verbundenen Komponenten modifiziert werden.
 <!-- TODO: translate -->
     - Verwaltung von Zuständen, deren Logik von reinen UI-Komponenten entkoppelt werden soll (z.B. anwendungsweite Benachrichtigungs-Queues mit erweiterter Logik).
 <!-- TODO: translate -->
-  - **Local Component State (`useState`, `useReducer`):** **MUSS** die Standardwahl für allen anderen UI-bezogenen Zustand sein, der nicht die Kriterien für React Context, Zustand oder Ra-Store erfüllt.
+- **Local Component State (`useState`, `useReducer`):** **MUSS** die Standardwahl für allen anderen UI-bezogenen Zustand sein, der nicht die Kriterien für React Context, Zustand oder Ra-Store erfüllt.
 
 ### Store Structure / Slices (for Context & Potential Zustand)
 
@@ -354,7 +304,7 @@ Da Ra-Store seine Zustandsverwaltung intern kapselt, bezieht sich dieser Abschni
     - Einem Provider-Komponenten, der den Zustand verwaltet (oft mit `useState` oder `useReducer`) und den Kontextwert bereitstellt.
     - Einem benutzerdefinierten Hook (z.B. `useThemeSettings`), um den Kontextwert einfach zu konsumieren.
 <!-- TODO: translate -->
-  - **Beispiel: `src/store/contexts/ThemeContext.tsx`** (für eine einfache Umschaltung Hell/Dunkel-Modus zusätzlich zum RA Theme)
+- **Beispiel: `src/store/contexts/ThemeContext.tsx`** (für eine einfache Umschaltung Hell/Dunkel-Modus zusätzlich zum RA Theme)
 
         ```typescript
         import React, { createContext, useContext, useState, useMemo } from 'react';
@@ -395,9 +345,9 @@ Da Ra-Store seine Zustandsverwaltung intern kapselt, bezieht sich dieser Abschni
 - **Zustand Store Structure (Beispielhaft, falls benötigt):**
 
 <!-- TODO: translate -->
-  - Zustand-Stores würden in `src/store/slices/` abgelegt (z.B. `src/store/slices/notificationStore.ts`).
+- Zustand-Stores würden in `src/store/slices/` abgelegt (z.B. `src/store/slices/notificationStore.ts`).
 <!-- TODO: translate -->
-  - **Beispiel: `notificationStore.ts`** (für ein erweitertes, anwendungsweites Benachrichtigungssystem)
+- **Beispiel: `notificationStore.ts`** (für ein erweitertes, anwendungsweites Benachrichtigungssystem)
 
         ```typescript
         import { create } from 'zustand';
@@ -441,7 +391,7 @@ Da Ra-Store seine Zustandsverwaltung intern kapselt, bezieht sich dieser Abschni
 - **React Context:** Der "Selektor" ist der direkte Zugriff auf die Werte, die vom Kontext-Provider bereitgestellt und über den benutzerdefinierten Hook (z.B. `const { mode } = useTheme();`) konsumiert werden.
 - **Zustand:**
 <!-- TODO: translate -->
-  - Einfache Selektoren sind Funktionen, die dem Hook übergeben werden:
+- Einfache Selektoren sind Funktionen, die dem Hook übergeben werden:
 
         ```typescript
         const notifications = useNotificationStore((state) => state.notifications);
@@ -449,7 +399,7 @@ Da Ra-Store seine Zustandsverwaltung intern kapselt, bezieht sich dieser Abschni
         ```
 
 <!-- TODO: translate -->
-  - Für komplexere oder memoisierte Selektoren (um unnötige Re-Renders zu vermeiden, wenn sich nur irrelevante Teile des Stores ändern), kann `zustand/middleware` mit `subscribeWithSelector` oder eine manuelle Memoization mit `useMemo` in der Komponente in Betracht gezogen werden.
+- Für komplexere oder memoisierte Selektoren (um unnötige Re-Renders zu vermeiden, wenn sich nur irrelevante Teile des Stores ändern), kann `zustand/middleware` mit `subscribeWithSelector` oder eine manuelle Memoization mit `useMemo` in der Komponente in Betracht gezogen werden.
 
 ### Key Actions / Reducers / Thunks (for Context & Potential Zustand)
 
@@ -458,12 +408,12 @@ Da Ra-Store seine Zustandsverwaltung intern kapselt, bezieht sich dieser Abschni
 - **React Context:**
   - Wenn der Provider `useState` verwendet, sind "Aktionen" die `setState`-Funktionen, die vom Provider exportiert werden (z.B. `toggleMode` im `ThemeContext`-Beispiel).
 <!-- TODO: translate -->
-  - Wenn der Provider `useReducer` verwendet, werden Aktionen an die `dispatch`-Funktion übergeben und von der Reducer-Funktion verarbeitet.
+- Wenn der Provider `useReducer` verwendet, werden Aktionen an die `dispatch`-Funktion übergeben und von der Reducer-Funktion verarbeitet.
 - **Zustand:**
 <!-- TODO: translate -->
-  - "Aktionen" sind Funktionen, die innerhalb des `create` Aufrufs definiert werden und den Zustand über die `set` Funktion modifizieren (z.B. `addNotification`, `removeNotification` im `notificationStore`-Beispiel).
+- "Aktionen" sind Funktionen, die innerhalb des `create` Aufrufs definiert werden und den Zustand über die `set` Funktion modifizieren (z.B. `addNotification`, `removeNotification` im `notificationStore`-Beispiel).
 <!-- TODO: translate -->
-  - Asynchrone Aktionen können direkt innerhalb dieser Funktionen implementiert werden:
+- Asynchrone Aktionen können direkt innerhalb dieser Funktionen implementiert werden:
 
         ```typescript
 <!-- TODO: translate -->
@@ -497,13 +447,13 @@ Dieser Abschnitt beschreibt, wie das Frontend mit der im Hauptarchitekturdokumen
 - **HTTP Client Setup (für DataProvider):**
 
 <!-- TODO: translate -->
-  - Der React-Admin `DataProvider` wird einen zentral konfigurierten HTTP-Client verwenden, um Anfragen an das Backend zu senden. Wir werden hierfür `Workspace` mit einer benutzerdefinierten Wrapper-Funktion oder eine leichtgewichtige Bibliothek wie `ky` in Betracht ziehen, um Interceptors und Konfigurationen zu handhaben. Falls komplexere Szenarien (wie automatische Retries, die unten diskutiert werden) breiter benötigt werden, könnte auch Axios in Erwägung gezogen werden. Die Konfiguration erfolgt in `src/providers/httpClient.ts` (oder einem ähnlichen Utility-Modul).
-  - **Base URL:** Wird aus einer Umgebungsvariable `VITE_API_BASE_URL` bezogen (z.B. `VITE_API_BASE_URL=/controlplane/api/v1`). Dies ist im Einklang mit der Vite-Konvention.
-  - **Default Headers:**
-    - `Content-Type: 'application/json'`
-    - `Accept: 'application/json'`
+- Der React-Admin `DataProvider` wird einen zentral konfigurierten HTTP-Client verwenden, um Anfragen an das Backend zu senden. Wir werden hierfür `Workspace` mit einer benutzerdefinierten Wrapper-Funktion oder eine leichtgewichtige Bibliothek wie `ky` in Betracht ziehen, um Interceptors und Konfigurationen zu handhaben. Falls komplexere Szenarien (wie automatische Retries, die unten diskutiert werden) breiter benötigt werden, könnte auch Axios in Erwägung gezogen werden. Die Konfiguration erfolgt in `src/providers/httpClient.ts` (oder einem ähnlichen Utility-Modul).
+- **Base URL:** Wird aus einer Umgebungsvariable `VITE_API_BASE_URL` bezogen (z.B. `VITE_API_BASE_URL=/controlplane/api/v1`). Dies ist im Einklang mit der Vite-Konvention.
+- **Default Headers:**
+  - `Content-Type: 'application/json'`
+  - `Accept: 'application/json'`
 <!-- TODO: translate -->
-  - **Interceptors / Wrapper Logic (für den HTTP-Client des DataProviders):**
+- **Interceptors / Wrapper Logic (für den HTTP-Client des DataProviders):**
 <!-- TODO: translate -->
     - **Auth Token Injection:** Der HTTP-Client wird so konfiguriert, dass er automatisch den Authentifizierungstoken (JWT) aus dem `authProvider` (z.B. via `authProvider.getIdentity()` oder einer ähnlichen Methode, die den Token sicher bereitstellt) abruft und in den `Authorization` Header jeder Anfrage einfügt (z.B. `Authorization: Bearer <token>`).
 <!-- TODO: translate -->
@@ -514,28 +464,28 @@ Dieser Abschnitt beschreibt, wie das Frontend mit der im Hauptarchitekturdokumen
 - **React-Admin Data Provider (`src/providers/dataProvider.ts`):**
 
 <!-- TODO: translate -->
-  - Dies ist die zentrale Schnittstelle für alle CRUD-Operationen und Datenabfragen für die von React-Admin verwalteten Ressourcen (Mandanten, Benutzer, Lizenzen etc.).
+- Dies ist die zentrale Schnittstelle für alle CRUD-Operationen und Datenabfragen für die von React-Admin verwalteten Ressourcen (Mandanten, Benutzer, Lizenzen etc.).
 <!-- TODO: translate -->
-  - Er implementiert das `DataProvider` Interface von React-Admin, einschließlich Methoden wie `getList`, `getOne`, `getMany`, `getManyReference`, `create`, `update`, `updateMany`, `delete`, `deleteMany`.
+- Er implementiert das `DataProvider` Interface von React-Admin, einschließlich Methoden wie `getList`, `getOne`, `getMany`, `getManyReference`, `create`, `update`, `updateMany`, `delete`, `deleteMany`.
 <!-- TODO: translate -->
-  - **API Mapping:** Der `dataProvider` bildet die React-Admin Methodenaufrufe auf die spezifischen Endpunkte und das REST-Dialekt der `eaf-controlplane-api` ab (gemäß der OpenAPI-Spezifikation `docs/api/controlplane-v1.yml`). Dies beinhaltet:
-    - Anpassung von Paginierungs-, Sortierungs- und Filterparametern an das vom Backend erwartete Format.
+- **API Mapping:** Der `dataProvider` bildet die React-Admin Methodenaufrufe auf die spezifischen Endpunkte und das REST-Dialekt der `eaf-controlplane-api` ab (gemäß der OpenAPI-Spezifikation `docs/api/controlplane-v1.yml`). Dies beinhaltet:
+  - Anpassung von Paginierungs-, Sortierungs- und Filterparametern an das vom Backend erwartete Format.
 <!-- TODO: translate -->
     - Korrekte URL-Generierung für Ressourcen und Unterressourcen.
 <!-- TODO: translate -->
-  - **Authentication Integration:** Der `dataProvider` arbeitet eng mit dem `authProvider` zusammen. Bei API-Fehlern, die auf Authentifizierungsprobleme hinweisen (z.B. 401 Unauthorized), wird der `authProvider` entsprechende Aktionen auslösen (z.B. Logout, Redirect zur Login-Seite).
+- **Authentication Integration:** Der `dataProvider` arbeitet eng mit dem `authProvider` zusammen. Bei API-Fehlern, die auf Authentifizierungsprobleme hinweisen (z.B. 401 Unauthorized), wird der `authProvider` entsprechende Aktionen auslösen (z.B. Logout, Redirect zur Login-Seite).
 <!-- TODO: translate -->
-  - **Optimistic Updates:** React-Admin unterstützt Optimistic Updates für `create`, `update` und `delete` Operationen. Der `dataProvider` wird so implementiert, dass er diese Funktion nutzt, indem er die erwartete (lokal modifizierte) Ressource direkt nach einer erfolgreichen Anfrage zurückgibt, bevor die Daten vom Server erneut abgerufen werden. Dies verbessert die wahrgenommene Performance.
-  - **Data Transformation:** Notwendige Transformationen zwischen dem Datenformat der API und dem vom Frontend (insbesondere von React-Admin Komponenten) erwarteten Format erfolgen innerhalb der `dataProvider`-Methoden (z.B. Umbenennung von Feldern, Anpassung von Datentypen, Aufbereitung von Referenzen).
+- **Optimistic Updates:** React-Admin unterstützt Optimistic Updates für `create`, `update` und `delete` Operationen. Der `dataProvider` wird so implementiert, dass er diese Funktion nutzt, indem er die erwartete (lokal modifizierte) Ressource direkt nach einer erfolgreichen Anfrage zurückgibt, bevor die Daten vom Server erneut abgerufen werden. Dies verbessert die wahrgenommene Performance.
+- **Data Transformation:** Notwendige Transformationen zwischen dem Datenformat der API und dem vom Frontend (insbesondere von React-Admin Komponenten) erwarteten Format erfolgen innerhalb der `dataProvider`-Methoden (z.B. Umbenennung von Feldern, Anpassung von Datentypen, Aufbereitung von Referenzen).
 
 <!-- TODO: translate -->
 - **Service Definitions (für Nicht-React-Admin API-Aufrufe):**
 
 <!-- TODO: translate -->
-  - Für API-Aufrufe, die nicht dem CRUD-Modell von React-Admin folgen oder spezielle Operationen darstellen (z.B. Auslösen eines Batch-Jobs, Abrufen spezifischer Dashboard-Daten, die keine "Ressource" sind), können separate Service-Module in `src/services/` erstellt werden (z.B. `src/services/dashboardService.ts`).
+- Für API-Aufrufe, die nicht dem CRUD-Modell von React-Admin folgen oder spezielle Operationen darstellen (z.B. Auslösen eines Batch-Jobs, Abrufen spezifischer Dashboard-Daten, die keine "Ressource" sind), können separate Service-Module in `src/services/` erstellt werden (z.B. `src/services/dashboardService.ts`).
 <!-- TODO: translate -->
-  - Diese Services würden dieselbe konfigurierte `httpClient`-Instanz (oder Wrapper-Funktion) verwenden, um Konsistenz bei Authentifizierung und Fehlerbehandlung zu gewährleisten.
-  - **Beispiel (`src/services/tenantActionsService.ts`):**
+- Diese Services würden dieselbe konfigurierte `httpClient`-Instanz (oder Wrapper-Funktion) verwenden, um Konsistenz bei Authentifizierung und Fehlerbehandlung zu gewährleisten.
+- **Beispiel (`src/services/tenantActionsService.ts`):**
 
         ```typescript
         import { httpClient } from '../providers/httpClient'; // Annahme: httpClient ist exportiert
@@ -555,27 +505,27 @@ Dieser Abschnitt beschreibt, wie das Frontend mit der im Hauptarchitekturdokumen
 - **Global Error Handling (im Kontext von React-Admin):**
 
 <!-- TODO: translate -->
-  - **DataProvider-Fehler:** Der `dataProvider` MUSS Fehler (abgelehnte Promises) so zurückgeben, dass React-Admin sie verarbeiten kann. Dies bedeutet in der Regel, ein Objekt mit einem `status` Code und einem `message` (oder einem `body` mit Details) zurückzugeben. React-Admin zeigt diese Fehler standardmäßig als Benachrichtigungen an. Die Fehlermeldungen aus der API (gemäß API-Spezifikation) werden im `dataProvider` oder im `httpClient`-Wrapper extrahiert und aufbereitet, um benutzerfreundlich zu sein.
+- **DataProvider-Fehler:** Der `dataProvider` MUSS Fehler (abgelehnte Promises) so zurückgeben, dass React-Admin sie verarbeiten kann. Dies bedeutet in der Regel, ein Objekt mit einem `status` Code und einem `message` (oder einem `body` mit Details) zurückzugeben. React-Admin zeigt diese Fehler standardmäßig als Benachrichtigungen an. Die Fehlermeldungen aus der API (gemäß API-Spezifikation) werden im `dataProvider` oder im `httpClient`-Wrapper extrahiert und aufbereitet, um benutzerfreundlich zu sein.
 <!-- TODO: translate -->
-  - **AuthProvider-Fehler:** Der `authProvider` (`src/providers/authProvider.ts`) behandelt Authentifizierungs- und Autorisierungsfehler. Bei einem 401-Fehler (Token abgelaufen oder ungültig) leitet er den Benutzer typischerweise zur Login-Seite weiter. Bei einem 403-Fehler (unzureichende Berechtigungen) kann eine "Zugriff verweigert"-Seite angezeigt oder eine Benachrichtigung ausgegeben werden.
+- **AuthProvider-Fehler:** Der `authProvider` (`src/providers/authProvider.ts`) behandelt Authentifizierungs- und Autorisierungsfehler. Bei einem 401-Fehler (Token abgelaufen oder ungültig) leitet er den Benutzer typischerweise zur Login-Seite weiter. Bei einem 403-Fehler (unzureichende Berechtigungen) kann eine "Zugriff verweigert"-Seite angezeigt oder eine Benachrichtigung ausgegeben werden.
 <!-- TODO: translate -->
-  - **Globale React Error Boundary:** Eine übergeordnete React Error Boundary (`src/components/common/GlobalErrorBoundary.tsx`) wird implementiert, um unerwartete JavaScript-Fehler in der UI abzufangen, die nicht direkt API- oder Authentifizierungsfehler sind. Diese zeigt eine benutzerfreundliche Fehlermeldung an und ermöglicht es dem Benutzer ggf., die Anwendung neu zu laden.
+- **Globale React Error Boundary:** Eine übergeordnete React Error Boundary (`src/components/common/GlobalErrorBoundary.tsx`) wird implementiert, um unerwartete JavaScript-Fehler in der UI abzufangen, die nicht direkt API- oder Authentifizierungsfehler sind. Diese zeigt eine benutzerfreundliche Fehlermeldung an und ermöglicht es dem Benutzer ggf., die Anwendung neu zu laden.
 
 - **Specific Error Handling:**
 
 <!-- TODO: translate -->
-  - **React-Admin Formulare:** `<SimpleForm>` und verwandte Komponenten zeigen Validierungsfehler, die vom `dataProvider` (als Antwort auf `create` oder `update` Aufrufe) zurückgegeben werden, direkt an den entsprechenden Feldern an. Die API muss dafür strukturierte Fehlermeldungen (z.B. `{ errors: { fieldName: 'Error message' } }`) zurückgeben, die der `dataProvider` entsprechend aufbereitet.
+- **React-Admin Formulare:** `<SimpleForm>` und verwandte Komponenten zeigen Validierungsfehler, die vom `dataProvider` (als Antwort auf `create` oder `update` Aufrufe) zurückgegeben werden, direkt an den entsprechenden Feldern an. Die API muss dafür strukturierte Fehlermeldungen (z.B. `{ errors: { fieldName: 'Error message' } }`) zurückgeben, die der `dataProvider` entsprechend aufbereitet.
 <!-- TODO: translate -->
-  - **Benutzerdefinierte Komponenten/Services:** Fehler, die bei Aufrufen über benutzerdefinierte Services (z.B. `tenantActionsService`) auftreten, müssen in den aufrufenden Komponenten oder Hooks explizit behandelt werden (z.B. Anzeige einer Inline-Fehlermeldung, Deaktivieren eines Buttons, Auslösen einer spezifischen Benachrichtigung über den `notificationStore` oder React-Admins `useNotify` Hook).
+- **Benutzerdefinierte Komponenten/Services:** Fehler, die bei Aufrufen über benutzerdefinierte Services (z.B. `tenantActionsService`) auftreten, müssen in den aufrufenden Komponenten oder Hooks explizit behandelt werden (z.B. Anzeige einer Inline-Fehlermeldung, Deaktivieren eines Buttons, Auslösen einer spezifischen Benachrichtigung über den `notificationStore` oder React-Admins `useNotify` Hook).
 
 - **Retry Logic:**
 
 <!-- TODO: translate -->
-  - Standardmäßig implementiert React-Admin keine automatische Wiederholungslogik für `dataProvider`-Aufrufe.
+- Standardmäßig implementiert React-Admin keine automatische Wiederholungslogik für `dataProvider`-Aufrufe.
 <!-- TODO: translate -->
-  - Sollte eine Wiederholungslogik für bestimmte, als instabil bekannte, idempotente GET-Anfragen (z.B. bei Netzwerkproblemen) erforderlich sein, MUSS diese im zugrundeliegenden `httpClient` implementiert werden.
-    - **Konfiguration (falls implementiert, z.B. mit `axios-retry` oder manuellem Wrapper):**
-      - Maximale Anzahl an Wiederholungen: z.B. 2-3 Versuche.
+- Sollte eine Wiederholungslogik für bestimmte, als instabil bekannte, idempotente GET-Anfragen (z.B. bei Netzwerkproblemen) erforderlich sein, MUSS diese im zugrundeliegenden `httpClient` implementiert werden.
+  - **Konfiguration (falls implementiert, z.B. mit `axios-retry` oder manuellem Wrapper):**
+    - Maximale Anzahl an Wiederholungen: z.B. 2-3 Versuche.
 <!-- TODO: translate -->
       - Bedingungen für Wiederholung: Nur bei Netzwerkfehlern oder spezifischen 5xx-Serverfehlern (z.B. 503 Service Unavailable).
 <!-- TODO: translate -->
@@ -590,9 +540,9 @@ Dieser Abschnitt beschreibt, wie Navigation und Routing in der ACCI EAF Control 
 
 - **Routing Library:**
 <!-- TODO: translate -->
-  - **React Router v6.x:** Diese Version wird typischerweise von React-Admin v5.8.1 (und neuer) intern verwendet und verwaltet. Wir nutzen die von React-Admin bereitgestellten Abstraktionen und Möglichkeiten zur Integration benutzerdefinierter Routen.
+- **React Router v6.x:** Diese Version wird typischerweise von React-Admin v5.8.1 (und neuer) intern verwendet und verwaltet. Wir nutzen die von React-Admin bereitgestellten Abstraktionen und Möglichkeiten zur Integration benutzerdefinierter Routen.
 <!-- TODO: translate -->
-  - React-Admin generiert automatisch Routen für jede definierte `<Resource>` Komponente (z.B. `/tenants`, `/tenants/create`, `/tenants/:id`, `/tenants/:id/show`).
+- React-Admin generiert automatisch Routen für jede definierte `<Resource>` Komponente (z.B. `/tenants`, `/tenants/create`, `/tenants/:id`, `/tenants/:id/show`).
 
 ### Route Definitions
 
@@ -676,26 +626,26 @@ Die genaue Integration von `customRoutes` in `<Admin>` hängt von der gewünscht
 - **Authentication Guard:**
 
 <!-- TODO: translate -->
-  - Die Authentifizierung wird primär durch den `authProvider` (`src/providers/authProvider.ts`) von React-Admin gesteuert. Die Methoden `authProvider.login()`, `authProvider.logout()`, `authProvider.checkAuth()` und `authProvider.checkError()` sind hierfür zentral.
+- Die Authentifizierung wird primär durch den `authProvider` (`src/providers/authProvider.ts`) von React-Admin gesteuert. Die Methoden `authProvider.login()`, `authProvider.logout()`, `authProvider.checkAuth()` und `authProvider.checkError()` sind hierfür zentral.
 <!-- TODO: translate -->
-  - React-Admin leitet Benutzer automatisch zur Login-Seite (konfiguriert über die `loginPage` Prop von `<Admin>`, standardmäßig `/login`), wenn `checkAuth()` einen Fehler zurückgibt oder der Benutzer nicht authentifiziert ist und versucht, auf eine geschützte Ressource oder Seite zuzugreifen.
+- React-Admin leitet Benutzer automatisch zur Login-Seite (konfiguriert über die `loginPage` Prop von `<Admin>`, standardmäßig `/login`), wenn `checkAuth()` einen Fehler zurückgibt oder der Benutzer nicht authentifiziert ist und versucht, auf eine geschützte Ressource oder Seite zuzugreifen.
 <!-- TODO: translate -->
-  - Alle `<Resource>`-Komponenten und alle benutzerdefinierten Routen, die innerhalb des `<Admin>`-Kontextes gerendert werden (siehe oben), sind automatisch durch diesen Mechanismus geschützt.
+- Alle `<Resource>`-Komponenten und alle benutzerdefinierten Routen, die innerhalb des `<Admin>`-Kontextes gerendert werden (siehe oben), sind automatisch durch diesen Mechanismus geschützt.
 
 - **Authorization Guard (Role-based Access Control - RBAC):**
 
 <!-- TODO: translate -->
-  - React-Admin bietet keine deklarative RBAC-Lösung für Routen "out-of-the-box". Die Autorisierung wird typischerweise auf Komponentenebene oder durch bedingtes Rendern von UI-Elementen basierend auf den Berechtigungen des Benutzers gehandhabt.
+- React-Admin bietet keine deklarative RBAC-Lösung für Routen "out-of-the-box". Die Autorisierung wird typischerweise auf Komponentenebene oder durch bedingtes Rendern von UI-Elementen basierend auf den Berechtigungen des Benutzers gehandhabt.
 <!-- TODO: translate -->
-  - Der `authProvider` MUSS eine Methode `getPermissions()` implementieren (z.B. `authProvider.getPermissions()`), die die Rollen oder Berechtigungen des aktuellen Benutzers zurückgibt (z.B. `['ROLE_ADMIN', 'TENANT_MEMBER_VIEW']`).
+- Der `authProvider` MUSS eine Methode `getPermissions()` implementieren (z.B. `authProvider.getPermissions()`), die die Rollen oder Berechtigungen des aktuellen Benutzers zurückgibt (z.B. `['ROLE_ADMIN', 'TENANT_MEMBER_VIEW']`).
 <!-- TODO: translate -->
-  - **Für React-Admin Ressourcen:**
+- **Für React-Admin Ressourcen:**
 <!-- TODO: translate -->
     - Die Sichtbarkeit von `<Resource>`-Komponenten in der Navigation oder der Zugriff auf bestimmte Aktionen (Bearbeiten, Erstellen, Löschen) kann durch Abrufen der Berechtigungen im `authProvider` und entsprechende Anpassung der UI oder der Resource-Props gesteuert werden. React-Admin Enterprise Edition bietet hierfür erweiterte Komponenten.
 <!-- TODO: translate -->
     - Innerhalb von Listen-, Bearbeitungs- oder Detailansichten können Aktionen oder Felder basierend auf den Berechtigungen des Benutzers ein- oder ausgeblendet werden.
 <!-- TODO: translate -->
-  - **Für benutzerdefinierte Routen/Seiten:**
+- **Für benutzerdefinierte Routen/Seiten:**
 <!-- TODO: translate -->
     - Eine Möglichkeit ist die Erstellung einer Wrapper-Komponente `ProtectedRoute`, die die erforderlichen Berechtigungen als Prop entgegennimmt und prüft:
 
@@ -760,19 +710,24 @@ Dieser Abschnitt beschreibt den Build-Prozess, Optimierungsstrategien für das B
   - `"build"`: `vite build`
 <!-- TODO: translate -->
     - Erstellt einen optimierten Produktions-Build der Anwendung im `dist/` Verzeichnis. Dies beinhaltet Transpilierung, Bundling, Minifizierung und Generierung von Asset-Hashes für Caching.
-  - `"preview"`: `vite preview`
+
+- `"preview"`: `vite preview`
 <!-- TODO: translate -->
     - Startet einen lokalen Webserver, der den Inhalt des `dist/` Verzeichnisses ausliefert. Nützlich, um den Produktions-Build vor dem Deployment lokal zu testen.
-  - `"test"`: `jest` (oder `vitest run` falls auf Vitest umgestellt wird)
+
+- `"test"`: `jest` (oder `vitest run` falls auf Vitest umgestellt wird)
 <!-- TODO: translate -->
     - Führt Unit- und Integrationstests aus (gemäß der Tech Stack Auswahl: Jest mit React Testing Library).
-  - `"test:e2e"`: `playwright test`
+
+- `"test:e2e"`: `playwright test`
 <!-- TODO: translate -->
     - Führt End-to-End Tests mit Playwright aus.
-  - `"lint"`: `eslint . --ext .js,.jsx,.ts,.tsx --fix`
+
+- `"lint"`: `eslint . --ext .js,.jsx,.ts,.tsx --fix`
 <!-- TODO: translate -->
     - Überprüft den Code auf Linting-Fehler gemäß den ESLint-Regeln und versucht, diese automatisch zu korrigieren.
-  - `"format"`: `prettier --write "src/**/*.{js,jsx,ts,tsx,css,md}"`
+
+- `"format"`: `prettier --write "src/**/*.{js,jsx,ts,tsx,css,md}"`
 <!-- TODO: translate -->
     - Formatiert den Code automatisch gemäß den Prettier-Regeln.
 
@@ -787,11 +742,11 @@ Dieser Abschnitt beschreibt den Build-Prozess, Optimierungsstrategien für das B
 <!-- TODO: translate -->
     - `.env.production`: Werte spezifisch für die Produktionsumgebung.
 <!-- TODO: translate -->
-  - Umgebungsvariablen, die im Client-Code verfügbar sein sollen, MÜSSEN mit dem Präfix `VITE_` versehen werden (z.B. `VITE_API_BASE_URL`, `VITE_APP_TITLE`).
+- Umgebungsvariablen, die im Client-Code verfügbar sein sollen, MÜSSEN mit dem Präfix `VITE_` versehen werden (z.B. `VITE_API_BASE_URL`, `VITE_APP_TITLE`).
 <!-- TODO: translate -->
-  - Zugriff im Code über `import.meta.env.VITE_VARIABLE_NAME`.
+- Zugriff im Code über `import.meta.env.VITE_VARIABLE_NAME`.
 <!-- TODO: translate -->
-  - KI-Agenten und Entwickler MÜSSEN sicherstellen, dass keine sensitiven Daten oder Umgebung-spezifischen Werte fest im Code verankert werden. Alle derartigen Werte MÜSSEN über den definierten Mechanismus für Umgebungsvariablen bereitgestellt werden.
+- KI-Agenten und Entwickler MÜSSEN sicherstellen, dass keine sensitiven Daten oder Umgebung-spezifischen Werte fest im Code verankert werden. Alle derartigen Werte MÜSSEN über den definierten Mechanismus für Umgebungsvariablen bereitgestellt werden.
 
 ### Key Bundling Optimizations
 
@@ -800,21 +755,21 @@ Vite ist standardmäßig auf Performance optimiert und implementiert viele diese
 
 - **Code Splitting:**
 <!-- TODO: translate -->
-  - Vite führt standardmäßig Code-Splitting auf Routen-Ebene durch (dynamische Imports für Seitenkomponenten).
+- Vite führt standardmäßig Code-Splitting auf Routen-Ebene durch (dynamische Imports für Seitenkomponenten).
 <!-- TODO: translate -->
-  - Für manuelles Code-Splitting von großen, nicht kritischen Komponenten oder Bibliotheken, die nicht sofort beim ersten Laden benötigt werden, MUSS die dynamische `import()`-Syntax von JavaScript (oder `React.lazy` mit `<Suspense>`) verwendet werden. Beispiel: `const HeavyComponent = React.lazy(() => import('./components/HeavyComponent'));`
+- Für manuelles Code-Splitting von großen, nicht kritischen Komponenten oder Bibliotheken, die nicht sofort beim ersten Laden benötigt werden, MUSS die dynamische `import()`-Syntax von JavaScript (oder `React.lazy` mit `<Suspense>`) verwendet werden. Beispiel: `const HeavyComponent = React.lazy(() => import('./components/HeavyComponent'));`
 - **Tree Shaking:**
 <!-- TODO: translate -->
-  - Wird von Vite im Produktions-Build (über Rollup) automatisch angewendet, um ungenutzten Code aus den Bundles zu entfernen. Dies setzt voraus, dass Code in ES-Modulen geschrieben ist und Seiteneffekte minimiert werden.
+- Wird von Vite im Produktions-Build (über Rollup) automatisch angewendet, um ungenutzten Code aus den Bundles zu entfernen. Dies setzt voraus, dass Code in ES-Modulen geschrieben ist und Seiteneffekte minimiert werden.
 - **Lazy Loading (Components, Images, etc.):**
 <!-- TODO: translate -->
-  - **Komponenten:** Wie oben beschrieben, `React.lazy` in Verbindung mit `<Suspense>` für Komponenten, die nicht sofort sichtbar oder notwendig sind.
+- **Komponenten:** Wie oben beschrieben, `React.lazy` in Verbindung mit `<Suspense>` für Komponenten, die nicht sofort sichtbar oder notwendig sind.
 <!-- TODO: translate -->
-  - **Images:** Standardmäßig das `loading="lazy"` Attribut für `<img>`-Tags verwenden, um das Laden von Bildern zu verzögern, bis sie in den Viewport gelangen. Für fortgeschrittenere Bildoptimierungen (z.B. responsive Bilder, verschiedene Formate) können spezifische Komponenten oder Bibliotheken in Betracht gezogen werden, falls erforderlich.
+- **Images:** Standardmäßig das `loading="lazy"` Attribut für `<img>`-Tags verwenden, um das Laden von Bildern zu verzögern, bis sie in den Viewport gelangen. Für fortgeschrittenere Bildoptimierungen (z.B. responsive Bilder, verschiedene Formate) können spezifische Komponenten oder Bibliotheken in Betracht gezogen werden, falls erforderlich.
 - **Minification & Compression:**
   - **Minification:** Vite minifiziert JavaScript/TypeScript (mit esbuild/Terser), CSS (mit Lightning CSS oder esbuild) und HTML im Produktions-Build automatisch.
 <!-- TODO: translate -->
-  - **Compression (Gzip, Brotli):** Die Komprimierung der Assets wird typischerweise von der Hosting-Plattform oder dem CDN (z.B. Vercel, Netlify, AWS CloudFront) zur Laufzeit oder während des Deployments gehandhabt. Der Build-Prozess selbst erzeugt in der Regel keine `.gz`- oder `.br`-Dateien.
+- **Compression (Gzip, Brotli):** Die Komprimierung der Assets wird typischerweise von der Hosting-Plattform oder dem CDN (z.B. Vercel, Netlify, AWS CloudFront) zur Laufzeit oder während des Deployments gehandhabt. Der Build-Prozess selbst erzeugt in der Regel keine `.gz`- oder `.br`-Dateien.
 
 ### Deployment to CDN/Hosting
 
@@ -824,12 +779,12 @@ Vite ist standardmäßig auf Performance optimiert und implementiert viele diese
 - **Deployment Trigger:** {Dieser Wert wird aus dem Hauptarchitekturdokument (Abschnitt CI/CD-Pipeline) übernommen. Typischerweise ein Git-Push auf den `main`- oder `production`-Branch über eine CI/CD-Pipeline (z.B. GitHub Actions, GitLab CI).}
 - **Asset Caching Strategy:**
 <!-- TODO: translate -->
-  - **Immutable Assets:** JavaScript- und CSS-Bundles, die von Vite mit Inhalts-Hashes im Dateinamen generiert werden (z.B. `app.[hash].js`), MÜSSEN mit langen `Cache-Control`-Headern ausgeliefert werden (z.B. `public, max-age=31536000, immutable`). Dies stellt sicher, dass Browser diese Dateien aggressiv zwischenspeichern.
+- **Immutable Assets:** JavaScript- und CSS-Bundles, die von Vite mit Inhalts-Hashes im Dateinamen generiert werden (z.B. `app.[hash].js`), MÜSSEN mit langen `Cache-Control`-Headern ausgeliefert werden (z.B. `public, max-age=31536000, immutable`). Dies stellt sicher, dass Browser diese Dateien aggressiv zwischenspeichern.
 <!-- TODO: translate -->
-  - **`index.html`:** Die Haupt-HTML-Datei MUSS mit kürzeren `Cache-Control`-Headern oder `Cache-Control: no-cache` / `Cache-Control: public, max-age=0, must-revalidate` ausgeliefert werden. Dies stellt sicher, dass Benutzer immer die aktuellste Version der Anwendung erhalten, die dann die versionierten Assets lädt.
+- **`index.html`:** Die Haupt-HTML-Datei MUSS mit kürzeren `Cache-Control`-Headern oder `Cache-Control: no-cache` / `Cache-Control: public, max-age=0, must-revalidate` ausgeliefert werden. Dies stellt sicher, dass Benutzer immer die aktuellste Version der Anwendung erhalten, die dann die versionierten Assets lädt.
 <!-- TODO: translate -->
-  - **Andere statische Assets (im `public/` Ordner):** Die Cache-Strategie hängt von der Volatilität der Assets ab. Unveränderliche Assets können lange Cache-Zeiten haben, während sich ändernde Assets kürzere Zeiten oder Validierungsmechanismen benötigen.
-  - **Konfiguration:** Die Cache-Header werden typischerweise auf der Hosting-Plattform oder dem CDN konfiguriert.
+- **Andere statische Assets (im `public/` Ordner):** Die Cache-Strategie hängt von der Volatilität der Assets ab. Unveränderliche Assets können lange Cache-Zeiten haben, während sich ändernde Assets kürzere Zeiten oder Validierungsmechanismen benötigen.
+- **Konfiguration:** Die Cache-Header werden typischerweise auf der Hosting-Plattform oder dem CDN konfiguriert.
 
 ## Frontend Testing Strategy
 
@@ -843,18 +798,18 @@ Dieser Abschnitt baut auf der "Overall Testing Strategy" des Hauptarchitekturdok
 - **Scope:** Testen einzelner React-Komponenten in Isolation. Dies umfasst sowohl wiederverwendbare UI-Elemente (aus `src/components/`) als auch spezifischere Komponenten innerhalb von Feature-Modulen (z.B. `src/features/tenants/components/TenantStatusChip.tsx`).
 - **Tools:**
 <!-- TODO: translate -->
-  - **Jest (v29.7.0):** Als Test-Runner, Assertion-Bibliothek und für Mocking-Funktionalitäten.
-  - **React Testing Library (RTL) (v16.3.x):** Zum Rendern von Komponenten in einer Testumgebung und zur Interaktion mit ihnen auf eine Weise, die das Benutzerverhalten simuliert. Der Fokus liegt auf dem Testen des Komponentenverhaltens aus Sicht des Benutzers, nicht auf Implementierungsdetails.
+- **Jest (v29.7.0):** Als Test-Runner, Assertion-Bibliothek und für Mocking-Funktionalitäten.
+- **React Testing Library (RTL) (v16.3.x):** Zum Rendern von Komponenten in einer Testumgebung und zur Interaktion mit ihnen auf eine Weise, die das Benutzerverhalten simuliert. Der Fokus liegt auf dem Testen des Komponentenverhaltens aus Sicht des Benutzers, nicht auf Implementierungsdetails.
 - **Focus:**
 <!-- TODO: translate -->
-  - **Rendering:** Korrekte Darstellung der Komponente mit verschiedenen Props (einschließlich Edge Cases und optionaler Props).
-  - **User Interactions:** Simulation von Benutzerinteraktionen wie Klicks, Eingaben, Formularabsendungen (`fireEvent` oder `@testing-library/user-event` von RTL).
+- **Rendering:** Korrekte Darstellung der Komponente mit verschiedenen Props (einschließlich Edge Cases und optionaler Props).
+- **User Interactions:** Simulation von Benutzerinteraktionen wie Klicks, Eingaben, Formularabsendungen (`fireEvent` oder `@testing-library/user-event` von RTL).
 <!-- TODO: translate -->
-  - **Event Emission / Callback Handling:** Überprüfung, ob Callbacks korrekt aufgerufen werden und ob benutzerdefinierte Events mit den richtigen Parametern ausgelöst werden.
+- **Event Emission / Callback Handling:** Überprüfung, ob Callbacks korrekt aufgerufen werden und ob benutzerdefinierte Events mit den richtigen Parametern ausgelöst werden.
 <!-- TODO: translate -->
-  - **Accessibility (AX):** Grundlegende AX-Checks mit `jest-axe` können integriert werden, um sicherzustellen, dass Komponenten keine offensichtlichen WCAG-Verletzungen aufweisen (siehe auch Abschnitt "Accessibility (AX) Implementation Details").
+- **Accessibility (AX):** Grundlegende AX-Checks mit `jest-axe` können integriert werden, um sicherzustellen, dass Komponenten keine offensichtlichen WCAG-Verletzungen aufweisen (siehe auch Abschnitt "Accessibility (AX) Implementation Details").
 <!-- TODO: translate -->
-  - **Snapshot Testing:** MUSS sparsam und mit klarer Begründung eingesetzt werden (z.B. für sehr stabile, rein präsentationale Komponenten mit komplexer, aber fester DOM-Struktur). Bevorzugt werden explizite Assertions über das Vorhandensein und den Inhalt von Elementen.
+- **Snapshot Testing:** MUSS sparsam und mit klarer Begründung eingesetzt werden (z.B. für sehr stabile, rein präsentationale Komponenten mit komplexer, aber fester DOM-Struktur). Bevorzugt werden explizite Assertions über das Vorhandensein und den Inhalt von Elementen.
 - **Location:** Testdateien (`*.test.tsx` oder `*.spec.tsx`) werden direkt neben den zu testenden Komponentendateien im `src/` Verzeichnis abgelegt (Co-Location) oder in einem `__tests__` Unterverzeichnis innerhalb des Komponentenordners.
 
     ```
@@ -875,9 +830,9 @@ Dieser Abschnitt baut auf der "Overall Testing Strategy" des Hauptarchitekturdok
 - **Focus:**
   - Datenfluss zwischen den beteiligten Komponenten.
 <!-- TODO: translate -->
-  - Bedingtes Rendern basierend auf Interaktionen und Zustandsänderungen.
-  - Korrekte Aktualisierung der UI als Reaktion auf Benutzeraktionen und gemockte Service-Antworten.
-  - Navigation innerhalb des getesteten Features (z.B. von einer Listenansicht zur Detailansicht eines Elements innerhalb des Mocks).
+- Bedingtes Rendern basierend auf Interaktionen und Zustandsänderungen.
+- Korrekte Aktualisierung der UI als Reaktion auf Benutzeraktionen und gemockte Service-Antworten.
+- Navigation innerhalb des getesteten Features (z.B. von einer Listenansicht zur Detailansicht eines Elements innerhalb des Mocks).
 <!-- TODO: translate -->
 - **Location:** Ähnlich wie Komponententests, können diese Tests neben den Hauptkomponenten eines Features oder in einem dedizierten Testverzeichnis innerhalb des Feature-Moduls liegen.
 
@@ -899,16 +854,17 @@ Dieser Abschnitt baut auf der "Overall Testing Strategy" des Hauptarchitekturdok
     4. **Lizenzaktivierung (falls UI-Flow vorhanden):** Durchlaufen des UI-Prozesses zur Aktivierung einer Lizenz für einen Mandanten.
 <!-- TODO: translate -->
     5. **Navigation und grundlegende UI-Konsistenz:** Überprüfung der Hauptnavigationselemente, Erreichbarkeit wichtiger Seiten und Konsistenz von Header/Footer/Layout.
+
 - **Test Data Management for UI:**
 <!-- TODO: translate -->
-  - Für E2E-Tests ist eine konsistente Testdatenstrategie entscheidend. Optionen:
+- Für E2E-Tests ist eine konsistente Testdatenstrategie entscheidend. Optionen:
 <!-- TODO: translate -->
     - **API Mocking Layer:** Verwendung von Werkzeugen wie Mock Service Worker (MSW) um API-Antworten im Browser während der E2E-Tests zu simulieren. Dies bietet hohe Kontrolle und Geschwindigkeit.
 <!-- TODO: translate -->
     - **Dedizierte Test-Backend-Instanz:** Verwendung einer separaten Backend-Instanz, die mit einem definierten Satz von Testdaten läuft oder vor jeder Testausführung zurückgesetzt wird.
     - **Test Accounts:** Verwendung vordefinierter Test-Benutzerkonten mit spezifischen Rollen und Daten.
 <!-- TODO: translate -->
-  - Die gewählte Strategie muss sicherstellen, dass Tests reproduzierbar sind und nicht durch veränderliche Daten fehlschlagen. Für den Start wird API Mocking mit MSW oder eine Backend-Seeding-Strategie empfohlen.
+- Die gewählte Strategie muss sicherstellen, dass Tests reproduzierbar sind und nicht durch veränderliche Daten fehlschlagen. Für den Start wird API Mocking mit MSW oder eine Backend-Seeding-Strategie empfohlen.
 <!-- TODO: translate -->
 - **Page Object Model (POM):** Zur Verbesserung der Wartbarkeit und Lesbarkeit von E2E-Tests SOLLTE das Page Object Model (oder eine ähnliche Abstraktion wie Screenplay Pattern) verwendet werden. Selektoren und Interaktionslogik für bestimmte Seiten oder wiederverwendbare UI-Bereiche werden in separaten Klassen/Modulen gekapselt.
 - **Location:** E2E-Tests befinden sich im Verzeichnis `controlplane-ui/tests/e2e/`.
@@ -921,51 +877,51 @@ Barrierefreiheit ist ein integraler Bestandteil der Entwicklung des ACCI EAF Con
 - **Semantic HTML:**
 
 <!-- TODO: translate -->
-  - **Mandat:** Entwickler und KI-Agenten MÜSSEN semantisch korrekte HTML5-Elemente verwenden. `<div>` und `<span>` Elemente sind nur für Layoutzwecke oder wenn kein passenderes semantisches Element existiert, zu verwenden. Native Elemente wie `<nav>`, `<aside>`, `<main>`, `<article>`, `<section>`, `<button>`, `<input type="...">`, `<label>`, `<table>` etc. sind zu bevorzugen, da sie von assistiven Technologien (AT) besser interpretiert werden können.
-  - React-Admin Komponenten verwenden im Allgemeinen semantisches HTML. Bei benutzerdefinierten Komponenten ist dies besonders zu beachten.
+- **Mandat:** Entwickler und KI-Agenten MÜSSEN semantisch korrekte HTML5-Elemente verwenden. `<div>` und `<span>` Elemente sind nur für Layoutzwecke oder wenn kein passenderes semantisches Element existiert, zu verwenden. Native Elemente wie `<nav>`, `<aside>`, `<main>`, `<article>`, `<section>`, `<button>`, `<input type="...">`, `<label>`, `<table>` etc. sind zu bevorzugen, da sie von assistiven Technologien (AT) besser interpretiert werden können.
+- React-Admin Komponenten verwenden im Allgemeinen semantisches HTML. Bei benutzerdefinierten Komponenten ist dies besonders zu beachten.
 
 - **ARIA Implementation (Accessible Rich Internet Applications):**
 
 <!-- TODO: translate -->
-  - **Grundsatz:** ARIA-Attribute sollen nur dann verwendet werden, wenn semantisches HTML allein nicht ausreicht, um die Rolle, den Zustand oder die Eigenschaften einer Komponente für AT verständlich zu machen (Rule of ARIA: "No ARIA is better than bad ARIA").
-  - **React-Admin:** Viele React-Admin Komponenten (besonders Formularfelder und Interaktionselemente) bringen bereits korrekte ARIA-Attribute mit.
+- **Grundsatz:** ARIA-Attribute sollen nur dann verwendet werden, wenn semantisches HTML allein nicht ausreicht, um die Rolle, den Zustand oder die Eigenschaften einer Komponente für AT verständlich zu machen (Rule of ARIA: "No ARIA is better than bad ARIA").
+- **React-Admin:** Viele React-Admin Komponenten (besonders Formularfelder und Interaktionselemente) bringen bereits korrekte ARIA-Attribute mit.
 <!-- TODO: translate -->
-  - **Benutzerdefinierte Komponenten:** Für komplexe benutzerdefinierte Komponenten (z.B. benutzerdefinierte Dropdowns, Modals, Tab-Interfaces, die nicht von React-Admin oder einer zugrundeliegenden UI-Bibliothek wie Material UI bereitgestellt werden) MÜSSEN die entsprechenden ARIA-Patterns aus den WAI-ARIA Authoring Practices Guide (APG) implementiert werden. Dies beinhaltet:
-    - Korrekte `role` Attribute (z.B. `role="dialog"`, `role="tablist"`, `role="tab"`, `role="tabpanel"`).
-    - Zustandsattribute wie `aria-expanded`, `aria-selected`, `aria-haspopup`, `aria-disabled`, `aria-hidden`, `aria-invalid`.
+- **Benutzerdefinierte Komponenten:** Für komplexe benutzerdefinierte Komponenten (z.B. benutzerdefinierte Dropdowns, Modals, Tab-Interfaces, die nicht von React-Admin oder einer zugrundeliegenden UI-Bibliothek wie Material UI bereitgestellt werden) MÜSSEN die entsprechenden ARIA-Patterns aus den WAI-ARIA Authoring Practices Guide (APG) implementiert werden. Dies beinhaltet:
+  - Korrekte `role` Attribute (z.B. `role="dialog"`, `role="tablist"`, `role="tab"`, `role="tabpanel"`).
+  - Zustandsattribute wie `aria-expanded`, `aria-selected`, `aria-haspopup`, `aria-disabled`, `aria-hidden`, `aria-invalid`.
 <!-- TODO: translate -->
     - Eigenschaftsattribute wie `aria-label`, `aria-labelledby`, `aria-describedby` (besonders für Formularfelder ohne sichtbares Label oder mit zusätzlichen Beschreibungen).
 <!-- TODO: translate -->
     - `aria-live` für dynamische Inhaltsänderungen (z.B. Benachrichtigungen, Ladezustände).
 <!-- TODO: translate -->
-  - Alle Icons und rein visuellen Elemente, die eine Bedeutung tragen, MÜSSEN einen textuellen Alternativtext via `aria-label` oder visuell verstecktem Text haben, falls kein sichtbares Label vorhanden ist. Dekorative Icons benötigen `aria-hidden="true"`.
+- Alle Icons und rein visuellen Elemente, die eine Bedeutung tragen, MÜSSEN einen textuellen Alternativtext via `aria-label` oder visuell verstecktem Text haben, falls kein sichtbares Label vorhanden ist. Dekorative Icons benötigen `aria-hidden="true"`.
 
 - **Keyboard Navigation:**
 
 <!-- TODO: translate -->
-  - **Mandat:** Alle interaktiven Elemente der Anwendung MÜSSEN ausschließlich per Tastatur bedienbar sein. Dies schließt Links, Buttons, Formularfelder, Menüs und benutzerdefinierte interaktive Komponenten ein.
-  - **Fokusreihenfolge:** Die Fokusreihenfolge beim Navigieren mit der Tab-Taste MUSS logisch und intuitiv sein und der visuellen Anordnung der Elemente folgen.
+- **Mandat:** Alle interaktiven Elemente der Anwendung MÜSSEN ausschließlich per Tastatur bedienbar sein. Dies schließt Links, Buttons, Formularfelder, Menüs und benutzerdefinierte interaktive Komponenten ein.
+- **Fokusreihenfolge:** Die Fokusreihenfolge beim Navigieren mit der Tab-Taste MUSS logisch und intuitiv sein und der visuellen Anordnung der Elemente folgen.
 <!-- TODO: translate -->
-  - **Interaktionsmuster:** Standardmäßige Tastaturinteraktionen für HTML-Elemente (z.B. Leertaste/Enter für Buttons, Pfeiltasten für Radio-Button-Gruppen) MÜSSEN funktionieren. Für benutzerdefinierte Komponenten MÜSSEN die im ARIA APG spezifizierten Tastaturinteraktionsmuster implementiert werden (z.B. Pfeiltasten für benutzerdefinierte Slider, Tabs; Escape zum Schließen von Modals).
+- **Interaktionsmuster:** Standardmäßige Tastaturinteraktionen für HTML-Elemente (z.B. Leertaste/Enter für Buttons, Pfeiltasten für Radio-Button-Gruppen) MÜSSEN funktionieren. Für benutzerdefinierte Komponenten MÜSSEN die im ARIA APG spezifizierten Tastaturinteraktionsmuster implementiert werden (z.B. Pfeiltasten für benutzerdefinierte Slider, Tabs; Escape zum Schließen von Modals).
 <!-- TODO: translate -->
-  - **Fokusindikator:** Ein klar sichtbarer Fokusindikator MUSS für alle fokussierbaren Elemente vorhanden sein. Dieser wird typischerweise vom Browser oder der zugrundeliegenden UI-Bibliothek bereitgestellt, aber es ist sicherzustellen, dass er nicht durch benutzerdefinierte Styles unterdrückt wird.
+- **Fokusindikator:** Ein klar sichtbarer Fokusindikator MUSS für alle fokussierbaren Elemente vorhanden sein. Dieser wird typischerweise vom Browser oder der zugrundeliegenden UI-Bibliothek bereitgestellt, aber es ist sicherzustellen, dass er nicht durch benutzerdefinierte Styles unterdrückt wird.
 
 - **Focus Management:**
 
 <!-- TODO: translate -->
-  - **Modals und Dialoge:** Wenn ein Modal oder Dialog geöffnet wird, MUSS der Fokus auf das erste fokussierbare Element innerhalb des Modals oder auf das Modal selbst gesetzt werden. Der Fokus MUSS innerhalb des Modals gefangen sein (Focus Trap), bis es geschlossen wird. Beim Schließen MUSS der Fokus auf das Element zurückkehren, das das Modal ausgelöst hat.
+- **Modals und Dialoge:** Wenn ein Modal oder Dialog geöffnet wird, MUSS der Fokus auf das erste fokussierbare Element innerhalb des Modals oder auf das Modal selbst gesetzt werden. Der Fokus MUSS innerhalb des Modals gefangen sein (Focus Trap), bis es geschlossen wird. Beim Schließen MUSS der Fokus auf das Element zurückkehren, das das Modal ausgelöst hat.
 <!-- TODO: translate -->
-  - **Dynamische Inhaltsänderungen:** Bei signifikanten Änderungen des Seiteninhalts (z.B. nach einer Suche, Laden neuer Datenabschnitte) oder Routenwechseln SOLLTE der Fokus an den Anfang des neuen Inhaltsbereichs oder auf eine passende Überschrift verschoben werden, um Screenreader-Nutzern die Orientierung zu erleichtern.
+- **Dynamische Inhaltsänderungen:** Bei signifikanten Änderungen des Seiteninhalts (z.B. nach einer Suche, Laden neuer Datenabschnitte) oder Routenwechseln SOLLTE der Fokus an den Anfang des neuen Inhaltsbereichs oder auf eine passende Überschrift verschoben werden, um Screenreader-Nutzern die Orientierung zu erleichtern.
 <!-- TODO: translate -->
-  - **Benachrichtigungen:** Bei `aria-live` Regionen, die Benachrichtigungen anzeigen, ist darauf zu achten, dass diese den Nutzer nicht unnötig unterbrechen.
+- **Benachrichtigungen:** Bei `aria-live` Regionen, die Benachrichtigungen anzeigen, ist darauf zu achten, dass diese den Nutzer nicht unnötig unterbrechen.
 
 - **Testing Tools for AX:**
 
   - **Browser Developer Tools:** Integrierte Accessibility-Inspektoren (z.B. in Chrome, Firefox, Edge).
 <!-- TODO: translate -->
-  - **Axe DevTools (Browser Extension):** Für automatisierte Tests und manuelle Überprüfungen während der Entwicklung.
+- **Axe DevTools (Browser Extension):** Für automatisierte Tests und manuelle Überprüfungen während der Entwicklung.
 <!-- TODO: translate -->
-  - **`@axe-core/react` oder `jest-axe`:** Integration von Axe-Core in Komponententests (Jest), um grundlegende AX-Verletzungen frühzeitig zu erkennen. Tests SOLLTEN bei neuen WCAG 2.1 AA Verstößen fehlschlagen.
+- **`@axe-core/react` oder `jest-axe`:** Integration von Axe-Core in Komponententests (Jest), um grundlegende AX-Verletzungen frühzeitig zu erkennen. Tests SOLLTEN bei neuen WCAG 2.1 AA Verstößen fehlschlagen.
 
         ```javascript
 <!-- TODO: translate -->
@@ -982,8 +938,8 @@ Barrierefreiheit ist ein integraler Bestandteil der Entwicklung des ACCI EAF Con
         ```
 
 <!-- TODO: translate -->
-  - **Lighthouse (in Chrome DevTools):** Für Audits der Gesamtseite, einschließlich Accessibility.
-  - **Manuelle Tests:**
+- **Lighthouse (in Chrome DevTools):** Für Audits der Gesamtseite, einschließlich Accessibility.
+- **Manuelle Tests:**
 <!-- TODO: translate -->
     - **Tastaturnavigation:** Vollständige Durchtestung aller interaktiven Elemente nur mit der Tastatur.
 <!-- TODO: translate -->
@@ -1000,23 +956,23 @@ Eine gute Performance ist entscheidend für eine positive User Experience der AC
 - **Image Optimization:**
 
 <!-- TODO: translate -->
-  - **Formate:** Moderne Bildformate wie WebP SOLLTEN bevorzugt werden, da sie bei vergleichbarer Qualität oft kleiner sind als traditionelle Formate (JPEG, PNG). Für Icons und einfache Grafiken SIND Vektorgrafiken (SVG) zu verwenden, da sie verlustfrei skalierbar und meist sehr klein sind.
+- **Formate:** Moderne Bildformate wie WebP SOLLTEN bevorzugt werden, da sie bei vergleichbarer Qualität oft kleiner sind als traditionelle Formate (JPEG, PNG). Für Icons und einfache Grafiken SIND Vektorgrafiken (SVG) zu verwenden, da sie verlustfrei skalierbar und meist sehr klein sind.
 <!-- TODO: translate -->
-  - **Responsive Images:** Für Bilder, die in verschiedenen Größen auf unterschiedlichen Viewports angezeigt werden, SOLLTE das `<picture>`-Element oder das `srcset`-Attribut des `<img>`-Tags verwendet werden, um dem Browser die Auswahl der passendsten Bildgröße zu ermöglichen.
+- **Responsive Images:** Für Bilder, die in verschiedenen Größen auf unterschiedlichen Viewports angezeigt werden, SOLLTE das `<picture>`-Element oder das `srcset`-Attribut des `<img>`-Tags verwendet werden, um dem Browser die Auswahl der passendsten Bildgröße zu ermöglichen.
 <!-- TODO: translate -->
-  - **Lazy Loading:** Das `loading="lazy"` Attribut für `<img>`-Tags MUSS standardmäßig verwendet werden, um das Laden von Bildern zu verzögern, bis sie in den sichtbaren Bereich des Benutzers gelangen. Dies verbessert die initiale Ladezeit der Seite erheblich.
+- **Lazy Loading:** Das `loading="lazy"` Attribut für `<img>`-Tags MUSS standardmäßig verwendet werden, um das Laden von Bildern zu verzögern, bis sie in den sichtbaren Bereich des Benutzers gelangen. Dies verbessert die initiale Ladezeit der Seite erheblich.
 <!-- TODO: translate -->
-  - **Kompression:** Bilder MÜSSEN vor dem Hochladen optimiert und komprimiert werden (z.B. mit Tools wie ImageOptim, Squoosh oder automatisierten Build-Prozessen).
+- **Kompression:** Bilder MÜSSEN vor dem Hochladen optimiert und komprimiert werden (z.B. mit Tools wie ImageOptim, Squoosh oder automatisierten Build-Prozessen).
 <!-- TODO: translate -->
-  - **Implementation Mandate:** Wo immer möglich, SOLLTEN Bilder über Komponenten verwaltet werden, die Optimierungen wie Lazy Loading und eventuell `srcset` kapseln. SVGs sind für Icons und Logos zu bevorzugen.
+- **Implementation Mandate:** Wo immer möglich, SOLLTEN Bilder über Komponenten verwaltet werden, die Optimierungen wie Lazy Loading und eventuell `srcset` kapseln. SVGs sind für Icons und Logos zu bevorzugen.
 
 - **Code Splitting & Lazy Loading (reiterate from Build section if needed):**
 
 <!-- TODO: translate -->
-  - **Impact:** Reduziert die Größe des initialen JavaScript-Bundles, was zu schnelleren Ladezeiten der Anwendung (Time to Interactive - TTI) führt. Vite führt automatisches Code-Splitting auf Routen-Ebene durch.
+- **Impact:** Reduziert die Größe des initialen JavaScript-Bundles, was zu schnelleren Ladezeiten der Anwendung (Time to Interactive - TTI) führt. Vite führt automatisches Code-Splitting auf Routen-Ebene durch.
 <!-- TODO: translate -->
-  - **Implementation Mandate:** `React.lazy` mit `<Suspense>` MUSS für Komponenten verwendet werden, die nicht sofort beim ersten Rendern benötigt werden, insbesondere für:
-    - Komponenten auf Routen, die nicht die Startroute sind.
+- **Implementation Mandate:** `React.lazy` mit `<Suspense>` MUSS für Komponenten verwendet werden, die nicht sofort beim ersten Rendern benötigt werden, insbesondere für:
+  - Komponenten auf Routen, die nicht die Startroute sind.
 <!-- TODO: translate -->
     - Große oder komplexe Komponenten, die erst durch Benutzerinteraktion sichtbar werden (z.B. Modals, komplexe Formularabschnitte).
 <!-- TODO: translate -->
@@ -1025,8 +981,8 @@ Eine gute Performance ist entscheidend für eine positive User Experience der AC
 - **Minimizing Re-renders:**
 
 <!-- TODO: translate -->
-  - Unnötige Re-Renders von React-Komponenten können die Performance beeinträchtigen.
-  - **Implementation Mandate:**
+- Unnötige Re-Renders von React-Komponenten können die Performance beeinträchtigen.
+- **Implementation Mandate:**
 <!-- TODO: translate -->
     - `React.memo` MUSS für funktionale Komponenten verwendet werden, die häufig mit denselben Props gerendert werden, um unnötige Neu-Renderings zu verhindern.
 <!-- TODO: translate -->
@@ -1039,8 +995,8 @@ Eine gute Performance ist entscheidend für eine positive User Experience der AC
 - **Debouncing/Throttling:**
 
 <!-- TODO: translate -->
-  - Für Event-Handler, die häufig ausgelöst werden können (z.B. bei Texteingaben in Suchfeldern, Fenstergrößenänderungen, Scroll-Events).
-  - **Implementation Mandate:**
+- Für Event-Handler, die häufig ausgelöst werden können (z.B. bei Texteingaben in Suchfeldern, Fenstergrößenänderungen, Scroll-Events).
+- **Implementation Mandate:**
 <!-- TODO: translate -->
     - **Debouncing** (Auslösen der Funktion erst nach einer Pause der Events) MUSS für Aktionen wie API-Aufrufe bei Suchfeldeingaben verwendet werden.
 <!-- TODO: translate -->
@@ -1052,18 +1008,18 @@ Eine gute Performance ist entscheidend für eine positive User Experience der AC
 - **Virtualization (für lange Listen):**
 
 <!-- TODO: translate -->
-  - React-Admin's `<Datagrid>` und `<SimpleList>` rendern standardmäßig alle Elemente einer Seite. Bei sehr großen Listen (z.B. hunderte oder tausende Einträge auf einer Seite, falls Paginierung clientseitig erfolgen würde oder die Seitengröße sehr groß ist) kann dies die Performance beeinträchtigen.
+- React-Admin's `<Datagrid>` und `<SimpleList>` rendern standardmäßig alle Elemente einer Seite. Bei sehr großen Listen (z.B. hunderte oder tausende Einträge auf einer Seite, falls Paginierung clientseitig erfolgen würde oder die Seitengröße sehr groß ist) kann dies die Performance beeinträchtigen.
 <!-- TODO: translate -->
-  - **Implementation Mandate:** Wenn Performance-Probleme bei der Darstellung sehr langer Listen auftreten (typischerweise \>100-200 Elemente ohne serverseitige Paginierung oder mit sehr großen, clientseitig geladenen Datensätzen), MUSS der Einsatz von Virtualisierungsbibliotheken wie `react-window` oder `TanStack Virtual` in Betracht gezogen werden. Diese rendern nur die sichtbaren Elemente und verbessern so die Render-Performance und den Speicherverbrauch erheblich. React-Admin Enterprise bietet ggf. virtualisierte Komponenten an.
+- **Implementation Mandate:** Wenn Performance-Probleme bei der Darstellung sehr langer Listen auftreten (typischerweise \>100-200 Elemente ohne serverseitige Paginierung oder mit sehr großen, clientseitig geladenen Datensätzen), MUSS der Einsatz von Virtualisierungsbibliotheken wie `react-window` oder `TanStack Virtual` in Betracht gezogen werden. Diese rendern nur die sichtbaren Elemente und verbessern so die Render-Performance und den Speicherverbrauch erheblich. React-Admin Enterprise bietet ggf. virtualisierte Komponenten an.
 
 - **Caching Strategies (Client-Side):**
 
 <!-- TODO: translate -->
-  - **HTTP Caching:** Wie im Abschnitt "Build, Bundling, and Deployment" beschrieben, ist eine korrekte HTTP-Cache-Konfiguration für Assets entscheidend.
+- **HTTP Caching:** Wie im Abschnitt "Build, Bundling, and Deployment" beschrieben, ist eine korrekte HTTP-Cache-Konfiguration für Assets entscheidend.
 <!-- TODO: translate -->
-  - **React-Admin DataProvider Caching:** React-Admin selbst implementiert eine Form von Caching für Ressourcen, um wiederholte Anfragen für bereits geladene Daten zu vermeiden. Dies wird genutzt.
+- **React-Admin DataProvider Caching:** React-Admin selbst implementiert eine Form von Caching für Ressourcen, um wiederholte Anfragen für bereits geladene Daten zu vermeiden. Dies wird genutzt.
 <!-- TODO: translate -->
-  - **Service Workers:** Da PWA-Funktionalität nicht als notwendig erachtet wird, wird die Implementierung eines Service Workers für Caching-Strategien zunächst nicht verfolgt.
+- **Service Workers:** Da PWA-Funktionalität nicht als notwendig erachtet wird, wird die Implementierung eines Service Workers für Caching-Strategien zunächst nicht verfolgt.
 
 - **Performance Monitoring Tools:**
 
@@ -1074,10 +1030,11 @@ Eine gute Performance ist entscheidend für eine positive User Experience der AC
     - **Network Tab:** Zur Analyse von Ladezeiten und Größen von Assets.
 <!-- TODO: translate -->
     - **Lighthouse Audit (integriert):** Für eine Gesamtbewertung der Performance, Accessibility, Best Practices und SEO.
-  - **React Developer Tools (Browser Extension):** Insbesondere der Profiler, um Re-Renders von Komponenten zu identifizieren und zu analysieren.
-  - **WebPageTest / GTmetrix:** Externe Tools zur Analyse der Ladeperformance unter verschiedenen Bedingungen.
+
+- **React Developer Tools (Browser Extension):** Insbesondere der Profiler, um Re-Renders von Komponenten zu identifizieren und zu analysieren.
+- **WebPageTest / GTmetrix:** Externe Tools zur Analyse der Ladeperformance unter verschiedenen Bedingungen.
 <!-- TODO: translate -->
-  - **CI-Integration:** Lighthouse-Scores oder andere Performance-Metriken KÖNNEN in die CI-Pipeline integriert werden, um Performance-Regressionen frühzeitig zu erkennen.
+- **CI-Integration:** Lighthouse-Scores oder andere Performance-Metriken KÖNNEN in die CI-Pipeline integriert werden, um Performance-Regressionen frühzeitig zu erkennen.
 
 ## Internationalization (i18n) and Localization (l10n) Strategy
 
@@ -1091,15 +1048,15 @@ Die ACCI EAF Control Plane UI muss mehrsprachig sein, um verschiedenen Benutzerg
 
   - **React-Admin `i18nProvider`:** React-Admin bietet eine robuste `i18nProvider` Schnittstelle und eine Standardimplementierung (`ra-i18n-polyglot`), die auf `node-polyglot` basiert. Diese wird als Grundlage verwendet.
 <!-- TODO: translate -->
-  - **`i18next` (Potenziell):** Für erweiterte Funktionen, die über `ra-i18n-polyglot` hinausgehen (z.B. komplexere Pluralisierungsregeln, Kontext, Namensraum-Management für sehr große Anwendungen, oder falls die Backend-API Übersetzungen in einem i18next-kompatiblen Format liefert), KÖNNTE `i18next` zusammen mit `react-i18next` und einem Adapter für React-Admin (`ra-i18n-i18next`) in Betracht gezogen werden. Für den Start wird jedoch die Standardlösung von React-Admin angestrebt, um die Komplexität gering zu halten.
-  - Die Konfiguration erfolgt in `src/providers/i18nProvider.ts`.
+- **`i18next` (Potenziell):** Für erweiterte Funktionen, die über `ra-i18n-polyglot` hinausgehen (z.B. komplexere Pluralisierungsregeln, Kontext, Namensraum-Management für sehr große Anwendungen, oder falls die Backend-API Übersetzungen in einem i18next-kompatiblen Format liefert), KÖNNTE `i18next` zusammen mit `react-i18next` und einem Adapter für React-Admin (`ra-i18n-i18next`) in Betracht gezogen werden. Für den Start wird jedoch die Standardlösung von React-Admin angestrebt, um die Komplexität gering zu halten.
+- Die Konfiguration erfolgt in `src/providers/i18nProvider.ts`.
 
 - **Translation File Structure & Format:**
 
 <!-- TODO: translate -->
-  - **Format:** JSON-Dateien. Jede Datei enthält Schlüssel-Wert-Paare für eine Sprache.
+- **Format:** JSON-Dateien. Jede Datei enthält Schlüssel-Wert-Paare für eine Sprache.
 <!-- TODO: translate -->
-  - **Struktur:** Pro Sprache eine Datei, die alle Übersetzungen für die Control Plane UI enthält. Diese Dateien werden im Verzeichnis `controlplane-ui/public/locales/` abgelegt (z.B. `controlplane-ui/public/locales/en.json`, `controlplane-ui/public/locales/de.json`).
+- **Struktur:** Pro Sprache eine Datei, die alle Übersetzungen für die Control Plane UI enthält. Diese Dateien werden im Verzeichnis `controlplane-ui/public/locales/` abgelegt (z.B. `controlplane-ui/public/locales/en.json`, `controlplane-ui/public/locales/de.json`).
 
         ```json
         // Beispiel: public/locales/en.json
@@ -1138,29 +1095,29 @@ Die ACCI EAF Control Plane UI muss mehrsprachig sein, um verschiedenen Benutzerg
         }
         ```
 
-  - Die Sprachdateien werden vom `i18nProvider` beim Start der Anwendung geladen.
+- Die Sprachdateien werden vom `i18nProvider` beim Start der Anwendung geladen.
 
 - **Translation Key Naming Convention:**
 
 <!-- TODO: translate -->
-  - **React-Admin Keys:** React-Admin verwendet eigene Schlüssel für Standard-UI-Elemente (z.B. `ra.action.save`). Diese können bei Bedarf überschrieben werden.
+- **React-Admin Keys:** React-Admin verwendet eigene Schlüssel für Standard-UI-Elemente (z.B. `ra.action.save`). Diese können bei Bedarf überschrieben werden.
 <!-- TODO: translate -->
-  - **Custom Application Keys:** Für anwendungsspezifische Texte wird eine hierarchische Struktur verwendet, beginnend mit `app.` gefolgt von Feature/Modul, dann Komponente/Kontext und schließlich dem spezifischen Element.
+- **Custom Application Keys:** Für anwendungsspezifische Texte wird eine hierarchische Struktur verwendet, beginnend mit `app.` gefolgt von Feature/Modul, dann Komponente/Kontext und schließlich dem spezifischen Element.
 <!-- TODO: translate -->
     - Beispiel: `app.tenants.fields.name` (für das Feld "Name" in der Mandantenverwaltung).
 <!-- TODO: translate -->
     - Beispiel: `app.notifications.tenantCreatedSuccess` (für eine Erfolgsmeldung).
 <!-- TODO: translate -->
-  - Die Schlüssel MÜSSEN konsistent und gut dokumentiert sein (z.B. in einem zentralen Dokument oder direkt in den Basissprachdateien mit Kommentaren).
+- Die Schlüssel MÜSSEN konsistent und gut dokumentiert sein (z.B. in einem zentralen Dokument oder direkt in den Basissprachdateien mit Kommentaren).
 <!-- TODO: translate -->
-  - Dynamisch generierte Schlüssel sind zu vermeiden, da sie die statische Analyse und Extraktion von Schlüsseln erschweren.
+- Dynamisch generierte Schlüssel sind zu vermeiden, da sie die statische Analyse und Extraktion von Schlüsseln erschweren.
 
 - **Process for Adding New Translatable Strings:**
 
 <!-- TODO: translate -->
-  - Entwickler oder KI-Agenten MÜSSEN neue Übersetzungsschlüssel zuerst der primären Entwicklungs-Sprachdatei (z.B. `en.json`) hinzufügen.
+- Entwickler oder KI-Agenten MÜSSEN neue Übersetzungsschlüssel zuerst der primären Entwicklungs-Sprachdatei (z.B. `en.json`) hinzufügen.
 <!-- TODO: translate -->
-  - Im Code MÜSSEN die Übersetzungsfunktionen von React-Admin (z.B. der `useTranslate` Hook oder die `translate` HOC) verwendet werden, um Texte zu rendern.
+- Im Code MÜSSEN die Übersetzungsfunktionen von React-Admin (z.B. der `useTranslate` Hook oder die `translate` HOC) verwendet werden, um Texte zu rendern.
 
         ```tsx
         import { useTranslate } from 'react-admin';
@@ -1177,21 +1134,21 @@ Die ACCI EAF Control Plane UI muss mehrsprachig sein, um verschiedenen Benutzerg
         ```
 
 <!-- TODO: translate -->
-  - Für Texte mit dynamischen Werten (Variablen) oder HTML-Inhalten sind die entsprechenden Funktionen des i18n-Providers zu nutzen (z.B. `translate('app.welcomeMessage', { name: userName })`).
+- Für Texte mit dynamischen Werten (Variablen) oder HTML-Inhalten sind die entsprechenden Funktionen des i18n-Providers zu nutzen (z.B. `translate('app.welcomeMessage', { name: userName })`).
 
 - **Handling Pluralization:**
 
 <!-- TODO: translate -->
-  - `ra-i18n-polyglot` unterstützt einfache Pluralisierungsregeln über die "smart count" Funktionalität von Polyglot (z.B. `key_one: '1 item', key_other: '%{smart_count} items'`).
+- `ra-i18n-polyglot` unterstützt einfache Pluralisierungsregeln über die "smart count" Funktionalität von Polyglot (z.B. `key_one: '1 item', key_other: '%{smart_count} items'`).
 <!-- TODO: translate -->
-  - Für komplexere Pluralisierungsanforderungen, die über die Basisfunktionalität hinausgehen, müsste die Eignung von `i18next` (das ICU-Message-Format unterstützt) evaluiert werden. Für den Anfang werden die Möglichkeiten von `ra-i18n-polyglot` genutzt.
+- Für komplexere Pluralisierungsanforderungen, die über die Basisfunktionalität hinausgehen, müsste die Eignung von `i18next` (das ICU-Message-Format unterstützt) evaluiert werden. Für den Anfang werden die Möglichkeiten von `ra-i18n-polyglot` genutzt.
 
 - **Date, Time, and Number Formatting:**
 
 <!-- TODO: translate -->
-  - React-Admin Komponenten (wie `<DateField>`, `<NumberField>`) handhaben die Lokalisierung von Datums-, Zeit- und Zahlenformaten basierend auf der aktiven Sprache und den Locale-Optionen, die dem `i18nProvider` oder den Komponenten selbst übergeben werden.
+- React-Admin Komponenten (wie `<DateField>`, `<NumberField>`) handhaben die Lokalisierung von Datums-, Zeit- und Zahlenformaten basierend auf der aktiven Sprache und den Locale-Optionen, die dem `i18nProvider` oder den Komponenten selbst übergeben werden.
 <!-- TODO: translate -->
-  - Für benutzerdefinierte Komponenten, die Datums-, Zeit- oder Zahlenformate anzeigen, SOLLTE die native `Intl` API von JavaScript oder eine leichtgewichtige Bibliothek wie `date-fns` (mit Locale-Unterstützung) verwendet werden, um eine korrekte Lokalisierung sicherzustellen. Die Formatierungsoptionen sind konsistent zu halten.
+- Für benutzerdefinierte Komponenten, die Datums-, Zeit- oder Zahlenformate anzeigen, SOLLTE die native `Intl` API von JavaScript oder eine leichtgewichtige Bibliothek wie `date-fns` (mit Locale-Unterstützung) verwendet werden, um eine korrekte Lokalisierung sicherzustellen. Die Formatierungsoptionen sind konsistent zu halten.
 
 <!-- TODO: translate -->
 - **Default Language:** `en-US` (Englisch, USA) wird als Fallback-Sprache definiert. Wenn ein Schlüssel in der aktiven Sprache nicht gefunden wird, wird auf Englisch zurückgegriffen.
@@ -1199,17 +1156,17 @@ Die ACCI EAF Control Plane UI muss mehrsprachig sein, um verschiedenen Benutzerg
 - **Language Switching Mechanism:**
 
 <!-- TODO: translate -->
-  - React-Admin bietet eine `<LocalesMenuButton>` Komponente, die in die `<AppBar>` integriert werden kann, um dem Benutzer die Sprachauswahl zu ermöglichen.
+- React-Admin bietet eine `<LocalesMenuButton>` Komponente, die in die `<AppBar>` integriert werden kann, um dem Benutzer die Sprachauswahl zu ermöglichen.
 <!-- TODO: translate -->
-  - Die gewählte Sprache wird im Anwendungszustand (von React-Admin verwaltet) und typischerweise im `localStorage` persistiert, um die Auswahl des Benutzers bei zukünftigen Besuchen beizubehalten.
+- Die gewählte Sprache wird im Anwendungszustand (von React-Admin verwaltet) und typischerweise im `localStorage` persistiert, um die Auswahl des Benutzers bei zukünftigen Besuchen beizubehalten.
 <!-- TODO: translate -->
-  - Der `i18nProvider` wird so konfiguriert, dass er die initiale Sprache aus dem `localStorage` oder den Browser-Einstellungen des Benutzers erkennt und standardmäßig Englisch verwendet, falls keine Präferenz gefunden wird.
+- Der `i18nProvider` wird so konfiguriert, dass er die initiale Sprache aus dem `localStorage` oder den Browser-Einstellungen des Benutzers erkennt und standardmäßig Englisch verwendet, falls keine Präferenz gefunden wird.
 
 <!-- TODO: translate -->
 - **Verwaltung der Übersetzungen durch die Control Plane UI (Epic 6):**
 
 <!-- TODO: translate -->
-  - Das Control Plane UI wird selbst eine Schnittstelle zur Verwaltung der Übersetzungsdateien für die *Endanwendungen* des EAF bereitstellen. Die hier beschriebene i18n-Strategie bezieht sich auf die Mehrsprachigkeit des Control Plane UI *selbst*. Die Funktionalität zur Verwaltung externer Übersetzungsdateien (z.B. Hochladen, Bearbeiten, Herunterladen von JSON-Dateien für andere Anwendungen) wird als separates Feature innerhalb des Control Plane UI implementiert (z.B. unter `/i18n-administration` wie im Routing-Abschnitt angedeutet) und interagiert mit der `eaf-controlplane-api` für Speicherung und Abruf dieser Daten.
+- Das Control Plane UI wird selbst eine Schnittstelle zur Verwaltung der Übersetzungsdateien für die *Endanwendungen* des EAF bereitstellen. Die hier beschriebene i18n-Strategie bezieht sich auf die Mehrsprachigkeit des Control Plane UI *selbst*. Die Funktionalität zur Verwaltung externer Übersetzungsdateien (z.B. Hochladen, Bearbeiten, Herunterladen von JSON-Dateien für andere Anwendungen) wird als separates Feature innerhalb des Control Plane UI implementiert (z.B. unter `/i18n-administration` wie im Routing-Abschnitt angedeutet) und interagiert mit der `eaf-controlplane-api` für Speicherung und Abruf dieser Daten.
 
 ## Feature Flag Management
 
@@ -1222,11 +1179,11 @@ Feature Flags (auch als Feature Toggles bekannt) ermöglichen es, neue Funktiona
 - **Chosen Feature Flag System/Library:**
 
 <!-- TODO: translate -->
-  - Für den initialen Bedarf wird eine **einfache, Konfigurations-basierte Lösung** angestrebt. Dies könnte über Umgebungsvariablen (zur Build-Zeit) oder eine vom Backend (`eaf-controlplane-api`) bereitgestellte Konfigurations-API geschehen, die beim Start der Anwendung abgefragt wird.
+- Für den initialen Bedarf wird eine **einfache, Konfigurations-basierte Lösung** angestrebt. Dies könnte über Umgebungsvariablen (zur Build-Zeit) oder eine vom Backend (`eaf-controlplane-api`) bereitgestellte Konfigurations-API geschehen, die beim Start der Anwendung abgefragt wird.
 <!-- TODO: translate -->
-  - **Option 1 (Umgebungsvariablen):** `VITE_FEATURE_NEW_DASHBOARD_ENABLED=true`. Einfach für Build-zeitliche Flags, aber nicht dynamisch zur Laufzeit änderbar ohne neuen Build/Deployment.
+- **Option 1 (Umgebungsvariablen):** `VITE_FEATURE_NEW_DASHBOARD_ENABLED=true`. Einfach für Build-zeitliche Flags, aber nicht dynamisch zur Laufzeit änderbar ohne neuen Build/Deployment.
 <!-- TODO: translate -->
-  - **Option 2 (Backend Configuration Service):** Die Frontend-Anwendung ruft beim Start einen Endpunkt der `eaf-controlplane-api` auf (z.B. `/controlplane/api/v1/ui-features`), der eine JSON-Struktur mit aktiven Flags zurückgibt. Dies ermöglicht dynamischere Änderungen ohne Frontend-Deployment.
+- **Option 2 (Backend Configuration Service):** Die Frontend-Anwendung ruft beim Start einen Endpunkt der `eaf-controlplane-api` auf (z.B. `/controlplane/api/v1/ui-features`), der eine JSON-Struktur mit aktiven Flags zurückgibt. Dies ermöglicht dynamischere Änderungen ohne Frontend-Deployment.
 
         ```json
         // Beispiel Antwort von /ui-features
@@ -1238,9 +1195,9 @@ Feature Flags (auch als Feature Toggles bekannt) ermöglichen es, neue Funktiona
         ```
 
 <!-- TODO: translate -->
-  - **Bevorzugte Lösung:** **Option 2 (Backend Configuration Service)** wird bevorzugt, da sie mehr Flexibilität bietet. Die Konfiguration der Flags selbst (welche Flags es gibt und ihr Status) könnte Teil der administrativen Funktionen des Control Plane UI werden (Metakonfiguration).
+- **Bevorzugte Lösung:** **Option 2 (Backend Configuration Service)** wird bevorzugt, da sie mehr Flexibilität bietet. Die Konfiguration der Flags selbst (welche Flags es gibt und ihr Status) könnte Teil der administrativen Funktionen des Control Plane UI werden (Metakonfiguration).
 <!-- TODO: translate -->
-  - Externe kommerzielle Systeme (LaunchDarkly, Flagsmith, etc.) werden derzeit nicht als notwendig erachtet, können aber bei steigender Komplexität in Zukunft evaluiert werden.
+- Externe kommerzielle Systeme (LaunchDarkly, Flagsmith, etc.) werden derzeit nicht als notwendig erachtet, können aber bei steigender Komplexität in Zukunft evaluiert werden.
 
 - **Accessing Flags in Code:**
 
@@ -1334,15 +1291,15 @@ Feature Flags (auch als Feature Toggles bekannt) ermöglichen es, neue Funktiona
 - **Flag Naming Convention:**
 
 <!-- TODO: translate -->
-  - Flags SOLLTEN prägnant und klar benannt werden, typischerweise in camelCase oder PascalCase, wenn sie als Schlüssel in einem Objekt verwendet werden.
-  - Beispiele: `newTenantDashboard`, `enableExperimentalReporting`, `useV2UserProfilePage`.
+- Flags SOLLTEN prägnant und klar benannt werden, typischerweise in camelCase oder PascalCase, wenn sie als Schlüssel in einem Objekt verwendet werden.
+- Beispiele: `newTenantDashboard`, `enableExperimentalReporting`, `useV2UserProfilePage`.
 <!-- TODO: translate -->
-  - Ein Präfix wie `feature_` oder `flag_` ist optional, kann aber zur Verdeutlichung beitragen (z.B. `feature_newTenantDashboard`).
+- Ein Präfix wie `feature_` oder `flag_` ist optional, kann aber zur Verdeutlichung beitragen (z.B. `feature_newTenantDashboard`).
 
 - **Code Structure for Flagged Features:**
 
 <!-- TODO: translate -->
-  - **Bedingtes Rendern:** Der häufigste Anwendungsfall ist das bedingte Rendern von Komponenten oder UI-Elementen:
+- **Bedingtes Rendern:** Der häufigste Anwendungsfall ist das bedingte Rendern von Komponenten oder UI-Elementen:
 
         ```tsx
         const isNewDashboardEnabled = useFeatureFlag()('newTenantDashboard');
@@ -1351,24 +1308,24 @@ Feature Flags (auch als Feature Toggles bekannt) ermöglichen es, neue Funktiona
         ```
 
 <!-- TODO: translate -->
-  - **Bedingte Routen:** Ganze Routen können bedingt registriert werden.
-  - **Bedingte Logik:** In Funktionen oder Hooks kann Logik basierend auf Flags verzweigen.
+- **Bedingte Routen:** Ganze Routen können bedingt registriert werden.
+- **Bedingte Logik:** In Funktionen oder Hooks kann Logik basierend auf Flags verzweigen.
 <!-- TODO: translate -->
-  - **Vermeidung von Komplexität:** Es ist darauf zu achten, dass Feature Flags nicht zu einer übermäßigen Verzweigung und Komplexität im Code führen. Flags sollten an möglichst hohen Stellen in der Komponenten- oder Logikhierarchie geprüft werden.
+- **Vermeidung von Komplexität:** Es ist darauf zu achten, dass Feature Flags nicht zu einer übermäßigen Verzweigung und Komplexität im Code führen. Flags sollten an möglichst hohen Stellen in der Komponenten- oder Logikhierarchie geprüft werden.
 
 - **Strategy for Code Cleanup (Post-Flag Retirement):**
 
 <!-- TODO: translate -->
-  - **Mandat:** Sobald ein Feature Flag vollständig ausgerollt (100% der Zielgruppe) und als permanent betrachtet wird oder das Feature komplett entfernt wird, MÜSSEN der Flag selbst, die gesamte bedingte Logik und alle alten/nicht mehr genutzten Codepfade innerhalb von {z.B. 2-3 Sprints} aus der Codebasis entfernt werden.
+- **Mandat:** Sobald ein Feature Flag vollständig ausgerollt (100% der Zielgruppe) und als permanent betrachtet wird oder das Feature komplett entfernt wird, MÜSSEN der Flag selbst, die gesamte bedingte Logik und alle alten/nicht mehr genutzten Codepfade innerhalb von {z.B. 2-3 Sprints} aus der Codebasis entfernt werden.
 <!-- TODO: translate -->
-  - Dies ist ein wichtiger Aspekt zur Vermeidung von technischen Schulden. Für jeden eingeführten Flag SOLLTE ein Ticket oder eine Aufgabe zur späteren Bereinigung erstellt werden.
+- Dies ist ein wichtiger Aspekt zur Vermeidung von technischen Schulden. Für jeden eingeführten Flag SOLLTE ein Ticket oder eine Aufgabe zur späteren Bereinigung erstellt werden.
 
 - **Testing Flagged Features:**
 
 <!-- TODO: translate -->
-  - **Manuelle Tests:** QA und Entwickler MÜSSEN die Möglichkeit haben, verschiedene Flag-Konfigurationen zu testen. Dies kann durch lokale Konfigurationsüberschreibungen oder eine Debug-UI geschehen, die das Umschalten von Flags im Browser ermöglicht (falls die Flags clientseitig flexibel sind).
+- **Manuelle Tests:** QA und Entwickler MÜSSEN die Möglichkeit haben, verschiedene Flag-Konfigurationen zu testen. Dies kann durch lokale Konfigurationsüberschreibungen oder eine Debug-UI geschehen, die das Umschalten von Flags im Browser ermöglicht (falls die Flags clientseitig flexibel sind).
 <!-- TODO: translate -->
-  - **Automatisierte Tests (E2E):** Playwright-Tests SOLLTEN so konzipiert werden, dass sie mit verschiedenen Flag-Konfigurationen ausgeführt werden können, um beide Codepfade (Feature aktiviert/deaktiviert) abzudecken. Dies kann durch Setzen von Mocks für den Feature-Flag-Service oder durch Parameterisierung der Testläufe erreicht werden.
+- **Automatisierte Tests (E2E):** Playwright-Tests SOLLTEN so konzipiert werden, dass sie mit verschiedenen Flag-Konfigurationen ausgeführt werden können, um beide Codepfade (Feature aktiviert/deaktiviert) abzudecken. Dies kann durch Setzen von Mocks für den Feature-Flag-Service oder durch Parameterisierung der Testläufe erreicht werden.
 
 ## Frontend Security Considerations
 
@@ -1378,24 +1335,24 @@ Die Sicherheit der Frontend-Anwendung ist von entscheidender Bedeutung, um Benut
 - **Cross-Site Scripting (XSS) Prevention:**
 
 <!-- TODO: translate -->
-  - **Framework Reliance:** React rendert standardmäßig Daten als Text und nicht als HTML, was einen grundlegenden Schutz vor XSS bietet, wenn JSX korrekt verwendet wird. Die direkte Manipulation des DOM (z.B. über `dangerouslySetInnerHTML`) MUSS vermieden werden. Wenn es absolut unvermeidlich ist, MUSS der Inhalt vorher explizit serverseitig oder clientseitig mit einer etablierten Bibliothek wie DOMPurify (konfiguriert für strenge Filterung) bereinigt werden.
-  - **React-Admin:** React-Admin und die zugrundeliegenden UI-Bibliotheken (wie Material UI) sind darauf ausgelegt, XSS-Risiken zu minimieren, wenn sie wie vorgesehen verwendet werden.
+- **Framework Reliance:** React rendert standardmäßig Daten als Text und nicht als HTML, was einen grundlegenden Schutz vor XSS bietet, wenn JSX korrekt verwendet wird. Die direkte Manipulation des DOM (z.B. über `dangerouslySetInnerHTML`) MUSS vermieden werden. Wenn es absolut unvermeidlich ist, MUSS der Inhalt vorher explizit serverseitig oder clientseitig mit einer etablierten Bibliothek wie DOMPurify (konfiguriert für strenge Filterung) bereinigt werden.
+- **React-Admin:** React-Admin und die zugrundeliegenden UI-Bibliotheken (wie Material UI) sind darauf ausgelegt, XSS-Risiken zu minimieren, wenn sie wie vorgesehen verwendet werden.
 <!-- TODO: translate -->
-  - **Content Security Policy (CSP):** Eine strenge Content Security Policy MUSS serverseitig (über HTTP-Header) implementiert werden, wie im Hauptarchitekturdokument spezifiziert. Das Frontend muss sicherstellen, dass es konform mit dieser CSP ist (z.B. keine Inline-Skripte oder -Styles ohne Nonce/Hash, Einschränkung von `script-src`, `style-src`, `connect-src` auf vertrauenswürdige Quellen).
+- **Content Security Policy (CSP):** Eine strenge Content Security Policy MUSS serverseitig (über HTTP-Header) implementiert werden, wie im Hauptarchitekturdokument spezifiziert. Das Frontend muss sicherstellen, dass es konform mit dieser CSP ist (z.B. keine Inline-Skripte oder -Styles ohne Nonce/Hash, Einschränkung von `script-src`, `style-src`, `connect-src` auf vertrauenswürdige Quellen).
 
 - **Cross-Site Request Forgery (CSRF) Protection:**
 
 <!-- TODO: translate -->
-  - **Mechanismus:** Da die Authentifizierung über Tokens (JWTs) im `Authorization`-Header erfolgt und nicht über session-basierte Cookies für API-Anfragen, ist das traditionelle CSRF-Risiko für API-Calls reduziert.
+- **Mechanismus:** Da die Authentifizierung über Tokens (JWTs) im `Authorization`-Header erfolgt und nicht über session-basierte Cookies für API-Anfragen, ist das traditionelle CSRF-Risiko für API-Calls reduziert.
 <!-- TODO: translate -->
-  - Dennoch MÜSSEN alle zustandsändernden Anfragen (POST, PUT, DELETE) sicherstellen, dass sie nicht durch Cross-Site-Scripting auf anderen Websites ausgelöst werden können, die solche Anfragen an die EAF-API initiieren. Der `Authorization`-Header-Ansatz ist hier bereits ein starker Schutz.
+- Dennoch MÜSSEN alle zustandsändernden Anfragen (POST, PUT, DELETE) sicherstellen, dass sie nicht durch Cross-Site-Scripting auf anderen Websites ausgelöst werden können, die solche Anfragen an die EAF-API initiieren. Der `Authorization`-Header-Ansatz ist hier bereits ein starker Schutz.
 <!-- TODO: translate -->
-  - Das Backend (gemäß Hauptarchitekturdokument) SOLLTE zusätzlich Mechanismen wie SameSite-Cookie-Attribute (falls Cookies für andere Zwecke verwendet werden) und ggf. die Überprüfung des `Origin`- oder `Referer`-Headers für kritische Operationen implementieren.
+- Das Backend (gemäß Hauptarchitekturdokument) SOLLTE zusätzlich Mechanismen wie SameSite-Cookie-Attribute (falls Cookies für andere Zwecke verwendet werden) und ggf. die Überprüfung des `Origin`- oder `Referer`-Headers für kritische Operationen implementieren.
 
 - **Secure Token Storage & Handling (JWTs):**
 
 <!-- TODO: translate -->
-  - **Storage Mechanism:** JWTs (Access Tokens) MÜSSEN sicher im Frontend gespeichert werden.
+- **Storage Mechanism:** JWTs (Access Tokens) MÜSSEN sicher im Frontend gespeichert werden.
 <!-- TODO: translate -->
     - **Bevorzugte Methode:** Speicherung im Speicher der JavaScript-Anwendung (z.B. in einem React Context oder Zustand-Store). Tokens sind dann nur für die Dauer der Browsersitzung (Tab/Fenster) gültig und nicht anfällig für XSS-Angriffe, die auf `localStorage` oder `sessionStorage` abzielen.
 <!-- TODO: translate -->
@@ -1403,14 +1360,14 @@ Die Sicherheit der Frontend-Anwendung ist von entscheidender Bedeutung, um Benut
 <!-- TODO: translate -->
     - `localStorage` und `sessionStorage` DÜRFEN NICHT für die Speicherung von JWTs verwendet werden, da sie anfällig für XSS-Angriffe sind.
 <!-- TODO: translate -->
-  - **Token Refresh:** Der `authProvider` und der `httpClient` (wie im API Interaction Layer beschrieben) MÜSSEN die Logik zum automatischen Aktualisieren von Access Tokens mittels Refresh Tokens (falls implementiert) sicher handhaben.
+- **Token Refresh:** Der `authProvider` und der `httpClient` (wie im API Interaction Layer beschrieben) MÜSSEN die Logik zum automatischen Aktualisieren von Access Tokens mittels Refresh Tokens (falls implementiert) sicher handhaben.
 
 - **Third-Party Script Security:**
 
 <!-- TODO: translate -->
-  - **Policy:** Die Einbindung von Skripten von Drittanbietern (z.B. für Analytics, Monitoring, falls benötigt) MUSS auf ein absolutes Minimum beschränkt und jede Quelle sorgfältig geprüft werden.
+- **Policy:** Die Einbindung von Skripten von Drittanbietern (z.B. für Analytics, Monitoring, falls benötigt) MUSS auf ein absolutes Minimum beschränkt und jede Quelle sorgfältig geprüft werden.
 <!-- TODO: translate -->
-  - **Subresource Integrity (SRI):** Für alle externen Skripte und Stylesheets, die von CDNs geladen werden, MÜSSEN Subresource Integrity (SRI) Hashes verwendet werden, falls verfügbar. Dies stellt sicher, dass die geladenen Dateien nicht manipuliert wurden.
+- **Subresource Integrity (SRI):** Für alle externen Skripte und Stylesheets, die von CDNs geladen werden, MÜSSEN Subresource Integrity (SRI) Hashes verwendet werden, falls verfügbar. Dies stellt sicher, dass die geladenen Dateien nicht manipuliert wurden.
 
         ```html
         <script src="https{://example.com/library.js}"
@@ -1419,43 +1376,43 @@ Die Sicherheit der Frontend-Anwendung ist von entscheidender Bedeutung, um Benut
         ```
 
 <!-- TODO: translate -->
-  - Skripte von Drittanbietern SOLLTEN, wenn möglich, asynchron (`async`/`defer`) geladen werden, um das Blockieren des Hauptthreads zu minimieren.
+- Skripte von Drittanbietern SOLLTEN, wenn möglich, asynchron (`async`/`defer`) geladen werden, um das Blockieren des Hauptthreads zu minimieren.
 
 - **Client-Side Data Validation:**
 
 <!-- TODO: translate -->
-  - **Purpose:** Clientseitige Validierung dient primär der Verbesserung der User Experience durch sofortiges Feedback. Sie ist KEIN Ersatz für serverseitige Validierung.
+- **Purpose:** Clientseitige Validierung dient primär der Verbesserung der User Experience durch sofortiges Feedback. Sie ist KEIN Ersatz für serverseitige Validierung.
 <!-- TODO: translate -->
-  - **Mandat:** Alle kritischen Datenvalidierungen MÜSSEN serverseitig in der `eaf-controlplane-api` erfolgen (gemäß Hauptarchitekturdokument).
+- **Mandat:** Alle kritischen Datenvalidierungen MÜSSEN serverseitig in der `eaf-controlplane-api` erfolgen (gemäß Hauptarchitekturdokument).
 <!-- TODO: translate -->
-  - **Implementation:** React-Admin Formulare bieten Validierungs-Props. Diese SOLLTEN genutzt werden, um grundlegende Prüfungen (z.B. Pflichtfelder, Formatprüfungen) clientseitig durchzuführen. Die Validierungsregeln sollten, wo sinnvoll, die serverseitigen Regeln widerspiegeln.
+- **Implementation:** React-Admin Formulare bieten Validierungs-Props. Diese SOLLTEN genutzt werden, um grundlegende Prüfungen (z.B. Pflichtfelder, Formatprüfungen) clientseitig durchzuführen. Die Validierungsregeln sollten, wo sinnvoll, die serverseitigen Regeln widerspiegeln.
 
 - **Preventing Clickjacking:**
 
 <!-- TODO: translate -->
-  - **Mechanismus:** Die primäre Verteidigung gegen Clickjacking ist der `X-Frame-Options` HTTP-Header (z.B. `DENY` oder `SAMEORIGIN`) oder die `frame-ancestors` Direktive in der Content Security Policy. Diese Header MÜSSEN serverseitig gesetzt werden (gemäß Hauptarchitekturdokument). Das Frontend sollte sich nicht auf Frame-Busting-Skripte verlassen.
+- **Mechanismus:** Die primäre Verteidigung gegen Clickjacking ist der `X-Frame-Options` HTTP-Header (z.B. `DENY` oder `SAMEORIGIN`) oder die `frame-ancestors` Direktive in der Content Security Policy. Diese Header MÜSSEN serverseitig gesetzt werden (gemäß Hauptarchitekturdokument). Das Frontend sollte sich nicht auf Frame-Busting-Skripte verlassen.
 
 <!-- TODO: translate -->
 - **API Key Exposure (für client-seitig konsumierte Dienste):**
 
 <!-- TODO: translate -->
-  - **Restriction:** API-Schlüssel, die ausschließlich clientseitig verwendet werden (z.B. für einen Kartendienst, falls relevant), MÜSSEN so weit wie möglich über die Konsole des Dienstanbieters eingeschränkt werden (z.B. durch HTTP-Referrer-Beschränkungen, IP-Adressfilter oder API-spezifische Zugriffsbeschränkungen).
+- **Restriction:** API-Schlüssel, die ausschließlich clientseitig verwendet werden (z.B. für einen Kartendienst, falls relevant), MÜSSEN so weit wie möglich über die Konsole des Dienstanbieters eingeschränkt werden (z.B. durch HTTP-Referrer-Beschränkungen, IP-Adressfilter oder API-spezifische Zugriffsbeschränkungen).
 <!-- TODO: translate -->
-  - **Backend Proxy:** Für API-Schlüssel, die mehr Geheimhaltung erfordern oder sensible Operationen steuern, MUSS ein Backend-Proxy-Endpunkt in der `eaf-controlplane-api` erstellt werden. Das Frontend ruft den Proxy auf, nicht direkt den Drittanbieterdienst.
+- **Backend Proxy:** Für API-Schlüssel, die mehr Geheimhaltung erfordern oder sensible Operationen steuern, MUSS ein Backend-Proxy-Endpunkt in der `eaf-controlplane-api` erstellt werden. Das Frontend ruft den Proxy auf, nicht direkt den Drittanbieterdienst.
 
 - **Secure Communication (HTTPS):**
 
 <!-- TODO: translate -->
-  - **Mandat:** Die gesamte Kommunikation zwischen dem Frontend und der `eaf-controlplane-api` sowie allen anderen externen Diensten MUSS über HTTPS erfolgen. Mixed Content (HTTP-Assets auf einer HTTPS-Seite) ist verboten und wird durch die CSP verhindert.
+- **Mandat:** Die gesamte Kommunikation zwischen dem Frontend und der `eaf-controlplane-api` sowie allen anderen externen Diensten MUSS über HTTPS erfolgen. Mixed Content (HTTP-Assets auf einer HTTPS-Seite) ist verboten und wird durch die CSP verhindert.
 
 - **Dependency Vulnerabilities:**
 
 <!-- TODO: translate -->
-  - **Process:** `npm audit` (oder `yarn audit`) MUSS regelmäßig und als Teil der CI-Pipeline ausgeführt werden, um bekannte Schwachstellen in den Projekt-Abhängigkeiten zu identifizieren.
+- **Process:** `npm audit` (oder `yarn audit`) MUSS regelmäßig und als Teil der CI-Pipeline ausgeführt werden, um bekannte Schwachstellen in den Projekt-Abhängigkeiten zu identifizieren.
 <!-- TODO: translate -->
-  - Schwachstellen mit hohem oder kritischem Schweregrad MÜSSEN vor einem Deployment behoben werden, entweder durch Update der Abhängigkeit oder durch Anwendung empfohlener Workarounds.
+- Schwachstellen mit hohem oder kritischem Schweregrad MÜSSEN vor einem Deployment behoben werden, entweder durch Update der Abhängigkeit oder durch Anwendung empfohlener Workarounds.
 <!-- TODO: translate -->
-  - Tools wie Dependabot (GitHub) oder Snyk KÖNNEN zur automatischen Überwachung und Benachrichtigung über neue Schwachstellen eingesetzt werden.
+- Tools wie Dependabot (GitHub) oder Snyk KÖNNEN zur automatischen Überwachung und Benachrichtigung über neue Schwachstellen eingesetzt werden.
 
 - **Security Headers:**
 
@@ -1469,31 +1426,31 @@ Dieser Abschnitt definiert die Zielbrowser für die ACCI EAF Control Plane UI un
 - **Target Browsers:**
 
 <!-- TODO: translate -->
-  - Die ACCI EAF Control Plane UI MUSS auf den **aktuellsten zwei stabilen Versionen** der folgenden Desktop-Browser voll funktionsfähig sein und korrekt dargestellt werden:
-    - Google Chrome
-    - Mozilla Firefox
-    - Microsoft Edge
-    - Apple Safari (macOS)
+- Die ACCI EAF Control Plane UI MUSS auf den **aktuellsten zwei stabilen Versionen** der folgenden Desktop-Browser voll funktionsfähig sein und korrekt dargestellt werden:
+  - Google Chrome
+  - Mozilla Firefox
+  - Microsoft Edge
+  - Apple Safari (macOS)
 <!-- TODO: translate -->
-  - **Internet Explorer (IE) in jeglicher Version wird NICHT unterstützt.**
+- **Internet Explorer (IE) in jeglicher Version wird NICHT unterstützt.**
 <!-- TODO: translate -->
-  - Obwohl das PRD eine "Desktop-First"-Ausrichtung vorgibt, ist es wünschenswert, dass die Anwendung auf modernen Tablet-Browsern (aktuelle Versionen von Safari auf iPadOS und Chrome auf Android) ebenfalls gut nutzbar ist. Eine vollständige Optimierung für mobile Endgeräte ist initial nicht der primäre Fokus, aber grundlegende Responsiveness für kleinere Viewports (wie sie z.B. durch Verkleinern von Desktop-Fenstern entstehen) sollte gegeben sein.
+- Obwohl das PRD eine "Desktop-First"-Ausrichtung vorgibt, ist es wünschenswert, dass die Anwendung auf modernen Tablet-Browsern (aktuelle Versionen von Safari auf iPadOS und Chrome auf Android) ebenfalls gut nutzbar ist. Eine vollständige Optimierung für mobile Endgeräte ist initial nicht der primäre Fokus, aber grundlegende Responsiveness für kleinere Viewports (wie sie z.B. durch Verkleinern von Desktop-Fenstern entstehen) sollte gegeben sein.
 
 - **Polyfill Strategy:**
 
 <!-- TODO: translate -->
-  - **Mechanismus:** Vite in Verbindung mit Babel (typischerweise über `@vitejs/plugin-react`, das Babel nutzt) und PostCSS (für CSS-Präfixe) wird verwendet, um die Kompatibilität mit den Zielbrowsern sicherzustellen.
+- **Mechanismus:** Vite in Verbindung mit Babel (typischerweise über `@vitejs/plugin-react`, das Babel nutzt) und PostCSS (für CSS-Präfixe) wird verwendet, um die Kompatibilität mit den Zielbrowsern sicherzustellen.
 <!-- TODO: translate -->
     - `@babel/preset-env` (oder eine ähnliche Konfiguration in Vite) wird so konfiguriert, dass es auf die oben definierte Browser-Support-Matrix abzielt und notwendige JavaScript-Polyfills für ECMAScript-Features bereitstellt, die von diesen Browsern möglicherweise noch nicht vollständig unterstützt werden. Dies geschieht oft durch automatische Injektion von Polyfills aus `core-js`.
 <!-- TODO: translate -->
-  - **Specific Polyfills:** Über die automatischen Polyfills von `core-js` hinaus werden derzeit keine spezifischen zusätzlichen Polyfills erwartet. Sollten im Laufe der Entwicklung Features implementiert werden, die auf sehr neuen Browser-APIs basieren, die nicht von `core-js` abgedeckt werden und in den Zielbrowsern fehlen, wird die Notwendigkeit spezifischer Polyfills (z.B. für `IntersectionObserver` falls nicht überall vorhanden, oder spezifische `Intl`-Features) pro Fall evaluiert und dokumentiert.
+- **Specific Polyfills:** Über die automatischen Polyfills von `core-js` hinaus werden derzeit keine spezifischen zusätzlichen Polyfills erwartet. Sollten im Laufe der Entwicklung Features implementiert werden, die auf sehr neuen Browser-APIs basieren, die nicht von `core-js` abgedeckt werden und in den Zielbrowsern fehlen, wird die Notwendigkeit spezifischer Polyfills (z.B. für `IntersectionObserver` falls nicht überall vorhanden, oder spezifische `Intl`-Features) pro Fall evaluiert und dokumentiert.
 
 - **JavaScript Requirement & Progressive Enhancement:**
 
 <!-- TODO: translate -->
-  - **Baseline:** Die Kernfunktionalität der ACCI EAF Control Plane UI **ERFORDERT aktiviertes JavaScript** im Browser. Es handelt sich um eine Single Page Application (SPA), die stark auf JavaScript für Rendering, Logik und API-Interaktionen angewiesen ist.
+- **Baseline:** Die Kernfunktionalität der ACCI EAF Control Plane UI **ERFORDERT aktiviertes JavaScript** im Browser. Es handelt sich um eine Single Page Application (SPA), die stark auf JavaScript für Rendering, Logik und API-Interaktionen angewiesen ist.
 <!-- TODO: translate -->
-  - **No-JS Experience:** Es wird keine spezifische No-JS-Fallbacksicht oder -Funktionalität bereitgestellt, außer einer einfachen Meldung (z.B. via `<noscript>`-Tag in `index.html`), die den Benutzer darauf hinweist, JavaScript zu aktivieren.
+- **No-JS Experience:** Es wird keine spezifische No-JS-Fallbacksicht oder -Funktionalität bereitgestellt, außer einer einfachen Meldung (z.B. via `<noscript>`-Tag in `index.html`), die den Benutzer darauf hinweist, JavaScript zu aktivieren.
 
         ```html
         <noscript>
@@ -1503,13 +1460,13 @@ Dieser Abschnitt definiert die Zielbrowser für die ACCI EAF Control Plane UI un
         ```
 
 <!-- TODO: translate -->
-  - Obwohl Progressive Enhancement ein wünschenswertes Prinzip ist, liegt der Fokus für diese komplexe Administrationsanwendung auf einer reichen, interaktiven Benutzererfahrung, die JavaScript voraussetzt.
+- Obwohl Progressive Enhancement ein wünschenswertes Prinzip ist, liegt der Fokus für diese komplexe Administrationsanwendung auf einer reichen, interaktiven Benutzererfahrung, die JavaScript voraussetzt.
 
 - **CSS Compatibility & Fallbacks:**
 
 <!-- TODO: translate -->
-  - **Tooling:** PostCSS mit `autoprefixer` MUSS verwendet werden (typischerweise standardmäßig in Vite-Projekten konfiguriert), um automatisch Vendor-Präfixe für CSS-Eigenschaften hinzuzufügen, die dies für die Zielbrowser-Matrix noch benötigen. Die Browserliste für Autoprefixer wird aus den "Target Browsers" abgeleitet.
-  - **Feature Usage:**
+- **Tooling:** PostCSS mit `autoprefixer` MUSS verwendet werden (typischerweise standardmäßig in Vite-Projekten konfiguriert), um automatisch Vendor-Präfixe für CSS-Eigenschaften hinzuzufügen, die dies für die Zielbrowser-Matrix noch benötigen. Die Browserliste für Autoprefixer wird aus den "Target Browsers" abgeleitet.
+- **Feature Usage:**
 <!-- TODO: translate -->
     - Moderne CSS-Features (z.B. Flexbox, Grid, Custom Properties) können und sollen verwendet werden, da sie von den Zielbrowsern gut unterstützt werden.
 <!-- TODO: translate -->
@@ -1518,7 +1475,7 @@ Dieser Abschnitt definiert die Zielbrowser für die ACCI EAF Control Plane UI un
 - **Accessibility Fallbacks:**
 
 <!-- TODO: translate -->
-  - Wie im Abschnitt "Accessibility (AX) Implementation Details" beschrieben, ist die Verwendung von ARIA-Attributen wichtig. Es wird davon ausgegangen, dass die Zielbrowser und die von den Benutzern verwendete assistive Technologie moderne ARIA-Versionen unterstützen. Für sehr alte assistive Technologien, die möglicherweise nicht alle ARIA 1.1/1.2 Features unterstützen, wird das grundlegende semantische HTML weiterhin eine Basis-Zugänglichkeit bieten.
+- Wie im Abschnitt "Accessibility (AX) Implementation Details" beschrieben, ist die Verwendung von ARIA-Attributen wichtig. Es wird davon ausgegangen, dass die Zielbrowser und die von den Benutzern verwendete assistive Technologie moderne ARIA-Versionen unterstützen. Für sehr alte assistive Technologien, die möglicherweise nicht alle ARIA 1.1/1.2 Features unterstützen, wird das grundlegende semantische HTML weiterhin eine Basis-Zugänglichkeit bieten.
 
 ## Change Log
 
