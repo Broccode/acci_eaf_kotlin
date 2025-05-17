@@ -1272,7 +1272,7 @@ This section outlines the definitive technology choices for the ACCI EAF project
 
 | Category             | Technology              | Version / Details                      | Description / Purpose                                       | Justification (Optional)                                                                 |
 | :------------------- | :---------------------- | :------------------------------------- | :---------------------------------------------------------- | :--------------------------------------------------------------------------------------- |
-| **Languages**        | Kotlin                  | 2.1.21                                 | Primary language for backend EAF modules and applications   | Modern, concise, null-safe, excellent Java interoperability, good IDE support. Specified by PRD. |
+| **Languages**        | Kotlin                  | 1.9.21                                 | Primary language for backend EAF modules and applications   | Modern, concise, null-safe, excellent Java interoperability, good IDE support. Specified by PRD. |
 | **Runtime**          | JVM (IBM Semeru Runtimes for Power or OpenJDK) | Java 21 (LTS)                          | Execution environment for Kotlin/Spring Boot applications on ppc64le | Standard für Kotlin/Java. IBM Semeru bietet optimierte Builds für Power-Architektur. JDK 21 als LTS.     |
 | **Frameworks**       | Spring Boot             | 3.4.5                                  | Core application framework for backend modules and services     | Umfassend, etabliert, unterstützt schnelle Entwicklung, gute Integrationen. Von PRD vorgegeben. |
 |                      | Axon Framework          | 4.11.2 \<br/\>(Upgrade auf v5 geplant)     | Framework for DDD, CQRS, Event Sourcing                     | Spezialisiert auf die gewählten Architekturmuster, gute Integration mit Spring. Von PRD vorgegeben. |
@@ -1421,7 +1421,7 @@ These standards, collectively referred to as the **"ACCI Kotlin Coding Standards
 The primary goals of these standards are to ensure code quality, consistency, maintainability, readability, and to provide clear guidelines for efficient development.
 
 * **Primary Language & Runtime(s):**
-  * **Language:** Kotlin (Version `2.1.21` as specified in "Definitive Tech Stack Selections").
+  * **Language:** Kotlin (Version `1.9.21` as specified in "Definitive Tech Stack Selections").
   * **Runtime:** JVM (Java `21` LTS - e.g., IBM Semeru Runtimes for Power or OpenJDK, as specified in "Definitive Tech Stack Selections").
 
 * **Style Guide & Linter:**

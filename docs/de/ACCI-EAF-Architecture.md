@@ -1224,7 +1224,7 @@ Dieser Abschnitt beschreibt die endgültigen Technologieentscheidungen für das 
 
 | Kategorie                   | Technologie                                                       | Version / Details                      | Beschreibung / Zweck                                                                 | Begründung (Optional)                                                                                        |
 | :-------------------------- | :---------------------------------------------------------------- | :------------------------------------- | :----------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------- |
-| **Sprachen**                | Kotlin                                                            | 2.1.21                                 | Primäre Sprache für Backend-EAF-Module und -Anwendungen                              | Modern, prägnant, null-sicher, exzellente Java-Interoperabilität, gute IDE-Unterstützung. Vom PRD vorgegeben. |
+| **Sprachen**                | Kotlin                                                            | 1.9.21                                 | Primäre Sprache für Backend-EAF-Module und -Anwendungen                              | Modern, prägnant, null-sicher, exzellente Java-Interoperabilität, gute IDE-Unterstützung. Spezifiziert im PRD. |
 | **Laufzeitumgebung**        | JVM (IBM Semeru Runtimes for Power oder OpenJDK)                  | Java 21 (LTS)                          | Ausführungsumgebung für Kotlin/Spring Boot-Anwendungen auf ppc64le                   | Standard für Kotlin/Java. IBM Semeru bietet optimierte Builds für Power-Architektur. JDK 21 als LTS.        |
 | **Frameworks**              | Spring Boot                                                       | 3.4.5                                  | Kern-Anwendungsframework für Backend-Module und -Dienste                               | Umfassend, etabliert, unterstützt schnelle Entwicklung, gute Integrationen. Vom PRD vorgegeben.            |
 |                             | Axon Framework                                                    | 4.11.2 \<br/>\(Upgrade auf v5 geplant)     | Framework für DDD, CQRS, Event Sourcing                                              | Spezialisiert auf die gewählten Architekturmuster, gute Integration mit Spring. Vom PRD vorgegeben.         |
@@ -1373,7 +1373,7 @@ Diese Standards, zusammenfassend als **"ACCI Kotlin Coding Standards v1.0"** bez
 Die Hauptziele dieser Standards sind die Sicherstellung von Codequalität, Konsistenz, Wartbarkeit, Lesbarkeit und die Bereitstellung klarer Richtlinien für eine effiziente Entwicklung.
 
 * **Primäre Sprache & Laufzeit(en):**
-  * **Sprache:** Kotlin (Version `2.1.21` wie in "Definitive Technologie-Stack-Auswahl" spezifiziert).
+  * **Sprache:** Kotlin (Version `1.9.21` wie in "Definitive Technologie-Stack-Auswahl" spezifiziert).
   * **Laufzeit:** JVM (Java `21` LTS - z.B. IBM Semeru Runtimes for Power oder OpenJDK, wie in "Definitive Technologie-Stack-Auswahl" spezifiziert).
 
 * **Style Guide & Linter:**

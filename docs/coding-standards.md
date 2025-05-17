@@ -7,7 +7,7 @@ These standards, collectively referred to as the **"ACCI Kotlin Coding Standards
 The primary goals of these standards are to ensure code quality, consistency, maintainability, readability, and to provide clear guidelines for efficient development.
 
 * **Primary Language & Runtime(s):**
-  * **Language:** Kotlin (Version `2.1.21` as specified in "Definitive Tech Stack Selections").
+  * **Language:** Kotlin (Version `1.9.21` as specified in "Definitive Tech Stack Selections").
   * **Runtime:** JVM (Java `21` LTS - e.g., IBM Semeru Runtimes for Power or OpenJDK, as specified in "Definitive Tech Stack Selections").
 
 * **Style Guide & Linter:**
