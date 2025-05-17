@@ -47,6 +47,14 @@ jobs:
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
           echo "Building version: ${VERSION}"
           
+      - name: Check Gradle wrapper
+        run: |
+          ls -la ./gradle/wrapper/
+          ls -la ./gradlew
+          
+      - name: Ensure gradlew is executable
+        run: chmod +x ./gradlew
+        
       - name: Build, Test and Run Quality Checks
         id: gradle-build
         continue-on-error: true
@@ -57,7 +65,7 @@ jobs:
           
           while [ $attempt -le $max_attempts ]; do
             echo "::group::Build attempt $attempt of $max_attempts"
-            if ./gradlew build cleanCheck; then
+            if ./gradlew build cleanCheck --info --stacktrace; then
               echo "::endgroup::"
               echo "Build succeeded on attempt $attempt"
               exit 0
@@ -116,6 +124,12 @@ jobs:
           max_attempts=$RETRY_ATTEMPTS
           retry_delay=$RETRY_DELAY
           
+          # Debug the Docker build context
+          echo "Checking Docker build context:"
+          ls -la
+          echo "Contents of gradle wrapper directory:"
+          ls -la ./gradle/wrapper/
+          
           while [ $attempt -le $max_attempts ]; do
             echo "::group::Docker build/push attempt $attempt of $max_attempts"
             if docker buildx build \
@@ -125,6 +139,7 @@ jobs:
               -f ./eaf-core/Dockerfile \
               -t ${{ secrets.DOCKERHUB_USERNAME }}/eaf-core:${{ env.VERSION }} \
               -t ${{ secrets.DOCKERHUB_USERNAME }}/eaf-core:latest \
+              --progress=plain \
               .; then
               echo "::endgroup::"
               echo "Docker build succeeded on attempt $attempt"
@@ -150,6 +165,9 @@ jobs:
           attempt=1
           max_attempts=$RETRY_ATTEMPTS
           retry_delay=$RETRY_DELAY
+          
+          # Ensure the trivy-results.sarif file exists even if scan fails
+          touch trivy-results.sarif
           
           while [ $attempt -le $max_attempts ]; do
             echo "::group::Trivy scan attempt $attempt of $max_attempts"
@@ -190,7 +208,7 @@ jobs:
           done
           
       - name: Upload Trivy scan results
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         if: always() && (steps.trivy-scan.outcome == 'success' || steps.trivy-scan.outcome == 'failure')
         with:
           sarif_file: 'trivy-results.sarif'
