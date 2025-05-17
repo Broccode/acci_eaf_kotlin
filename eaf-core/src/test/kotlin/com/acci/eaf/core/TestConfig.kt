@@ -1,0 +1,48 @@
+package com.acci.eaf.core
+
+import com.acci.eaf.core.interfaces.TenantInfo
+import com.acci.eaf.core.interfaces.TenantServiceApi
+import com.acci.eaf.core.interfaces.TenantStatus
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
+import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
+
+/**
+ * Testkonfiguration für EAF Core Tests.
+ */
+@Configuration
+@Profile("test")
+class TestConfig {
+
+    /**
+     * Stellt eine Mock-Implementierung von TenantServiceApi für Tests bereit.
+     */
+    @Bean
+    fun testTenantServiceApi(): TenantServiceApi {
+        return object : TenantServiceApi {
+            // In-Memory-Speicher für Test-Tenants
+            private val tenants = ConcurrentHashMap<UUID, TenantInfo>()
+            
+            // Aktiver Test-Tenant
+            private val testTenantId = UUID.fromString("fe2b6d3a-bb5a-43d6-b505-e764cd1bf30f")
+            
+            init {
+                // Initialisiere mit einem aktiven Test-Tenant
+                tenants[testTenantId] = TenantInfo(
+                    tenantId = testTenantId,
+                    status = TenantStatus.ACTIVE
+                )
+            }
+            
+            override fun getTenantById(tenantId: UUID): TenantInfo {
+                return tenants[tenantId] ?: throw RuntimeException("Tenant not found")
+            }
+            
+            override fun existsById(tenantId: UUID): Boolean {
+                return tenants.containsKey(tenantId)
+            }
+        }
+    }
+} 

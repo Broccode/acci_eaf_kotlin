@@ -2,10 +2,13 @@ package com.acci.eaf.core
 
 import com.acci.eaf.core.api.PingCommand
 import com.acci.eaf.core.api.PongEvent
+import com.acci.eaf.core.tenant.TenantContextHolder
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.AfterEach
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -15,6 +18,7 @@ import java.util.concurrent.TimeUnit
 import org.awaitility.Awaitility
 import org.awaitility.core.ConditionTimeoutException
 import java.time.Duration
+import com.acci.eaf.core.interfaces.TenantServiceApi
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -28,15 +32,31 @@ public class PingPongIntegrationTest {
     @Autowired
     private lateinit var testEventHandler: TestEventHandler
     
+    @Autowired
+    private lateinit var tenantServiceApi: TenantServiceApi
+    
+    // Der aktive Test-Tenant (muss mit dem in TestConfig übereinstimmen)
+    private val testTenantId = UUID.fromString("fe2b6d3a-bb5a-43d6-b505-e764cd1bf30f")
+    
+    @BeforeEach
+    fun setup() {
+        // Setze den Tenant-Kontext für den Test
+        TenantContextHolder.setTenantId(testTenantId)
+    }
+    
+    @AfterEach
+    fun cleanup() {
+        // Bereinige den Tenant-Kontext nach dem Test
+        TenantContextHolder.clear()
+        testEventHandler.clearEvents()
+    }
+    
     @Test
     public fun `ping command should trigger pong event`() {
         // Given
         val pingCommand = PingCommand()
         val messageId = pingCommand.messageId
         logger.info("Sending PingCommand with ID: $messageId")
-        
-        // Ensure the test starts with a clean event list
-        testEventHandler.clearEvents()
         
         // When
         val result = commandGateway.sendAndWait<UUID>(pingCommand, 10, TimeUnit.SECONDS)
