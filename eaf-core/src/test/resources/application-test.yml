@@ -25,6 +25,5 @@ axon:
   axonserver:
     enabled: false
 
-# Setze aktiven Profil auf test zurück (um die Doppeleinstellung zu vermeiden)
-spring.profiles:
-  active: test 
+# Die spring.profiles.active Eigenschaft wurde entfernt, da sie in einer
+# profilspezifischen Konfigurationsdatei nicht erlaubt ist 
