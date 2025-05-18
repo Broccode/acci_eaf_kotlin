@@ -10,13 +10,7 @@ import java.util.UUID
 /**
  * Data Transfer Object representing a tenant for API responses.
  */
-data class TenantDto(
-    val tenantId: UUID,
-    val name: String,
-    val status: TenantStatus,
-    val createdAt: Instant,
-    val updatedAt: Instant,
-)
+data class TenantDto(val tenantId: UUID, val name: String, val status: TenantStatus, val createdAt: Instant, val updatedAt: Instant)
 
 /**
  * Data Transfer Object for creating a new tenant.
@@ -45,4 +39,4 @@ data class UpdateTenantDto(
     val name: String? = null,
 
     val status: TenantStatus? = null,
-) 
+)

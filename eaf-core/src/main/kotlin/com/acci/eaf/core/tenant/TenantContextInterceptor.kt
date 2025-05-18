@@ -121,4 +121,4 @@ class TenantContextInterceptor(private val tenantService: TenantServiceApi) : Ha
         logger.debug("Clearing tenant context after request completion")
         TenantContextHolder.clear()
     }
-} 
+}

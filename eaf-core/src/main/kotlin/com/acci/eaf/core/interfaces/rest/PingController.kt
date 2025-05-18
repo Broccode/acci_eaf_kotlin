@@ -40,4 +40,4 @@ public class PingController(private val commandGateway: CommandGateway) {
                 )
             }
     }
-} 
+}

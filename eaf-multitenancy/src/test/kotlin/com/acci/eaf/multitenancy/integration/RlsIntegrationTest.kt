@@ -440,4 +440,4 @@ class RlsIntegrationTest {
             "Admin should have successfully updated the note title across tenant boundaries"
         )
     }
-} 
+}

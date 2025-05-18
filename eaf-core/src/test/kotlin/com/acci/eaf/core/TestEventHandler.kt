@@ -25,4 +25,4 @@ public class TestEventHandler {
     public fun clearEvents() {
         receivedEvents.clear()
     }
-} 
+}

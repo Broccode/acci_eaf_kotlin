@@ -12,7 +12,9 @@ import org.springframework.stereotype.Repository
  * Repository for managing [Tenant] entities.
  */
 @Repository
-interface TenantRepository : JpaRepository<Tenant, UUID>, JpaSpecificationExecutor<Tenant> {
+interface TenantRepository :
+    JpaRepository<Tenant, UUID>,
+    JpaSpecificationExecutor<Tenant> {
 
     /**
      * Finds a tenant by its name.
@@ -37,4 +39,4 @@ interface TenantRepository : JpaRepository<Tenant, UUID>, JpaSpecificationExecut
      * @return true if a tenant with the given name exists, false otherwise
      */
     fun existsByName(name: String): Boolean
-} 
+}

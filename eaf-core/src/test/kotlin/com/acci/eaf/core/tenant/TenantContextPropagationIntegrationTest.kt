@@ -175,4 +175,4 @@ class TenantContextPropagationIntegrationTest {
         // Simulate some business logic in a service
         return TenantContextHolder.getCurrentTenantId()
     }
-} 
+}

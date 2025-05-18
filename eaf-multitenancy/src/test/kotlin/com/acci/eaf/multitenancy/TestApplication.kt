@@ -15,4 +15,4 @@ class TestApplication
 
 fun main(args: Array<String>) {
     runApplication<TestApplication>(*args)
-} 
+}

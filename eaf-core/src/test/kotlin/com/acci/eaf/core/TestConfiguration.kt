@@ -30,4 +30,4 @@ public class TestConfiguration {
                 .andBatchSize(1)
         }
     }
-} 
+}

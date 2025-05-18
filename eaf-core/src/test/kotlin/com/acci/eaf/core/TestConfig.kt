@@ -20,8 +20,8 @@ class TestConfig {
      * Stellt eine Mock-Implementierung von TenantServiceApi für Tests bereit.
      */
     @Bean
-    fun testTenantServiceApi(): TenantServiceApi {
-        return object : TenantServiceApi {
+    fun testTenantServiceApi(): TenantServiceApi =
+        object : TenantServiceApi {
             // In-Memory-Speicher für Test-Tenants
             private val tenants = ConcurrentHashMap<UUID, TenantInfo>()
 
@@ -36,13 +36,8 @@ class TestConfig {
                 )
             }
 
-            override fun getTenantById(tenantId: UUID): TenantInfo {
-                return tenants[tenantId] ?: throw RuntimeException("Tenant not found")
-            }
+            override fun getTenantById(tenantId: UUID): TenantInfo = tenants[tenantId] ?: throw RuntimeException("Tenant not found")
 
-            override fun existsById(tenantId: UUID): Boolean {
-                return tenants.containsKey(tenantId)
-            }
+            override fun existsById(tenantId: UUID): Boolean = tenants.containsKey(tenantId)
         }
-    }
-} 
+}

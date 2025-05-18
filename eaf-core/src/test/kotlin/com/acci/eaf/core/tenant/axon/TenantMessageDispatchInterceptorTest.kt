@@ -84,4 +84,4 @@ class TenantMessageDispatchInterceptorTest {
         // dass die ursprüngliche Nachricht unverändert zurückgegeben wird
         Mockito.verify(message, Mockito.times(0)).withMetaData(Mockito.any())
     }
-} 
+}

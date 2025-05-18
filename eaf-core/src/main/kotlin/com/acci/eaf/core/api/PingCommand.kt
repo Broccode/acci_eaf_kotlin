@@ -8,6 +8,4 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier
  *
  * @property messageId Die eindeutige ID des Kommandos, dient gleichzeitig als Target-Aggregate-Identifier
  */
-public data class PingCommand(
-    @TargetAggregateIdentifier val messageId: UUID = UUID.randomUUID(),
-) 
+public data class PingCommand(@TargetAggregateIdentifier val messageId: UUID = UUID.randomUUID())

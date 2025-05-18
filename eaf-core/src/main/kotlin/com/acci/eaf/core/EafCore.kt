@@ -14,20 +14,14 @@ public class EafCore private constructor() {
     /**
      * Enthält grundlegende Informationen über diese Instanz des EAF Core.
      */
-    public data class Info(
-        val version: String = VERSION,
-        val buildTimestamp: String = BUILD_TIMESTAMP,
-        val startupTime: LocalDateTime,
-    )
+    public data class Info(val version: String = VERSION, val buildTimestamp: String = BUILD_TIMESTAMP, val startupTime: LocalDateTime)
 
     /**
      * Liefert Informationen über diese EAF Core-Instanz.
      *
      * @return [Info] Objekt mit Versions- und Zeitstempelinformationen
      */
-    public fun getInfo(): Info {
-        return Info(startupTime = startupTime)
-    }
+    public fun getInfo(): Info = Info(startupTime = startupTime)
 
     /**
      * Initialisiert diese EAF Core-Instanz.

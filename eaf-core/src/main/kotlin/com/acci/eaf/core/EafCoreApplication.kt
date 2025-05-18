@@ -32,9 +32,7 @@ public class EafCoreApplication {
      * Konfiguriert die in-memory Event Storage Engine für Entwicklungs- und Testzwecke.
      */
     @Bean
-    public fun storageEngine(): InMemoryEventStorageEngine {
-        return InMemoryEventStorageEngine()
-    }
+    public fun storageEngine(): InMemoryEventStorageEngine = InMemoryEventStorageEngine()
 
     public companion object {
         /**
@@ -47,4 +45,4 @@ public class EafCoreApplication {
             }
         }
     }
-} 
+}

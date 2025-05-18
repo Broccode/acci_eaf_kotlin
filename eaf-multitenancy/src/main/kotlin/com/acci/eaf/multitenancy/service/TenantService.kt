@@ -83,4 +83,4 @@ interface TenantService {
      * @return true if a tenant with the specified name exists, false otherwise
      */
     fun existsByName(name: String): Boolean
-} 
+}

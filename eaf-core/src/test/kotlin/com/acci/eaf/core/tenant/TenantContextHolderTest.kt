@@ -117,4 +117,4 @@ class TenantContextHolderTest {
         assertEquals(mainThreadTenantId, TenantContextHolder.getCurrentTenantId(), "Main thread should keep its tenant ID")
         assertEquals(childThreadTenantId, childTenantIdAfterSet.get(), "Child thread should have its own tenant ID")
     }
-} 
+}

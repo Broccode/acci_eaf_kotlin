@@ -63,14 +63,13 @@ class TenantAxonConfig {
      * @return Ein ConfigurerModule zur Registrierung der Interceptors
      */
     @Bean
-    fun tenantMessageHandlerInterceptorConfigurer(tenantMessageHandlerInterceptor: TenantMessageHandlerInterceptor): ConfigurerModule {
-        return ConfigurerModule { configurer: Configurer ->
+    fun tenantMessageHandlerInterceptorConfigurer(tenantMessageHandlerInterceptor: TenantMessageHandlerInterceptor): ConfigurerModule =
+        ConfigurerModule { configurer: Configurer ->
             // Registriere den Interceptor für alle Message-Handler
             // Da die direkten Methoden nicht verfügbar sind, verwenden wir einen alternativen Ansatz
             // über das Bean im Spring-Kontext. Die Interceptors werden in den entsprechenden
             // CommandBus/EventBus/QueryBus-Konfigurationen registriert.
         }
-    }
 
     /**
      * Konfiguriert den CommandGateway mit dem TenantMessageDispatchInterceptor.
@@ -117,4 +116,4 @@ class TenantAxonConfig {
             .dispatchInterceptors(tenantMessageDispatchInterceptor)
             .build()
     }
-} 
+}

@@ -48,4 +48,4 @@ public class PingCommandHandler {
         messageId = event.messageId
         logger.info("Applied PongEvent with messageId: ${event.messageId}, timestamp: ${event.timestamp}")
     }
-} 
+}

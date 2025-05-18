@@ -44,13 +44,9 @@ class TenantAwareDataSourceConfig {
 
         private val logger = LoggerFactory.getLogger(TenantAwareDataSource::class.java)
 
-        override fun getConnection(): Connection {
-            return configureConnection(super.getConnection())
-        }
+        override fun getConnection(): Connection = configureConnection(super.getConnection())
 
-        override fun getConnection(username: String, password: String): Connection {
-            return configureConnection(super.getConnection(username, password))
-        }
+        override fun getConnection(username: String, password: String): Connection = configureConnection(super.getConnection(username, password))
 
         private fun configureConnection(connection: Connection): Connection {
             // Get tenant ID from context holder
@@ -76,4 +72,4 @@ class TenantAwareDataSourceConfig {
             return connection
         }
     }
-} 
+}

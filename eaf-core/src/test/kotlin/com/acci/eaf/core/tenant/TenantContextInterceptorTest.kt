@@ -144,4 +144,4 @@ class TenantContextInterceptorTest {
         // Then
         assertNull(TenantContextHolder.getCurrentTenantId())
     }
-} 
+}

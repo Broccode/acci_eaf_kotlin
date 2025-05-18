@@ -23,4 +23,4 @@ class TenantWebMvcConfig(private val tenantContextInterceptor: TenantContextInte
             .addPathPatterns("/**") // Apply to all paths
             .excludePathPatterns("/actuator/**", "/health", "/error") // Exclude management endpoints
     }
-} 
+}

@@ -32,13 +32,9 @@ class DevTenantServiceApi : TenantServiceApi {
         )
     }
 
-    override fun getTenantById(tenantId: UUID): TenantInfo {
-        return tenants[tenantId] ?: throw RuntimeException("Tenant with ID $tenantId not found")
-    }
+    override fun getTenantById(tenantId: UUID): TenantInfo = tenants[tenantId] ?: throw RuntimeException("Tenant with ID $tenantId not found")
 
-    override fun existsById(tenantId: UUID): Boolean {
-        return tenants.containsKey(tenantId)
-    }
+    override fun existsById(tenantId: UUID): Boolean = tenants.containsKey(tenantId)
 
     /**
      * Fügt einen neuen Tenant hinzu oder aktualisiert einen vorhandenen.
@@ -51,7 +47,5 @@ class DevTenantServiceApi : TenantServiceApi {
     /**
      * Liefert die ID des Standard-Entwicklungs-Tenants.
      */
-    fun getDefaultTenantId(): UUID {
-        return defaultTenantId
-    }
-} 
+    fun getDefaultTenantId(): UUID = defaultTenantId
+}

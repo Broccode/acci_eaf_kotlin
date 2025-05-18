@@ -21,10 +21,7 @@ import org.springframework.transaction.annotation.Transactional
  * Implementation of the [TenantService] interface.
  */
 @Service
-class TenantServiceImpl(
-    private val tenantRepository: TenantRepository,
-    private val validator: Validator,
-) : TenantService {
+class TenantServiceImpl(private val tenantRepository: TenantRepository, private val validator: Validator) : TenantService {
 
     @Transactional
     override fun createTenant(createTenantDto: CreateTenantDto): TenantDto {
@@ -47,26 +44,19 @@ class TenantServiceImpl(
     }
 
     @Transactional(readOnly = true)
-    override fun getTenantById(tenantId: UUID): TenantDto {
-        return findTenantEntityById(tenantId).toDto()
-    }
+    override fun getTenantById(tenantId: UUID): TenantDto = findTenantEntityById(tenantId).toDto()
 
     @Transactional(readOnly = true)
-    override fun getTenantByName(name: String): TenantDto {
-        return tenantRepository.findByName(name)
+    override fun getTenantByName(name: String): TenantDto =
+        tenantRepository.findByName(name)
             .orElseThrow { TenantNotFoundByNameException(name) }
             .toDto()
-    }
 
     @Transactional(readOnly = true)
-    override fun getAllTenants(): List<TenantDto> {
-        return tenantRepository.findAll().map { it.toDto() }
-    }
+    override fun getAllTenants(): List<TenantDto> = tenantRepository.findAll().map { it.toDto() }
 
     @Transactional(readOnly = true)
-    override fun getTenantsByStatus(status: TenantStatus): List<TenantDto> {
-        return tenantRepository.findByStatus(status).map { it.toDto() }
-    }
+    override fun getTenantsByStatus(status: TenantStatus): List<TenantDto> = tenantRepository.findByStatus(status).map { it.toDto() }
 
     @Transactional
     override fun updateTenant(tenantId: UUID, updateTenantDto: UpdateTenantDto): TenantDto {
@@ -112,17 +102,14 @@ class TenantServiceImpl(
     }
 
     @Transactional(readOnly = true)
-    override fun existsByName(name: String): Boolean {
-        return tenantRepository.existsByName(name)
-    }
+    override fun existsByName(name: String): Boolean = tenantRepository.existsByName(name)
 
     /**
      * Finds a tenant entity by ID or throws an exception if not found.
      */
-    private fun findTenantEntityById(tenantId: UUID): Tenant {
-        return tenantRepository.findById(tenantId)
+    private fun findTenantEntityById(tenantId: UUID): Tenant =
+        tenantRepository.findById(tenantId)
             .orElseThrow { TenantNotFoundException(tenantId) }
-    }
 
     /**
      * Validates that a tenant name meets all requirements.
@@ -204,4 +191,4 @@ private fun Tenant.toDto(): TenantDto =
         status = this.status,
         createdAt = this.createdAt,
         updatedAt = this.updatedAt
-    ) 
+    )

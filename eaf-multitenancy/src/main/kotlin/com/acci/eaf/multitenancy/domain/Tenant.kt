@@ -89,4 +89,4 @@ enum class TenantStatus {
     INACTIVE,
     SUSPENDED,
     ARCHIVED,
-} 
+}

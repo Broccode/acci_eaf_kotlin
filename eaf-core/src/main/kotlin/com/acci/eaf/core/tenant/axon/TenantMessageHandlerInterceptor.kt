@@ -88,4 +88,4 @@ class TenantNotActiveException(message: String) : RuntimeException(message)
 /**
  * Exception thrown when a message references a tenant that doesn't exist.
  */
-class TenantNotFoundException(message: String) : RuntimeException(message) 
+class TenantNotFoundException(message: String) : RuntimeException(message)

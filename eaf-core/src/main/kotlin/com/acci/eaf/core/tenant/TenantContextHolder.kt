@@ -26,18 +26,14 @@ object TenantContextHolder {
      *
      * @return The UUID of the current tenant, or null if no tenant is set
      */
-    fun getCurrentTenantId(): UUID? {
-        return currentTenantId.get()
-    }
+    fun getCurrentTenantId(): UUID? = currentTenantId.get()
 
     /**
      * Checks if a tenant ID is set for the current thread.
      *
      * @return true if a tenant ID is set, false otherwise
      */
-    fun hasTenantId(): Boolean {
-        return currentTenantId.get() != null
-    }
+    fun hasTenantId(): Boolean = currentTenantId.get() != null
 
     /**
      * Clears the tenant ID for the current thread.
@@ -47,4 +43,4 @@ object TenantContextHolder {
     fun clear() {
         currentTenantId.remove()
     }
-} 
+}

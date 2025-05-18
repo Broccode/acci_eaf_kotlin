@@ -25,4 +25,4 @@ public class PongEventHandler {
         logger.info("Event timestamp: ${event.timestamp}")
         // In einer realen Anwendung würde hier weitere Verarbeitungslogik implementiert werden
     }
-} 
+}

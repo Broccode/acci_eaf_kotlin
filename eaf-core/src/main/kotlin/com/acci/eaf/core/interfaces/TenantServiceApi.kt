@@ -34,10 +34,7 @@ interface TenantServiceApi {
  * @property tenantId ID des Tenants
  * @property status Status des Tenants
  */
-data class TenantInfo(
-    val tenantId: UUID,
-    val status: TenantStatus,
-)
+data class TenantInfo(val tenantId: UUID, val status: TenantStatus)
 
 /**
  * Mögliche Status eines Tenants.
@@ -48,4 +45,4 @@ enum class TenantStatus {
     INACTIVE,
     SUSPENDED,
     ARCHIVED,
-} 
+}

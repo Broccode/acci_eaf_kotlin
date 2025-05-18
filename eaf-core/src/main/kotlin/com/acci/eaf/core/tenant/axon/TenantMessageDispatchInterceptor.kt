@@ -28,8 +28,8 @@ class TenantMessageDispatchInterceptor<T : Message<*>> : MessageDispatchIntercep
      * @param messages Liste der auszusendenden Nachrichten
      * @return Eine Funktion, die eine Nachricht mit hinzugefügten Tenant-Metadaten zurückgibt
      */
-    override fun handle(messages: List<T>): BiFunction<Int, T, T> {
-        return BiFunction { index, message ->
+    override fun handle(messages: List<T>): BiFunction<Int, T, T> =
+        BiFunction { index, message ->
             val tenantId = TenantContextHolder.getCurrentTenantId()
 
             if (tenantId != null) {
@@ -40,5 +40,4 @@ class TenantMessageDispatchInterceptor<T : Message<*>> : MessageDispatchIntercep
                 message
             }
         }
-    }
-} 
+}

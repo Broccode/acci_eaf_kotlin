@@ -233,4 +233,4 @@ class TenantServiceImplTest {
         verify(tenantRepository, times(1)).findById(tenantId)
         verify(tenantRepository, times(0)).save(org.mockito.ArgumentMatchers.any(Tenant::class.java))
     }
-} 
+}

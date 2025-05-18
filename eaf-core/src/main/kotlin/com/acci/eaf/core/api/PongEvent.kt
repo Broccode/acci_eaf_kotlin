@@ -9,7 +9,4 @@ import java.util.UUID
  * @property messageId Die eindeutige ID des Events, entspricht der ID des auslösenden PingCommand
  * @property timestamp Der Zeitpunkt, zu dem das Event erzeugt wurde
  */
-public data class PongEvent(
-    val messageId: UUID,
-    val timestamp: Instant = Instant.now(),
-) 
+public data class PongEvent(val messageId: UUID, val timestamp: Instant = Instant.now())

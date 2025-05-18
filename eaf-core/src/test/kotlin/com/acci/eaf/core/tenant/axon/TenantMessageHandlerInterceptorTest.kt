@@ -149,4 +149,4 @@ class TenantMessageHandlerInterceptorTest {
         assertNull(TenantContextHolder.getCurrentTenantId())
         Mockito.verify(interceptorChain, Mockito.times(0)).proceed()
     }
-} 
+}
