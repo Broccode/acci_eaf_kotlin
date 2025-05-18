@@ -54,6 +54,9 @@ java {
 
 // Konfiguriere die Java- und Kotlin-Kompilierungsoptionen entsprechend dem Projekt-Standard
 kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(24))
+    }
     compilerOptions {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
         freeCompilerArgs.addAll(
