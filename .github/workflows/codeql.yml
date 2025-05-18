@@ -73,11 +73,11 @@ jobs:
         # queries: security-extended,security-and-quality
 
     # Manual build steps for java-kotlin
-    - name: Set up JDK 24 for java-kotlin manual build
+    - name: Set up JDK 21 for java-kotlin manual build
       if: matrix.language == 'java-kotlin' && matrix.build-mode == 'manual'
       uses: actions/setup-java@v4
       with:
-        java-version: '24'
+        java-version: '21'
         distribution: 'temurin'
 
     - name: Ensure gradlew is executable for java-kotlin manual build
