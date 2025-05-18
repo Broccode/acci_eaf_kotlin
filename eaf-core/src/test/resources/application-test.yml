@@ -10,8 +10,8 @@ spring:
     password: 
     driver-class-name: org.h2.Driver
   
-  # Deaktiviere Flyway für Tests
-  flyway:
+  # Deaktiviere Liquibase für Tests
+  liquibase:
     enabled: false
 
 # Axon Framework Konfiguration für Tests

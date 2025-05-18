@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: eaf-multitenancy
+  datasource:
+    url: jdbc:postgresql://localhost:5432/eaf_multitenancy_db
+    username: eaf_user
+    password: eaf_password
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      pool-name: EafMultitenancyHikariCP
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    contexts: ${LIQUIBASE_CONTEXTS:default}
+    default-schema: public
+    parameters:
+      textcase: lowercase
+      
+# Logging configuration
+logging:
+  level:
+    root: INFO
+    com.acci.eaf: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    liquibase: INFO
+
+# Server configuration
+server:
+  port: 8082
+  servlet:
+    context-path: /api/multitenancy 

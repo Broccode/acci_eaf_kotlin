@@ -1,21 +1,24 @@
 spring:
   datasource:
-    # Properties are set dynamically by the Testcontainers setup
+    # Die URL wird dynamisch in der Testklasse gesetzt, da wir Testcontainers verwenden
     driver-class-name: org.postgresql.Driver
   jpa:
-    show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-  flyway:
+    show-sql: true
+  liquibase:
     enabled: true
-    locations: classpath:db/migration
-    baseline-on-migrate: true
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    contexts: test
 
+# Logging für Tests reduzieren
 logging:
   level:
+    root: WARN
+    com.acci.eaf: DEBUG
     org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-    com.acci.eaf.multitenancy: DEBUG 
+    liquibase: INFO 

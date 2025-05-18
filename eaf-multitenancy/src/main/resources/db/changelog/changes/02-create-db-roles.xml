@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.31.xsd">
+
+    <changeSet id="2" author="eaf-dev">
+        <comment>Create database roles for EAF application with RLS</comment>
+        
+        <!-- Erste einfache Prüfung, ob die Rolle existiert, ist zu bevorzugen,
+             da DO-Blöcke bei dieser Liquibase-Version Probleme machen -->
+        <sql splitStatements="true">
+            -- Create eaf_app role
+            CREATE ROLE eaf_app;
+            COMMENT ON ROLE eaf_app IS 'Standard application role used for normal operations. RLS is enforced for this role.';
+        </sql>
+        
+        <sql splitStatements="true">
+            -- Create eaf_admin role
+            CREATE ROLE eaf_admin BYPASSRLS;
+            COMMENT ON ROLE eaf_admin IS 'Maintenance role with BYPASSRLS for system operations and administration tasks.';
+        </sql>
+        
+        <rollback>
+            <sql>
+                DROP ROLE IF EXISTS eaf_app;
+                DROP ROLE IF EXISTS eaf_admin;
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog> 

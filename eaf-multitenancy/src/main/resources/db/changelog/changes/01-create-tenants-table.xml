@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.31.xsd">
+
+    <changeSet id="1" author="eaf-dev">
+        <comment>Create tenants table</comment>
+        <createTable tableName="tenants">
+            <column name="tenant_id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="status" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createIndex indexName="idx_tenant_name" tableName="tenants" unique="true">
+            <column name="name"/>
+        </createIndex>
+        
+        <setTableRemarks tableName="tenants" remarks="Stores tenant information for multitenancy support"/>
+        <setColumnRemarks tableName="tenants" columnName="tenant_id" remarks="Primary key and unique identifier for the tenant"/>
+        <setColumnRemarks tableName="tenants" columnName="name" remarks="Unique name of the tenant"/>
+        <setColumnRemarks tableName="tenants" columnName="status" remarks="Current status of the tenant (PENDING_VERIFICATION, ACTIVE, INACTIVE, SUSPENDED, ARCHIVED)"/>
+        <setColumnRemarks tableName="tenants" columnName="created_at" remarks="Timestamp when the tenant was created"/>
+        <setColumnRemarks tableName="tenants" columnName="updated_at" remarks="Timestamp when the tenant was last updated"/>
+    </changeSet>
+
+    <changeSet id="1-rollback" author="eaf-dev">
+        <comment>Drop tenants table - rollback</comment>
+        <rollback>
+            <dropTable tableName="tenants"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog> 

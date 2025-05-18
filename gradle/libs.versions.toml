@@ -23,7 +23,7 @@ log4j = "2.22.1"
 
 # Datenbanken
 postgresql = "42.7.2"
-flyway = "10.8.1"
+liquibase = "4.31.1"
 hikari = "5.1.0"
 
 # Test-Bibliotheken
@@ -83,7 +83,7 @@ log4j-slf4j = { module = "org.apache.logging.log4j:log4j-slf4j2-impl", version.r
 
 # Datenbanken
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
-flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
+liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
 hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
 
 # Test-Bibliotheken

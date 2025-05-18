@@ -21,6 +21,9 @@ spring:
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration
+  # Deaktiviere Liquibase für Tests
+  liquibase:
+    enabled: false
 
 # Disable Security for tests
 security:

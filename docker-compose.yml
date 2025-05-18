@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: eaf-postgres
+    environment:
+      POSTGRES_DB: eaf_multitenancy_db
+      POSTGRES_USER: eaf_user
+      POSTGRES_PASSWORD: eaf_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U eaf_user -d eaf_multitenancy_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  liquibase:
+    image: liquibase/liquibase:4.31.1
+    container_name: eaf-liquibase
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./eaf-multitenancy/src/main/resources:/liquibase/changelog
+    command: >
+      --changelog-file=db/changelog/db.changelog-master.xml
+      --url=jdbc:postgresql://postgres:5432/eaf_multitenancy_db
+      --username=eaf_user
+      --password=eaf_password
+      --search-path=/liquibase/changelog
+      update
+
+volumes:
+  postgres-data: 

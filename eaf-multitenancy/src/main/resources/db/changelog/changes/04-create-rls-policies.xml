@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.31.xsd">
+
+    <changeSet id="4" author="eaf-dev">
+        <comment>Create RLS policies for tenant data isolation</comment>
+        
+        <!-- Enable RLS on tables -->
+        <sql splitStatements="true">
+            -- Enable RLS on example_notes table
+            ALTER TABLE example_notes ENABLE ROW LEVEL SECURITY;
+            ALTER TABLE example_notes FORCE ROW LEVEL SECURITY;
+            
+            -- Enable RLS on example_tasks table
+            ALTER TABLE example_tasks ENABLE ROW LEVEL SECURITY;
+            ALTER TABLE example_tasks FORCE ROW LEVEL SECURITY;
+        </sql>
+        
+        <!-- Definiere Berechtigungen für Rollen -->
+        <sql splitStatements="true">
+            -- Grant permissions to roles
+            GRANT USAGE ON SCHEMA public TO eaf_app;
+            GRANT SELECT, INSERT, UPDATE, DELETE ON example_notes TO eaf_app;
+            GRANT SELECT, INSERT, UPDATE, DELETE ON example_tasks TO eaf_app;
+            GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO eaf_app;
+
+            -- Admin role gets full access
+            GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO eaf_admin;
+            GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO eaf_admin;
+        </sql>
+        
+        <rollback>
+            <sql>
+                ALTER TABLE example_notes DISABLE ROW LEVEL SECURITY;
+                ALTER TABLE example_tasks DISABLE ROW LEVEL SECURITY;
+                
+                -- Revoke permissions
+                REVOKE ALL PRIVILEGES ON example_notes FROM eaf_app;
+                REVOKE ALL PRIVILEGES ON example_tasks FROM eaf_app;
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog> 

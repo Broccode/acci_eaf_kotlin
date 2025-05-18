@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.31.xsd">
+    
+    <!-- Hier werden alle Changelogs inkludiert -->
+    <include file="db/changelog/changes/01-create-tenants-table.xml"/>
+    <include file="db/changelog/changes/02-create-db-roles.xml"/>
+    <include file="db/changelog/changes/03-create-example-tables.xml"/>
+    <include file="db/changelog/changes/04-create-rls-policies.xml"/>
+</databaseChangeLog> 
