@@ -7,6 +7,7 @@ import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Primary
 import org.springframework.context.annotation.Profile
 
 /**
@@ -20,6 +21,7 @@ class TestConfig {
      * Stellt eine Mock-Implementierung von TenantServiceApi für Tests bereit.
      */
     @Bean
+    @Primary
     fun testTenantServiceApi(): TenantServiceApi =
         object : TenantServiceApi {
             // In-Memory-Speicher für Test-Tenants

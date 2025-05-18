@@ -1,6 +1,5 @@
 package com.acci.eaf.core.tenant.axon
 
-import jakarta.annotation.PostConstruct
 import org.axonframework.commandhandling.CommandBus
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.commandhandling.gateway.DefaultCommandGateway
@@ -11,7 +10,6 @@ import org.axonframework.messaging.Message
 import org.axonframework.queryhandling.DefaultQueryGateway
 import org.axonframework.queryhandling.QueryBus
 import org.axonframework.queryhandling.QueryGateway
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -24,37 +22,6 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class TenantAxonConfig {
 
-    @Autowired
-    private lateinit var eventBus: EventBus
-
-    @Autowired
-    private lateinit var tenantMessageDispatchInterceptor: TenantMessageDispatchInterceptor<Message<*>>
-
-    @Autowired
-    private lateinit var tenantMessageHandlerInterceptor: TenantMessageHandlerInterceptor
-
-    /**
-     * Registriert die Interceptors beim EventBus.
-     * Diese Methode wird nach der Initialisierung aller benötigten Beans aufgerufen.
-     */
-    @PostConstruct
-    fun configureEventBus() {
-        // Registriere den Handler-Interceptor für den EventBus, wenn die Methode verfügbar ist
-        try {
-            val messageHandlerInterceptorClass = Class.forName("org.axonframework.messaging.MessageHandlerInterceptor")
-            val method = eventBus.javaClass.getMethod(
-                "registerHandlerInterceptor",
-                messageHandlerInterceptorClass
-            )
-            method.invoke(eventBus, tenantMessageHandlerInterceptor)
-        } catch (e: Exception) {
-            // EventBus unterstützt möglicherweise keine Handler-Interceptors
-            // In diesem Fall verwenden wir nur den Dispatch-Interceptor
-        }
-
-        eventBus.registerDispatchInterceptor(tenantMessageDispatchInterceptor)
-    }
-
     /**
      * Erstellt ein ConfigurerModule, das die MessageHandlerInterceptors für
      * Command-, Event- und Query-Busse registriert.
@@ -65,10 +32,7 @@ class TenantAxonConfig {
     @Bean
     fun tenantMessageHandlerInterceptorConfigurer(tenantMessageHandlerInterceptor: TenantMessageHandlerInterceptor): ConfigurerModule =
         ConfigurerModule { configurer: Configurer ->
-            // Registriere den Interceptor für alle Message-Handler
-            // Da die direkten Methoden nicht verfügbar sind, verwenden wir einen alternativen Ansatz
-            // über das Bean im Spring-Kontext. Die Interceptors werden in den entsprechenden
-            // CommandBus/EventBus/QueryBus-Konfigurationen registriert.
+            // Konfiguriert wird über die direkten Bean-Methoden unten
         }
 
     /**
@@ -115,5 +79,35 @@ class TenantAxonConfig {
             .queryBus(queryBus)
             .dispatchInterceptors(tenantMessageDispatchInterceptor)
             .build()
+    }
+
+    /**
+     * Konfiguriert den EventBus mit den notwendigen Interceptors.
+     *
+     * @param eventBus Der EventBus
+     * @param tenantMessageDispatchInterceptor Der Interceptor für ausgehende Nachrichten
+     * @param tenantMessageHandlerInterceptor Der Interceptor für eingehende Nachrichten
+     */
+    @Bean
+    fun configureEventBus(
+        eventBus: EventBus,
+        tenantMessageDispatchInterceptor: TenantMessageDispatchInterceptor<Message<*>>,
+        tenantMessageHandlerInterceptor: TenantMessageHandlerInterceptor,
+    ): EventBus {
+        // Registriere den Handler-Interceptor für den EventBus
+        try {
+            val messageHandlerInterceptorClass = Class.forName("org.axonframework.messaging.MessageHandlerInterceptor")
+            val method = eventBus.javaClass.getMethod(
+                "registerHandlerInterceptor",
+                messageHandlerInterceptorClass
+            )
+            method.invoke(eventBus, tenantMessageHandlerInterceptor)
+        } catch (e: Exception) {
+            // EventBus unterstützt möglicherweise keine Handler-Interceptors
+            // In diesem Fall verwenden wir nur den Dispatch-Interceptor
+        }
+
+        eventBus.registerDispatchInterceptor(tenantMessageDispatchInterceptor)
+        return eventBus
     }
 }

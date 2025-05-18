@@ -34,6 +34,7 @@ class TenantMessageDispatchInterceptor<T : Message<*>> : MessageDispatchIntercep
 
             if (tenantId != null) {
                 logger.debug("Adding tenant ID {} to message metadata of type {}", tenantId, message.payloadType.simpleName)
+                @Suppress("UNCHECKED_CAST")
                 message.withMetaData(mapOf(TENANT_KEY to tenantId.toString())) as T
             } else {
                 logger.debug("No tenant ID available in context for message of type {}", message.payloadType.simpleName)
