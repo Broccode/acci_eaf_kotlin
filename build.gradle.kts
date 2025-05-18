@@ -1,9 +1,9 @@
 // Root-Projekt Build-Datei für ACCI EAF
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.9.21" apply false
-    id("org.jetbrains.kotlin.plugin.spring") version "1.9.21" apply false
-    id("org.jetbrains.kotlin.plugin.jpa") version "1.9.21" apply false
+    id("org.jetbrains.kotlin.jvm") version "2.1.21" apply false
+    id("org.jetbrains.kotlin.plugin.spring") version "2.1.21" apply false
+    id("org.jetbrains.kotlin.plugin.jpa") version "2.1.21" apply false
     id("com.diffplug.spotless") version "6.25.0" apply false
 }
 

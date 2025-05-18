@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.21")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.21")
     implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.3")
     implementation("org.jlleitschuh.gradle:ktlint-gradle:11.5.1")
     
@@ -19,7 +19,7 @@ dependencies {
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(24))
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
 }
 
