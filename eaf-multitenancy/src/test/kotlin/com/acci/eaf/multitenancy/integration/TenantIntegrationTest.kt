@@ -7,6 +7,7 @@ import com.acci.eaf.multitenancy.exception.TenantNameAlreadyExistsException
 import com.acci.eaf.multitenancy.exception.TenantNotFoundException
 import com.acci.eaf.multitenancy.repository.TenantRepository
 import com.acci.eaf.multitenancy.service.TenantService
+import java.util.UUID
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -19,7 +20,6 @@ import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
-import java.util.UUID
 
 @SpringBootTest
 @Testcontainers

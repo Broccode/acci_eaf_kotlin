@@ -1,9 +1,9 @@
 package com.acci.eaf.controlplane.api.audit
 
+import java.util.UUID
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
-import java.util.UUID
 
 /**
  * Simple audit logger for tenant operations.
@@ -12,7 +12,7 @@ import java.util.UUID
 @Component
 class AuditLogger {
     private val logger = LoggerFactory.getLogger(AuditLogger::class.java)
-    
+
     /**
      * Log a tenant creation event.
      */
@@ -24,11 +24,15 @@ class AuditLogger {
         )
         // TODO (EAF-XXX): Integrate with central audit log (Story 10.7)
     }
-    
+
     /**
      * Log a tenant update event.
      */
-    fun logTenantUpdate(tenantId: UUID, tenantName: String, updatedFields: Map<String, Any?>) {
+    fun logTenantUpdate(
+        tenantId: UUID,
+        tenantName: String,
+        updatedFields: Map<String, Any?>,
+    ) {
         val actor = getCurrentActor()
         logger.info(
             "AUDIT: TENANT_UPDATED - Actor: {}, TenantId: {}, TenantName: {}, UpdatedFields: {}",
@@ -36,7 +40,7 @@ class AuditLogger {
         )
         // TODO (EAF-XXX): Integrate with central audit log (Story 10.7)
     }
-    
+
     /**
      * Log a tenant deletion (deactivation) event.
      */
@@ -48,7 +52,7 @@ class AuditLogger {
         )
         // TODO (EAF-XXX): Integrate with central audit log (Story 10.7)
     }
-    
+
     /**
      * Get the current actor from the security context.
      */

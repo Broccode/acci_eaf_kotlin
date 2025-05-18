@@ -15,15 +15,15 @@ dependencyManagement {
 dependencies {
     // Dependencies from eaf-core for common utilities
     implementation(project(":eaf-core"))
-    
+
     // Database related
     implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.postgresql)
     implementation(libs.flyway.core)
-    
+
     // Validation
     implementation(libs.spring.boot.starter.validation)
-    
+
     // Testing
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.testcontainers.postgresql)

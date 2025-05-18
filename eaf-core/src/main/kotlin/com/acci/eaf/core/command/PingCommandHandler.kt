@@ -2,13 +2,13 @@ package com.acci.eaf.core.command
 
 import com.acci.eaf.core.api.PingCommand
 import com.acci.eaf.core.api.PongEvent
+import java.util.UUID
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier
 import org.axonframework.modelling.command.AggregateLifecycle
 import org.axonframework.spring.stereotype.Aggregate
 import org.slf4j.LoggerFactory
-import java.util.UUID
 
 /**
  * Ein einfaches Aggregat, das PingCommands verarbeitet und PongEvents erzeugt.
@@ -29,7 +29,7 @@ public class PingCommandHandler {
 
     /**
      * Verarbeitet ein PingCommand und erzeugt ein entsprechendes PongEvent.
-     * 
+     *
      * @param command Das zu verarbeitende PingCommand
      */
     @CommandHandler
@@ -40,7 +40,7 @@ public class PingCommandHandler {
 
     /**
      * Verarbeitet ein PongEvent und aktualisiert den Zustand des Aggregats.
-     * 
+     *
      * @param event Das zu verarbeitende PongEvent
      */
     @EventSourcingHandler

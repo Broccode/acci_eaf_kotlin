@@ -4,12 +4,12 @@ import java.util.UUID
 
 /**
  * Interface für den Zugriff auf Tenant-Informationen.
- * 
+ *
  * Dieses Interface definiert die grundlegenden Methoden, die für die Tenant-Validierung
  * in der Tenant-Kontext-Propagierung benötigt werden.
  */
 interface TenantServiceApi {
-    
+
     /**
      * Holt einen Tenant anhand seiner ID.
      *
@@ -18,7 +18,7 @@ interface TenantServiceApi {
      * @throws Exception wenn kein Tenant mit der angegebenen ID existiert
      */
     fun getTenantById(tenantId: UUID): TenantInfo
-    
+
     /**
      * Prüft, ob ein Tenant existiert.
      *
@@ -36,7 +36,7 @@ interface TenantServiceApi {
  */
 data class TenantInfo(
     val tenantId: UUID,
-    val status: TenantStatus
+    val status: TenantStatus,
 )
 
 /**
@@ -47,5 +47,5 @@ enum class TenantStatus {
     ACTIVE,
     INACTIVE,
     SUSPENDED,
-    ARCHIVED
+    ARCHIVED,
 } 

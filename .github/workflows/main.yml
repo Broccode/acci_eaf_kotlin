@@ -65,7 +65,7 @@ jobs:
           
           while [ $attempt -le $max_attempts ]; do
             echo "::group::Build attempt $attempt of $max_attempts"
-            if ./gradlew build cleanCheck --info --stacktrace; then
+            if ./gradlew spotlessCheck build cleanCheck --info --stacktrace; then
               echo "::endgroup::"
               echo "Build succeeded on attempt $attempt"
               exit 0
@@ -232,4 +232,5 @@ jobs:
           path: |
             **/build/reports/detekt/
             **/build/reports/ktlint/
+            **/build/reports/spotless/
           retention-days: 7

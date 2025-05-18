@@ -2,11 +2,11 @@ package com.acci.eaf.multitenancy.repository
 
 import com.acci.eaf.multitenancy.domain.Tenant
 import com.acci.eaf.multitenancy.domain.TenantStatus
+import java.util.Optional
+import java.util.UUID
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.stereotype.Repository
-import java.util.Optional
-import java.util.UUID
 
 /**
  * Repository for managing [Tenant] entities.
@@ -21,7 +21,7 @@ interface TenantRepository : JpaRepository<Tenant, UUID>, JpaSpecificationExecut
      * @return An [Optional] containing the tenant if found, or empty if not found
      */
     fun findByName(name: String): Optional<Tenant>
-    
+
     /**
      * Finds all tenants with the given status.
      *
@@ -29,7 +29,7 @@ interface TenantRepository : JpaRepository<Tenant, UUID>, JpaSpecificationExecut
      * @return List of tenants with the specified status
      */
     fun findByStatus(status: TenantStatus): List<Tenant>
-    
+
     /**
      * Checks if a tenant with the given name exists.
      *

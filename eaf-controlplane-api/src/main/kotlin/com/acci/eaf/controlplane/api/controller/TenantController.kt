@@ -12,13 +12,11 @@ import com.acci.eaf.multitenancy.domain.TenantStatus
 import com.acci.eaf.multitenancy.service.TenantService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
-import io.swagger.v3.oas.annotations.media.Content
-import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
-import org.springframework.http.HttpStatus
+import java.util.UUID
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.validation.annotation.Validated
@@ -32,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
-import java.util.UUID
 
 /**
  * REST Controller for tenant management operations.
@@ -46,7 +43,7 @@ class TenantController(
     private val tenantService: TenantService,
     private val tenantPageService: TenantPageService,
     private val tenantMapper: TenantMapper,
-    private val auditLogger: AuditLogger
+    private val auditLogger: AuditLogger,
 ) {
 
     /**
@@ -69,17 +66,17 @@ class TenantController(
         val createTenantDto = tenantMapper.toServiceDto(requestDto)
         val createdTenant = tenantService.createTenant(createTenantDto)
         val responseDto = tenantMapper.toResponseDto(createdTenant)
-        
+
         // Audit logging
         auditLogger.logTenantCreation(responseDto.tenantId, responseDto.name)
-        
+
         // Build the location URI for the created resource
         val location = ServletUriComponentsBuilder
             .fromCurrentRequest()
             .path("/{tenantId}")
             .buildAndExpand(responseDto.tenantId)
             .toUri()
-        
+
         return ResponseEntity
             .created(location)
             .body(responseDto)
@@ -102,15 +99,12 @@ class TenantController(
     fun getTenants(
         @Parameter(description = "Page number (0-based)")
         @RequestParam(defaultValue = "0") page: Int,
-        
         @Parameter(description = "Page size")
         @RequestParam(defaultValue = "20") size: Int,
-        
         @Parameter(description = "Filter by tenant status")
         @RequestParam(required = false) status: TenantStatus?,
-        
         @Parameter(description = "Filter by tenant name (contains)")
-        @RequestParam(required = false) nameContains: String?
+        @RequestParam(required = false) nameContains: String?,
     ): ResponseEntity<PagedTenantsResponseDto> {
         val pageParams = TenantPageParams(
             page = page,
@@ -118,10 +112,10 @@ class TenantController(
             status = status,
             nameContains = nameContains
         )
-        
+
         val tenantPage = tenantPageService.getTenants(pageParams)
         val responseDto = tenantMapper.toPagedResponseDto(tenantPage)
-        
+
         return ResponseEntity.ok(responseDto)
     }
 
@@ -142,11 +136,11 @@ class TenantController(
     )
     fun getTenantById(
         @Parameter(description = "Tenant ID", required = true)
-        @PathVariable tenantId: UUID
+        @PathVariable tenantId: UUID,
     ): ResponseEntity<TenantResponseDto> {
         val tenantDto = tenantService.getTenantById(tenantId)
         val responseDto = tenantMapper.toResponseDto(tenantDto)
-        
+
         return ResponseEntity.ok(responseDto)
     }
 
@@ -170,19 +164,18 @@ class TenantController(
     fun updateTenant(
         @Parameter(description = "Tenant ID", required = true)
         @PathVariable tenantId: UUID,
-        
-        @Valid @RequestBody requestDto: UpdateTenantRequestDto
+        @Valid @RequestBody requestDto: UpdateTenantRequestDto,
     ): ResponseEntity<TenantResponseDto> {
         val updateTenantDto = tenantMapper.toServiceDto(requestDto)
         val updatedTenant = tenantService.updateTenant(tenantId, updateTenantDto)
         val responseDto = tenantMapper.toResponseDto(updatedTenant)
-        
+
         // Audit logging
         val updatedFields = mutableMapOf<String, Any?>()
         requestDto.name?.let { updatedFields["name"] = it }
         requestDto.status?.let { updatedFields["status"] = it }
         auditLogger.logTenantUpdate(tenantId, responseDto.name, updatedFields)
-        
+
         return ResponseEntity.ok(responseDto)
     }
 
@@ -203,17 +196,17 @@ class TenantController(
     )
     fun deleteTenant(
         @Parameter(description = "Tenant ID", required = true)
-        @PathVariable tenantId: UUID
+        @PathVariable tenantId: UUID,
     ): ResponseEntity<Void> {
         // Get the tenant name before deletion for audit logging
         val tenant = tenantService.getTenantById(tenantId)
-        
+
         // Perform the deletion (soft delete)
         tenantService.deleteTenant(tenantId)
-        
+
         // Audit logging
         auditLogger.logTenantDeletion(tenantId, tenant.name)
-        
+
         return ResponseEntity.noContent().build()
     }
 } 

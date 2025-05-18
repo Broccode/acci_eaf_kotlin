@@ -20,7 +20,7 @@ interface TenantService {
      * @throws InvalidTenantNameException if the tenant name is invalid
      */
     fun createTenant(createTenantDto: CreateTenantDto): TenantDto
-    
+
     /**
      * Retrieves a tenant by its ID.
      *
@@ -29,7 +29,7 @@ interface TenantService {
      * @throws TenantNotFoundException if no tenant with the specified ID exists
      */
     fun getTenantById(tenantId: UUID): TenantDto
-    
+
     /**
      * Retrieves a tenant by its name.
      *
@@ -38,14 +38,14 @@ interface TenantService {
      * @throws TenantNotFoundByNameException if no tenant with the specified name exists
      */
     fun getTenantByName(name: String): TenantDto
-    
+
     /**
      * Lists all tenants.
      *
      * @return List of all tenants
      */
     fun getAllTenants(): List<TenantDto>
-    
+
     /**
      * Lists all tenants with the specified status.
      *
@@ -53,7 +53,7 @@ interface TenantService {
      * @return List of tenants with the specified status
      */
     fun getTenantsByStatus(status: TenantStatus): List<TenantDto>
-    
+
     /**
      * Updates an existing tenant.
      *
@@ -66,7 +66,7 @@ interface TenantService {
      * @throws InvalidTenantNameException if the new tenant name is invalid
      */
     fun updateTenant(tenantId: UUID, updateTenantDto: UpdateTenantDto): TenantDto
-    
+
     /**
      * Soft-deletes a tenant by changing its status to ARCHIVED.
      *
@@ -75,7 +75,7 @@ interface TenantService {
      * @throws TenantNotFoundException if no tenant with the specified ID exists
      */
     fun deleteTenant(tenantId: UUID): TenantDto
-    
+
     /**
      * Checks if a tenant with the specified name exists.
      *

@@ -18,16 +18,16 @@ dependencies {
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.actuator)
     implementation(libs.bundles.axon)
-    
+
     // Datenbanken und JDBC - Für TenantAwareDataSourceConfig
-    implementation(libs.spring.boot.starter.data.jpa)  // Enthält JDBC-Unterstützung
-    implementation(libs.hikari)  // HikariCP für Connection Pooling
+    implementation(libs.spring.boot.starter.data.jpa) // Enthält JDBC-Unterstützung
+    implementation(libs.hikari) // HikariCP für Connection Pooling
 
     // Logging
     implementation(libs.bundles.logging)
     implementation("org.apache.logging.log4j:log4j-api:2.22.1")
     implementation("org.apache.logging.log4j:log4j-core:2.22.1")
-    
+
     // Exclude conflicting Spring Boot default logger
     configurations.all {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
@@ -41,7 +41,7 @@ dependencies {
     testImplementation(libs.bundles.testing.kotest)
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.axon.test)
-    
+
     // H2 für Tests
     testRuntimeOnly("com.h2database:h2:2.2.224")
 }
@@ -59,9 +59,12 @@ kotlin {
     }
     compilerOptions {
         freeCompilerArgs.addAll(
-            "-Xjvm-default=all", // Aktiviere JVM Default-Methoden für alle
-            // "-Xexplicit-api=strict", // Erfordere explizite Sichtbarkeitsmodifikatoren (temporär deaktiviert)
-            "-Xcontext-receivers" // Aktiviere Context Receivers für fortgeschrittene Funktionen
+            // Aktiviere JVM Default-Methoden für alle
+            "-Xjvm-default=all",
+            // Erfordere explizite Sichtbarkeitsmodifikatoren (temporär deaktiviert)
+            // "-Xexplicit-api=strict",
+            // Aktiviere Context Receivers für fortgeschrittene Funktionen
+            "-Xcontext-receivers"
         )
     }
 }

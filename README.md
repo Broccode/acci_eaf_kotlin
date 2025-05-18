@@ -54,3 +54,7 @@ Das Framework stellt folgende Gradle-Plugins zur Verfügung:
 ## Entwicklung
 
 Weitere Informationen zur Entwicklung, Coding Standards und Projektrichtlinien finden Sie in der Dokumentation im `docs/`-Verzeichnis.
+
+### Code-Formatierung
+
+Dieses Projekt verwendet Spotless mit ktlint für die automatische Code-Formatierung. Weitere Informationen finden Sie in der [Code-Formatierungs-Dokumentation](docs/tooling/code-formatting.md).

@@ -23,9 +23,9 @@ public class TestConfiguration {
     public fun configureEventProcessing(configurer: EventProcessingConfigurer) {
         // Konfiguriere den testEventHandler als Subscribing Processor für direktes Event-Handling
         configurer.registerSubscribingEventProcessor("testEventHandler")
-        
+
         // Konfiguriere alle anderen Processors als Tracking mit kleiner Batch-Größe für Tests
-        configurer.registerTrackingEventProcessorConfiguration("default") { 
+        configurer.registerTrackingEventProcessorConfiguration("default") {
             TrackingEventProcessorConfiguration.forSingleThreadedProcessing()
                 .andBatchSize(1)
         }

@@ -4,6 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.9.21" apply false
     id("org.jetbrains.kotlin.plugin.spring") version "1.9.21" apply false
     id("org.jetbrains.kotlin.plugin.jpa") version "1.9.21" apply false
+    id("com.diffplug.spotless") version "6.25.0" apply false
 }
 
 // Gemeinsame Konfiguration für alle Projekte
@@ -14,6 +15,45 @@ allprojects {
     // Anwenden von Repositories für alle Projekte
     repositories {
         mavenCentral()
+    }
+}
+
+subprojects {
+    // Spotless Plugin anwenden und konfigurieren
+    apply(plugin = "com.diffplug.spotless")
+    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+        // Ratchet from an existing state (optional, but good for starting)
+        // ratchetFrom("origin/main") // Example: only format files changed since origin/main
+
+        kotlin {
+            // Standardmäßig wird .editorconfig für ktlint verwendet, falls vorhanden.
+            // target "src/**/*.kt" wird standardmäßig von der Kotlin-Extension abgedeckt, 
+            // wenn das Kotlin-Plugin im jeweiligen Subprojekt angewendet wird.
+            // Workaround for https://github.com/pinterest/ktlint/issues/1626 or similar type inference issues
+            // The value '3' from .editorconfig for this property seems to be read as String instead of Int by ktlint 0.50.0
+            ktlint().editorConfigOverride(mapOf(
+                "ktlint_function_signature_rule_force_multiline_when_parameter_count_greater_or_equal_than" to 3 
+            ))
+            // licenseHeaderFile(project.rootProject.file("config/spotless/copyright.kt"), "(package|import|@file:)")
+        }
+        kotlinGradle {
+            // Standardmäßig wird .editorconfig für ktlint verwendet, falls vorhanden.
+            // target "*.kts" wird standardmäßig von der KotlinGradle-Extension abgedeckt.
+            // Workaround for https://github.com/pinterest/ktlint/issues/1626 or similar type inference issues
+            ktlint().editorConfigOverride(mapOf(
+                "ktlint_function_signature_rule_force_multiline_when_parameter_count_greater_or_equal_than" to 3
+            ))
+        }
+        // Hier könnten weitere Formatter für andere Sprachen/Dateitypen hinzugefügt werden
+        // z.B. json, yaml, markdown
+        // json {
+        //   target("src/**/*.json")
+        //   jackson() // oder gson()
+        // }
+        // markdown {
+        //   target("*.md", "docs/**/*.md")
+        //   flexmark()
+        // }
     }
 }
 

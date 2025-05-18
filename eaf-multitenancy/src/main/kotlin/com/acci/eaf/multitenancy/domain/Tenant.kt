@@ -1,13 +1,19 @@
 package com.acci.eaf.multitenancy.domain
 
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
+import jakarta.persistence.Id
+import jakarta.persistence.Index
+import jakarta.persistence.Table
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
-import org.hibernate.annotations.CreationTimestamp
-import org.hibernate.annotations.UpdateTimestamp
 import java.time.Instant
 import java.util.UUID
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.UpdateTimestamp
 
 /**
  * Represents a tenant in the EAF multitenancy system.
@@ -65,7 +71,7 @@ class Tenant(
      */
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
-    var updatedAt: Instant = Instant.now()
+    var updatedAt: Instant = Instant.now(),
 )
 
 /**
@@ -82,5 +88,5 @@ enum class TenantStatus {
     ACTIVE,
     INACTIVE,
     SUSPENDED,
-    ARCHIVED
+    ARCHIVED,
 } 

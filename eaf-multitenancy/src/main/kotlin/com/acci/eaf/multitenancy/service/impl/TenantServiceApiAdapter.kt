@@ -4,31 +4,31 @@ import com.acci.eaf.core.interfaces.TenantInfo
 import com.acci.eaf.core.interfaces.TenantServiceApi
 import com.acci.eaf.core.interfaces.TenantStatus
 import com.acci.eaf.multitenancy.service.TenantService
-import org.springframework.stereotype.Component
 import java.util.UUID
+import org.springframework.stereotype.Component
 
 /**
  * Adapter, der das TenantServiceApi-Interface aus eaf-core implementiert und
  * an den TenantService aus eaf-multitenancy delegiert.
- * 
+ *
  * Dies löst die zirkuläre Abhängigkeit zwischen eaf-core und eaf-multitenancy.
  */
 @Component
 class TenantServiceApiAdapter(private val tenantService: TenantService) : TenantServiceApi {
-    
+
     /**
      * Implementiert getTenantById aus TenantServiceApi durch Delegation an TenantService.
      */
     override fun getTenantById(tenantId: UUID): TenantInfo {
         val tenant = tenantService.getTenantById(tenantId)
-        
+
         // Konvertiere TenantDto zu TenantInfo
         return TenantInfo(
             tenantId = tenant.tenantId,
             status = mapStatus(tenant.status)
         )
     }
-    
+
     /**
      * Implementiert existsById aus TenantServiceApi.
      */
@@ -40,7 +40,7 @@ class TenantServiceApiAdapter(private val tenantService: TenantService) : Tenant
             false
         }
     }
-    
+
     /**
      * Konvertiert den TenantStatus aus eaf-multitenancy in den TenantStatus aus eaf-core.
      */

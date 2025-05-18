@@ -15,7 +15,7 @@ data class TenantDto(
     val name: String,
     val status: TenantStatus,
     val createdAt: Instant,
-    val updatedAt: Instant
+    val updatedAt: Instant,
 )
 
 /**
@@ -29,8 +29,8 @@ data class CreateTenantDto(
         message = "Tenant name can only contain alphanumeric characters and hyphens"
     )
     val name: String,
-    
-    val status: TenantStatus = TenantStatus.PENDING_VERIFICATION
+
+    val status: TenantStatus = TenantStatus.PENDING_VERIFICATION,
 )
 
 /**
@@ -43,6 +43,6 @@ data class UpdateTenantDto(
         message = "Tenant name can only contain alphanumeric characters and hyphens"
     )
     val name: String? = null,
-    
-    val status: TenantStatus? = null
+
+    val status: TenantStatus? = null,
 ) 

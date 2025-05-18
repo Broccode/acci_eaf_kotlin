@@ -16,7 +16,7 @@ public class PongEventHandler {
 
     /**
      * Verarbeitet ein PongEvent.
-     * 
+     *
      * @param event Das zu verarbeitende PongEvent
      */
     @EventHandler

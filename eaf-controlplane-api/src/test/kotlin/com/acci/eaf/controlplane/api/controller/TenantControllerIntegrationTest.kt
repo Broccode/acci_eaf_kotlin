@@ -2,10 +2,10 @@ package com.acci.eaf.controlplane.api.controller
 
 import com.acci.eaf.controlplane.api.TestConfig
 import com.acci.eaf.controlplane.api.dto.CreateTenantRequestDto
-import com.acci.eaf.controlplane.api.dto.TenantResponseDto
 import com.acci.eaf.controlplane.api.dto.UpdateTenantRequestDto
 import com.acci.eaf.multitenancy.domain.TenantStatus
 import com.fasterxml.jackson.databind.ObjectMapper
+import java.util.UUID
 import org.axonframework.commandhandling.CommandBus
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.junit.jupiter.api.Test
@@ -27,13 +27,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.header
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.test.context.TestPropertySource
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
 
 /**
  * Integration tests for the TenantController.
- * 
+ *
  * Note: This is a simple test skeleton and should be extended with more comprehensive tests.
  */
 @SpringBootTest(
@@ -51,17 +49,17 @@ class TenantControllerIntegrationTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
-    
+
     @Autowired
     private lateinit var objectMapper: ObjectMapper
-    
+
     // Mock Axon Components
     @MockBean
     private lateinit var commandBus: CommandBus
-    
+
     @MockBean
     private lateinit var commandGateway: CommandGateway
-    
+
     /**
      * Test creating a new tenant with valid data.
      */
@@ -73,7 +71,7 @@ class TenantControllerIntegrationTest {
             status = TenantStatus.PENDING_VERIFICATION,
             adminEmail = "admin@test.com"
         )
-        
+
         mockMvc.perform(
             post("/tenants")
                 .with(csrf())
@@ -86,7 +84,7 @@ class TenantControllerIntegrationTest {
             .andExpect(jsonPath("$.status").value(requestDto.status.toString()))
             .andExpect(header().exists("Location"))
     }
-    
+
     /**
      * Test listing tenants with pagination.
      */
@@ -106,10 +104,10 @@ class TenantControllerIntegrationTest {
             .andExpect(jsonPath("$.totalPages").exists())
             .andExpect(jsonPath("$.tenants").isArray)
     }
-    
+
     /**
      * Test getting a tenant by ID.
-     * 
+     *
      * Note: This test assumes a tenant with the given ID exists.
      * In a real test, you would first create the tenant.
      */
@@ -118,14 +116,14 @@ class TenantControllerIntegrationTest {
     fun testGetTenantById() {
         // This is just a placeholder - real tests would use test data setup
         val tenantId = UUID.randomUUID()
-        
+
         mockMvc.perform(get("/tenants/{tenantId}", tenantId))
             .andExpect(status().isNotFound) // Expected since the tenant doesn't exist
     }
-    
+
     /**
      * Test updating a tenant.
-     * 
+     *
      * Note: This test assumes a tenant with the given ID exists.
      * In a real test, you would first create the tenant.
      */
@@ -138,7 +136,7 @@ class TenantControllerIntegrationTest {
             name = "updated-tenant",
             status = TenantStatus.ACTIVE
         )
-        
+
         mockMvc.perform(
             put("/tenants/{tenantId}", tenantId)
                 .with(csrf())
@@ -147,10 +145,10 @@ class TenantControllerIntegrationTest {
         )
             .andExpect(status().isNotFound) // Expected since the tenant doesn't exist
     }
-    
+
     /**
      * Test deleting a tenant.
-     * 
+     *
      * Note: This test assumes a tenant with the given ID exists.
      * In a real test, you would first create the tenant.
      */
@@ -159,7 +157,7 @@ class TenantControllerIntegrationTest {
     fun testDeleteTenant() {
         // This is just a placeholder - real tests would use test data setup
         val tenantId = UUID.randomUUID()
-        
+
         mockMvc.perform(
             delete("/tenants/{tenantId}", tenantId)
                 .with(csrf())

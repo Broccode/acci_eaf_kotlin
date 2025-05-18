@@ -15,7 +15,7 @@ data class TenantResponseDto(
     val name: String,
     val status: TenantStatus,
     val createdAt: Instant,
-    val updatedAt: Instant
+    val updatedAt: Instant,
 )
 
 /**
@@ -29,14 +29,14 @@ data class CreateTenantRequestDto(
         message = "Tenant name can only contain alphanumeric characters and hyphens"
     )
     val name: String,
-    
+
     val status: TenantStatus = TenantStatus.PENDING_VERIFICATION,
-    
+
     @field:Pattern(
         regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
         message = "Invalid email format"
     )
-    val adminEmail: String? = null
+    val adminEmail: String? = null,
 )
 
 /**
@@ -49,8 +49,8 @@ data class UpdateTenantRequestDto(
         message = "Tenant name can only contain alphanumeric characters and hyphens"
     )
     val name: String? = null,
-    
-    val status: TenantStatus? = null
+
+    val status: TenantStatus? = null,
 )
 
 /**
@@ -60,7 +60,7 @@ data class TenantPageParams(
     val page: Int = 0,
     val size: Int = 20,
     val status: TenantStatus? = null,
-    val nameContains: String? = null
+    val nameContains: String? = null,
 )
 
 /**
@@ -71,5 +71,5 @@ data class PagedTenantsResponseDto(
     val page: Int,
     val size: Int,
     val totalElements: Long,
-    val totalPages: Int
+    val totalPages: Int,
 ) 
