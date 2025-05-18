@@ -58,7 +58,6 @@ kotlin {
         languageVersion.set(JavaLanguageVersion.of(24))
     }
     compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
         freeCompilerArgs.addAll(
             "-Xjvm-default=all", // Aktiviere JVM Default-Methoden für alle
             // "-Xexplicit-api=strict", // Erfordere explizite Sichtbarkeitsmodifikatoren (temporär deaktiviert)
