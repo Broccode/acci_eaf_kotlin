@@ -4,7 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "2.1.21" apply false
     id("org.jetbrains.kotlin.plugin.spring") version "2.1.21" apply false
     id("org.jetbrains.kotlin.plugin.jpa") version "2.1.21" apply false
-    id("com.diffplug.spotless") version "6.25.0" apply false
+    id("com.diffplug.spotless") version "7.0.3" apply false
 }
 
 // Gemeinsame Konfiguration für alle Projekte
@@ -29,9 +29,7 @@ subprojects {
             // Standardmäßig wird .editorconfig für ktlint verwendet, falls vorhanden.
             // target "src/**/*.kt" wird standardmäßig von der Kotlin-Extension abgedeckt, 
             // wenn das Kotlin-Plugin im jeweiligen Subprojekt angewendet wird.
-            // Workaround for https://github.com/pinterest/ktlint/issues/1626 or similar type inference issues
-            // The value '3' from .editorconfig for this property seems to be read as String instead of Int by ktlint 0.50.0
-            ktlint().editorConfigOverride(mapOf(
+            ktlint("1.5.0").editorConfigOverride(mapOf(
                 "ktlint_function_signature_rule_force_multiline_when_parameter_count_greater_or_equal_than" to 3 
             ))
             // licenseHeaderFile(project.rootProject.file("config/spotless/copyright.kt"), "(package|import|@file:)")
@@ -39,8 +37,7 @@ subprojects {
         kotlinGradle {
             // Standardmäßig wird .editorconfig für ktlint verwendet, falls vorhanden.
             // target "*.kts" wird standardmäßig von der KotlinGradle-Extension abgedeckt.
-            // Workaround for https://github.com/pinterest/ktlint/issues/1626 or similar type inference issues
-            ktlint().editorConfigOverride(mapOf(
+            ktlint("1.5.0").editorConfigOverride(mapOf(
                 "ktlint_function_signature_rule_force_multiline_when_parameter_count_greater_or_equal_than" to 3
             ))
         }
@@ -54,6 +51,34 @@ subprojects {
         //   target("*.md", "docs/**/*.md")
         //   flexmark()
         // }
+    }
+}
+
+tasks {
+    // Definiere eine Aufgabe, um zu überprüfen, ob alle Abhängigkeiten aktuell sind
+    register("checkDependencyUpdates") {
+        // Diese Aufgabe dokumentiert den Zweck, muss aber keine Aktion ausführen
+        description = "Überprüft, ob Abhängigkeiten aktualisiert werden können"
+        doLast {
+            println("Um Abhängigkeits-Updates zu überprüfen, verwende: './gradlew dependencyUpdates'")
+        }
+    }
+
+    // Eine Hilfsaufgabe, um ein Gefühl dafür zu bekommen, was gebaut wird
+    register("printProjectStructure") {
+        description = "Zeigt die Struktur des Projekts an, um ein besseres Verständnis zu bekommen"
+        doLast {
+            println("\nProjekt-Struktur für ${rootProject.name}:")
+            println("=======================================")
+            rootProject.allprojects.forEach { project ->
+                if (project == rootProject) {
+                    println("${project.name} (Root)")
+                } else {
+                    println("└── ${project.name}")
+                }
+            }
+            println("\n")
+        }
     }
 }
 

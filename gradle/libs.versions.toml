@@ -46,7 +46,7 @@ resilience4j = "2.2.0"
 
 # Build-Tools
 detekt = "1.23.3"
-ktlint = "1.0.1"
+ktlint = "1.5.0"
 
 [libraries]
 # Kotlin und JVM
