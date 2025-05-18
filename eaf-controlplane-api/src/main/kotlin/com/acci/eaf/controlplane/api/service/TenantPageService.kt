@@ -17,9 +17,7 @@ import org.springframework.transaction.annotation.Transactional
  * Service that extends the TenantService functionality with pagination and filtering capabilities.
  */
 @Service
-class TenantPageService(
-    private val tenantRepository: TenantRepository,
-) {
+class TenantPageService(private val tenantRepository: TenantRepository) {
 
     /**
      * Get a paginated list of tenants with optional filtering.
@@ -52,8 +50,8 @@ class TenantPageService(
     /**
      * Create a JPA Specification for filtering tenants based on the page parameters.
      */
-    private fun createSpecification(pageParams: TenantPageParams): Specification<Tenant> {
-        return Specification { root, query, criteriaBuilder ->
+    private fun createSpecification(pageParams: TenantPageParams): Specification<Tenant> =
+        Specification { root, query, criteriaBuilder ->
             val predicates = mutableListOf<Predicate>()
 
             // Filter by status if specified
@@ -82,5 +80,4 @@ class TenantPageService(
                 criteriaBuilder.and(*predicates.toTypedArray())
             }
         }
-    }
-} 
+}

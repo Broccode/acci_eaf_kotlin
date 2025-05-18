@@ -56,12 +56,11 @@ class AuditLogger {
     /**
      * Get the current actor from the security context.
      */
-    private fun getCurrentActor(): String {
-        return try {
+    private fun getCurrentActor(): String =
+        try {
             val authentication = SecurityContextHolder.getContext().authentication
             authentication?.name ?: "Anonymous"
         } catch (e: Exception) {
             "Unknown"
         }
-    }
-} 
+}

@@ -164,4 +164,4 @@ class TenantControllerIntegrationTest {
         )
             .andExpect(status().isNotFound) // Expected since the tenant doesn't exist
     }
-} 
+}

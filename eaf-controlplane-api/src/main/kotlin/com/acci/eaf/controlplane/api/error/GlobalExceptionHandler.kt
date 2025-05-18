@@ -152,4 +152,4 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
 
         return problemDetail
     }
-} 
+}

@@ -19,46 +19,42 @@ class TenantMapper {
     /**
      * Convert a CreateTenantRequestDto to a CreateTenantDto used by the service layer.
      */
-    fun toServiceDto(requestDto: CreateTenantRequestDto): CreateTenantDto {
-        return CreateTenantDto(
+    fun toServiceDto(requestDto: CreateTenantRequestDto): CreateTenantDto =
+        CreateTenantDto(
             name = requestDto.name,
             status = requestDto.status
         )
-    }
 
     /**
      * Convert an UpdateTenantRequestDto to an UpdateTenantDto used by the service layer.
      */
-    fun toServiceDto(requestDto: UpdateTenantRequestDto): UpdateTenantDto {
-        return UpdateTenantDto(
+    fun toServiceDto(requestDto: UpdateTenantRequestDto): UpdateTenantDto =
+        UpdateTenantDto(
             name = requestDto.name,
             status = requestDto.status
         )
-    }
 
     /**
      * Convert a TenantDto from the service layer to a TenantResponseDto for the API.
      */
-    fun toResponseDto(tenantDto: TenantDto): TenantResponseDto {
-        return TenantResponseDto(
+    fun toResponseDto(tenantDto: TenantDto): TenantResponseDto =
+        TenantResponseDto(
             tenantId = tenantDto.tenantId,
             name = tenantDto.name,
             status = tenantDto.status,
             createdAt = tenantDto.createdAt,
             updatedAt = tenantDto.updatedAt
         )
-    }
 
     /**
      * Convert a Page of TenantDto to a PagedTenantsResponseDto for the API.
      */
-    fun toPagedResponseDto(tenantPage: Page<TenantDto>): PagedTenantsResponseDto {
-        return PagedTenantsResponseDto(
+    fun toPagedResponseDto(tenantPage: Page<TenantDto>): PagedTenantsResponseDto =
+        PagedTenantsResponseDto(
             tenants = tenantPage.content.map { toResponseDto(it) },
             page = tenantPage.number,
             size = tenantPage.size,
             totalElements = tenantPage.totalElements,
             totalPages = tenantPage.totalPages
         )
-    }
-} 
+}

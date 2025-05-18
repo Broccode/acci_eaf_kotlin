@@ -222,4 +222,4 @@ class TenantControllerTest {
         mockMvc.perform(get("/tenants"))
             .andExpect(status().isForbidden)
     }
-} 
+}

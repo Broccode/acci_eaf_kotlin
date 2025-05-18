@@ -10,13 +10,7 @@ import java.util.UUID
 /**
  * API response DTO for tenant data
  */
-data class TenantResponseDto(
-    val tenantId: UUID,
-    val name: String,
-    val status: TenantStatus,
-    val createdAt: Instant,
-    val updatedAt: Instant,
-)
+data class TenantResponseDto(val tenantId: UUID, val name: String, val status: TenantStatus, val createdAt: Instant, val updatedAt: Instant)
 
 /**
  * API request DTO for creating a new tenant
@@ -56,20 +50,9 @@ data class UpdateTenantRequestDto(
 /**
  * Pagination and filtering parameters for tenant listing
  */
-data class TenantPageParams(
-    val page: Int = 0,
-    val size: Int = 20,
-    val status: TenantStatus? = null,
-    val nameContains: String? = null,
-)
+data class TenantPageParams(val page: Int = 0, val size: Int = 20, val status: TenantStatus? = null, val nameContains: String? = null)
 
 /**
  * API response DTO for paginated tenant data
  */
-data class PagedTenantsResponseDto(
-    val tenants: List<TenantResponseDto>,
-    val page: Int,
-    val size: Int,
-    val totalElements: Long,
-    val totalPages: Int,
-) 
+data class PagedTenantsResponseDto(val tenants: List<TenantResponseDto>, val page: Int, val size: Int, val totalElements: Long, val totalPages: Int)

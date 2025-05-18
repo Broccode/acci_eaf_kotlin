@@ -70,4 +70,4 @@ tasks.withType<Test> {
 
     // Systemproperties für die Tests
     systemProperty("spring.profiles.active", "test")
-} 
+}

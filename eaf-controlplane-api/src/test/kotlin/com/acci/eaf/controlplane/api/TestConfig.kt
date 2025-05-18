@@ -17,7 +17,5 @@ class TestConfig {
      * Provides a mocked JWT decoder for testing security.
      */
     @Bean
-    fun jwtDecoder(): JwtDecoder {
-        return mock(NimbusJwtDecoder::class.java)
-    }
-} 
+    fun jwtDecoder(): JwtDecoder = mock(NimbusJwtDecoder::class.java)
+}

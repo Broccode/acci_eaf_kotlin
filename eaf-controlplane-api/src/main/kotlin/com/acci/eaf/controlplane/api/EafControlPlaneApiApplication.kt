@@ -21,4 +21,4 @@ class EafControlPlaneApiApplication
  */
 fun main(args: Array<String>) {
     runApplication<EafControlPlaneApiApplication>(*args)
-} 
+}
