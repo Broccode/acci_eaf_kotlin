@@ -19,7 +19,7 @@ dependencies {
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(24))
     }
 }
 
@@ -46,4 +46,4 @@ gradlePlugin {
             implementationClass = "acci.eaf.gradle.KotlinSpringBootPlugin"
         }
     }
-} 
+}

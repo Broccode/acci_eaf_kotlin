@@ -99,3 +99,5 @@
     7. Access to the audit log (for read purposes by authorized auditors or security personnel) is possible via defined interfaces or tools (e.g., specific API endpoints in the Control Plane, direct DB access with restricted permissions).
     8. Configuration of audit log storage (e.g., database connection, log level for audit events) and retention policies are documented (implementation of automated retention may be outside MVP scope).
     9. Audit logging must not significantly impair the performance of the core application (e.g., through asynchronous processing, batching).
+
+*Note on integration with earlier Epics:* Story 2.4 (Basic Control Plane API for Tenant Management) will implement a placeholder/basic logging for tenant CUD operations. Full integration with the comprehensive audit logging mechanism defined in this Story 10.7 will be required once this story is implemented. Similar placeholder approaches may be used in other early stories requiring audit trails, with a full integration pass planned post-Epic 10 completion.

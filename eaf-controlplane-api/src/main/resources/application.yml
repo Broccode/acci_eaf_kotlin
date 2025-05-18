@@ -1,0 +1,32 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /controlplane/api/v1
+
+spring:
+  application:
+    name: eaf-controlplane-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/eaf
+    username: eaf
+    password: eaf
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8888/auth/realms/eaf
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+  packages-to-scan: com.acci.eaf.controlplane.api.controller 

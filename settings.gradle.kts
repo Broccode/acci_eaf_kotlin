@@ -6,6 +6,7 @@ includeBuild("build-logic")
 // Include core EAF modules
 include("eaf-core")
 include("eaf-multitenancy")
+include("eaf-controlplane-api")
 
 // Settings for repositories
 dependencyResolutionManagement {

@@ -22,10 +22,10 @@ jobs:
         with:
           fetch-depth: 0  # Fetch all history for proper versioning
       
-      - name: Set up JDK 21
+      - name: Set up JDK 24
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '24'
           distribution: 'temurin'
           
       - name: Setup Gradle
@@ -233,42 +233,3 @@ jobs:
             **/build/reports/detekt/
             **/build/reports/ktlint/
           retention-days: 7
-  
-  # Job for sending notifications on failure
-  notify:
-    name: Notify on Failure
-    needs: build-and-test
-    if: failure()
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Send Email Notification
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: ${{ secrets.MAIL_SERVER }}
-          server_port: ${{ secrets.MAIL_PORT }}
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "[FAILED] CI Pipeline for ACCI EAF (${{ github.repository }})"
-          body: |
-            CI Pipeline for ${{ github.repository }} has failed!
-            
-            Branch: ${{ github.ref_name }}
-            Commit: ${{ github.sha }}
-            Commit Message: ${{ github.event.head_commit.message }}
-            
-            View the failed run here:
-            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          to: ${{ secrets.TEAM_EMAIL }}
-          from: CI/CD Pipeline <${{ secrets.MAIL_USERNAME }}>
-          
-      # Optional: Add Slack notification if you use Slack
-      - name: Send Slack notification
-        uses: 8398a7/action-slack@v3
-        if: always()
-        with:
-          status: ${{ job.status }}
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
-          author_name: CI/CD Pipeline
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} 

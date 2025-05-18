@@ -3,6 +3,7 @@ package com.acci.eaf.multitenancy.repository
 import com.acci.eaf.multitenancy.domain.Tenant
 import com.acci.eaf.multitenancy.domain.TenantStatus
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.stereotype.Repository
 import java.util.Optional
 import java.util.UUID
@@ -11,7 +12,7 @@ import java.util.UUID
  * Repository for managing [Tenant] entities.
  */
 @Repository
-interface TenantRepository : JpaRepository<Tenant, UUID> {
+interface TenantRepository : JpaRepository<Tenant, UUID>, JpaSpecificationExecutor<Tenant> {
 
     /**
      * Finds a tenant by its name.

@@ -18,6 +18,10 @@ dependencies {
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.actuator)
     implementation(libs.bundles.axon)
+    
+    // Datenbanken und JDBC - Für TenantAwareDataSourceConfig
+    implementation(libs.spring.boot.starter.data.jpa)  // Enthält JDBC-Unterstützung
+    implementation(libs.hikari)  // HikariCP für Connection Pooling
 
     // Logging
     implementation(libs.bundles.logging)
@@ -40,6 +44,12 @@ dependencies {
     
     // H2 für Tests
     testRuntimeOnly("com.h2database:h2:2.2.224")
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(24))
+    }
 }
 
 // Konfiguriere die Java- und Kotlin-Kompilierungsoptionen entsprechend dem Projekt-Standard

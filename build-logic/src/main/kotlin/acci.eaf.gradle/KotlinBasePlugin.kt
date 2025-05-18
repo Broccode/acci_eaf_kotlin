@@ -47,7 +47,7 @@ class KotlinBasePlugin : Plugin<Project> {
 
         configure<JavaPluginExtension> {
             toolchain {
-                languageVersion.set(JavaLanguageVersion.of(21))
+                languageVersion.set(JavaLanguageVersion.of(24))
             }
             withSourcesJar()
             withJavadocJar()
