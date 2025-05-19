@@ -82,3 +82,5 @@ This section outlines the project\'s comprehensive testing strategy, which all A
     * **Database Seeding:** For integration tests involving databases, use mechanisms like SQL scripts run via Testcontainers, or application-level data seeding before test execution.
     * **Isolation:** Ensure test data is isolated between test runs and tests (e.g., by cleaning and re-initializing the database or test containers before each test class or method). Spring Boot\'s `@DirtiesContext` can be used where appropriate if application context state is modified.
     * **Liquibase for Test Schemas:** Liquibase can also be used to manage schemas for test databases used in integration tests.
+
+* **Special for `eaf-iam` Story 3.1:** The initial Spring Boot/Liquibase integration test was replaced by a standalone JPA/Testcontainers integration test (`UserRepositoryJpaTest.kt`) that uses Hibernate `create-drop` DDL for schema auto-generation to avoid external schema dependencies; it validates CRUD operations, queries, constraints, pagination, and search on the `local_users` table.

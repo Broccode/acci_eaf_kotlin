@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="001-test" author="eaf-developer">
+        <comment>Create local_users table for IAM module (Test Version)</comment>
+        
+        <createTable tableName="local_users">
+            <column name="user_id" type="uuid">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_local_users"/>
+            </column>
+            <column name="tenant_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="password_hash" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <!-- Unique index für den Primärschlüssel -->
+        <createIndex indexName="idx_local_users_user_id" tableName="local_users" unique="true">
+            <column name="user_id"/>
+        </createIndex>
+        
+        <!-- Unique Constraint für tenantId + username -->
+        <addUniqueConstraint 
+            constraintName="uk_tenant_username"
+            tableName="local_users"
+            columnNames="tenant_id, username"/>
+            
+        <!-- Keine Foreign-Key-Constraints für Tests, da diese Tabelle in Tests nicht existiert -->
+    </changeSet>
+</databaseChangeLog> 

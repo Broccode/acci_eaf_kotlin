@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: eaf-iam
+  datasource:
+    url: ${POSTGRESQL_URL:jdbc:postgresql://localhost:5432/eaf}
+    username: ${POSTGRESQL_USERNAME:postgres}
+    password: ${POSTGRESQL_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: false
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    enabled: true
+
+# IAM-spezifische Konfigurationen
+eaf:
+  iam:
+    password-policy:
+      min-length: 12
+      require-uppercase: true
+      require-lowercase: true
+      require-digit: true
+      require-special-char: true
+      special-chars: "!@#$%^&*()_-+=[{]}|:;,<.>/?"
+      max-consecutive-identical-chars: 3
+      check-common-passwords: 0 

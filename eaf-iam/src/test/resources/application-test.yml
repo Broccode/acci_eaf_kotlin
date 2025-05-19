@@ -1,0 +1,27 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+  
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/testdb
+    username: postgres
+    password: postgres
+    hikari:
+      maximum-pool-size: 5
+  
+  liquibase:
+    enabled: false
+
+logging:
+  level:
+    com.acci.eaf: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    liquibase: INFO 
