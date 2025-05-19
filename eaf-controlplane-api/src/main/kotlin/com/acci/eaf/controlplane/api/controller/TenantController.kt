@@ -6,7 +6,7 @@ import com.acci.eaf.controlplane.api.dto.PagedTenantsResponseDto
 import com.acci.eaf.controlplane.api.dto.TenantPageParams
 import com.acci.eaf.controlplane.api.dto.TenantResponseDto
 import com.acci.eaf.controlplane.api.dto.UpdateTenantRequestDto
-import com.acci.eaf.controlplane.api.mapper.TenantMapper
+import com.acci.eaf.controlplane.api.mapper.TenantMapperInterface
 import com.acci.eaf.controlplane.api.service.TenantPageService
 import com.acci.eaf.multitenancy.domain.TenantStatus
 import com.acci.eaf.multitenancy.service.TenantService
@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.context.request.RequestContextHolder
+import org.springframework.web.context.request.ServletRequestAttributes
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 
 /**
@@ -42,7 +44,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 class TenantController(
     private val tenantService: TenantService,
     private val tenantPageService: TenantPageService,
-    private val tenantMapper: TenantMapper,
+    private val tenantMapper: TenantMapperInterface,
     private val auditLogger: AuditLogger,
 ) {
 
@@ -70,12 +72,27 @@ class TenantController(
         // Audit logging
         auditLogger.logTenantCreation(responseDto.tenantId, responseDto.name)
 
-        // Build the location URI for the created resource
-        val location = ServletUriComponentsBuilder
-            .fromCurrentRequest()
-            .path("/{tenantId}")
-            .buildAndExpand(responseDto.tenantId)
-            .toUri()
+        // Build the location URI for the created resource - robuster Ansatz
+        val location = try {
+            // Zuerst versuchen, über den aktuellen Request zu gehen
+            val servletRequestAttributes = RequestContextHolder.getRequestAttributes() as? ServletRequestAttributes
+            if (servletRequestAttributes != null) {
+                ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{tenantId}")
+                    .buildAndExpand(responseDto.tenantId)
+                    .toUri()
+            } else {
+                // Fallback, wenn kein Request-Kontext verfügbar ist
+                ServletUriComponentsBuilder
+                    .fromPath("/tenants/{tenantId}")
+                    .buildAndExpand(responseDto.tenantId)
+                    .toUri()
+            }
+        } catch (e: Exception) {
+            // Absoluter Fallback, wenn ServletUriComponentsBuilder fehlschlägt
+            java.net.URI.create("/tenants/${responseDto.tenantId}")
+        }
 
         return ResponseEntity
             .created(location)

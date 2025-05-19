@@ -48,6 +48,7 @@ dependencies {
     testImplementation(libs.testcontainers.junit)
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("com.h2database:h2")
+    testImplementation("org.mockito:mockito-inline:5.2.0")
 }
 
 java {

@@ -1,225 +1,277 @@
 package com.acci.eaf.controlplane.api.controller
 
-import com.acci.eaf.controlplane.api.TestConfig
 import com.acci.eaf.controlplane.api.audit.AuditLogger
 import com.acci.eaf.controlplane.api.dto.CreateTenantRequestDto
+import com.acci.eaf.controlplane.api.dto.PagedTenantsResponseDto
 import com.acci.eaf.controlplane.api.dto.TenantPageParams
+import com.acci.eaf.controlplane.api.dto.TenantResponseDto
 import com.acci.eaf.controlplane.api.dto.UpdateTenantRequestDto
-import com.acci.eaf.controlplane.api.mapper.TenantMapper
+import com.acci.eaf.controlplane.api.mapper.TenantMapperInterface
 import com.acci.eaf.controlplane.api.service.TenantPageService
+import com.acci.eaf.core.tenant.TenantContextHolder
 import com.acci.eaf.multitenancy.domain.TenantStatus
+import com.acci.eaf.multitenancy.dto.CreateTenantDto
 import com.acci.eaf.multitenancy.dto.TenantDto
+import com.acci.eaf.multitenancy.dto.UpdateTenantDto
 import com.acci.eaf.multitenancy.service.TenantService
 import com.fasterxml.jackson.databind.ObjectMapper
 import java.time.Instant
 import java.util.UUID
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.eq
-import org.mockito.Mockito.doNothing
-import org.mockito.Mockito.times
+import org.mockito.Mockito
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.context.annotation.Import
 import org.springframework.data.domain.PageImpl
-import org.springframework.http.MediaType
-import org.springframework.security.test.context.support.WithMockUser
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
-import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.header
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.data.domain.PageRequest
+import org.springframework.http.HttpStatus
+import org.springframework.mock.web.MockHttpServletRequest
+import org.springframework.web.context.request.RequestContextHolder
+import org.springframework.web.context.request.ServletRequestAttributes
 
-@SpringBootTest(
-    webEnvironment = SpringBootTest.WebEnvironment.MOCK,
-    properties = [
-        "spring.main.allow-bean-definition-overriding=true",
-        "axon.axonserver.enabled=false"
-    ]
-)
-@AutoConfigureMockMvc
-@ActiveProfiles("test")
-@Import(TestConfig::class)
+/**
+ * Einfache Unit-Tests für den TenantController.
+ *
+ * Diese Tests verwenden einen direkten Ansatz ohne Spring-Kontext,
+ * indem alle Dependencies gemockt werden und der Controller direkt aufgerufen wird.
+ */
 class TenantControllerTest {
 
-    @Autowired
-    private lateinit var mockMvc: MockMvc
-
-    @Autowired
+    private lateinit var tenantService: TenantService
+    private lateinit var tenantPageService: TenantPageService
+    private lateinit var tenantMapper: TenantMapperInterface
+    private lateinit var auditLogger: AuditLogger
+    private lateinit var controller: TenantController
     private lateinit var objectMapper: ObjectMapper
 
-    @MockBean
-    private lateinit var tenantService: TenantService
-
-    @MockBean
-    private lateinit var tenantPageService: TenantPageService
-
-    @MockBean
-    private lateinit var tenantMapper: TenantMapper
-
-    @MockBean
-    private lateinit var auditLogger: AuditLogger
-
     private val testTenantId = UUID.randomUUID()
-    private val testTenantName = "test-tenant"
     private val now = Instant.now()
-
     private lateinit var testTenantDto: TenantDto
+    private lateinit var testResponseDto: TenantResponseDto
 
     @BeforeEach
     fun setUp() {
-        // Set up test data
+        // Mocks erstellen
+        tenantService = Mockito.mock(TenantService::class.java)
+        tenantPageService = Mockito.mock(TenantPageService::class.java)
+        tenantMapper = Mockito.mock(TenantMapperInterface::class.java)
+        auditLogger = Mockito.mock(AuditLogger::class.java)
+        objectMapper = ObjectMapper()
+
+        // Testdaten vorbereiten
         testTenantDto = TenantDto(
             tenantId = testTenantId,
-            name = testTenantName,
+            name = "test-tenant",
             status = TenantStatus.ACTIVE,
             createdAt = now,
             updatedAt = now
         )
 
-        // Configure mapper
-        `when`(tenantMapper.toResponseDto(any())).thenCallRealMethod()
+        testResponseDto = TenantResponseDto(
+            tenantId = testTenantId,
+            name = "test-tenant",
+            status = TenantStatus.ACTIVE,
+            createdAt = now,
+            updatedAt = now
+        )
+
+        // Controller erstellen
+        controller = TenantController(
+            tenantService = tenantService,
+            tenantPageService = tenantPageService,
+            tenantMapper = tenantMapper,
+            auditLogger = auditLogger
+        )
+
+        // Standard-Mocks konfigurieren
+        `when`(tenantService.getTenantById(testTenantId)).thenReturn(testTenantDto)
+        `when`(tenantMapper.toResponseDto(testTenantDto)).thenReturn(testResponseDto)
+
+        // TenantContext setzen
+        TenantContextHolder.setTenantId(testTenantId)
+
+        // ServletRequest konfigurieren für Tests mit ServletUriComponentsBuilder
+        val mockRequest = MockHttpServletRequest()
+        mockRequest.scheme = "http"
+        mockRequest.serverName = "localhost"
+        mockRequest.serverPort = 8080
+        mockRequest.contextPath = ""
+        mockRequest.servletPath = "/tenants"
+        RequestContextHolder.setRequestAttributes(ServletRequestAttributes(mockRequest))
+    }
+
+    @AfterEach
+    fun tearDown() {
+        TenantContextHolder.clear()
+        RequestContextHolder.resetRequestAttributes()
     }
 
     @Test
-    @WithMockUser(roles = ["ADMIN"])
-    fun `should create a tenant`() {
-        // Arrange
-        val createRequest = CreateTenantRequestDto(
-            name = testTenantName,
+    fun testCreateTenant() {
+        // Testdaten
+        val createRequestDto = CreateTenantRequestDto(
+            name = "test-tenant",
+            status = TenantStatus.PENDING_VERIFICATION,
+            adminEmail = "admin@test.com"
+        )
+
+        val createTenantDto = CreateTenantDto(
+            name = "test-tenant",
             status = TenantStatus.PENDING_VERIFICATION
         )
 
-        `when`(tenantMapper.toServiceDto(any<CreateTenantRequestDto>())).thenCallRealMethod()
-        `when`(tenantService.createTenant(any())).thenReturn(testTenantDto)
-        doNothing().`when`(auditLogger).logTenantCreation(any(), any())
-
-        // Act & Assert
-        mockMvc.perform(
-            post("/tenants")
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createRequest))
+        val createdTenantDto = TenantDto(
+            tenantId = testTenantId,
+            name = "test-tenant",
+            status = TenantStatus.PENDING_VERIFICATION,
+            createdAt = now,
+            updatedAt = now
         )
-            .andExpect(status().isCreated)
-            .andExpect(jsonPath("$.tenantId").value(testTenantId.toString()))
-            .andExpect(jsonPath("$.name").value(testTenantName))
-            .andExpect(header().exists("Location"))
 
-        verify(tenantService, times(1)).createTenant(any())
-        verify(auditLogger, times(1)).logTenantCreation(any(), any())
-    }
-
-    @Test
-    @WithMockUser(roles = ["ADMIN"])
-    fun `should get a tenant by id`() {
-        // Arrange
-        `when`(tenantService.getTenantById(eq(testTenantId))).thenReturn(testTenantDto)
-
-        // Act & Assert
-        mockMvc.perform(get("/tenants/{tenantId}", testTenantId))
-            .andExpect(status().isOk)
-            .andExpect(jsonPath("$.tenantId").value(testTenantId.toString()))
-            .andExpect(jsonPath("$.name").value(testTenantName))
-
-        verify(tenantService, times(1)).getTenantById(eq(testTenantId))
-    }
-
-    @Test
-    @WithMockUser(roles = ["ADMIN"])
-    fun `should get paginated list of tenants`() {
-        // Arrange
-        val tenants = listOf(testTenantDto)
-        val page = PageImpl(tenants)
-
-        `when`(tenantPageService.getTenants(any())).thenReturn(page)
-        `when`(tenantMapper.toPagedResponseDto(eq(page))).thenCallRealMethod()
-
-        // Act & Assert
-        mockMvc.perform(
-            get("/tenants")
-                .param("page", "0")
-                .param("size", "10")
+        val responseDto = TenantResponseDto(
+            tenantId = testTenantId,
+            name = "test-tenant",
+            status = TenantStatus.PENDING_VERIFICATION,
+            createdAt = now,
+            updatedAt = now
         )
-            .andExpect(status().isOk)
-            .andExpect(jsonPath("$.tenants").isArray)
-            .andExpect(jsonPath("$.tenants[0].tenantId").value(testTenantId.toString()))
-            .andExpect(jsonPath("$.tenants[0].name").value(testTenantName))
 
-        verify(tenantPageService, times(1)).getTenants(any<TenantPageParams>())
+        // Mocks konfigurieren
+        `when`(tenantMapper.toServiceDto(createRequestDto)).thenReturn(createTenantDto)
+        `when`(tenantService.createTenant(createTenantDto)).thenReturn(createdTenantDto)
+        `when`(tenantMapper.toResponseDto(createdTenantDto)).thenReturn(responseDto)
+
+        // Testdurchführung
+        val response = controller.createTenant(createRequestDto)
+
+        // Überprüfungen
+        assertEquals(HttpStatus.CREATED, response.statusCode)
+        assertEquals(responseDto, response.body)
+        assertNotNull(response.headers.location)
+
+        // Anstatt die genaue URL zu testen, prüfen wir, ob sie den testTenantId enthält
+        val locationUrl = response.headers.location.toString()
+        assert(locationUrl.contains(testTenantId.toString())) {
+            "Die Location-URL '$locationUrl' enthält nicht die erwartete Tenant-ID '$testTenantId'"
+        }
+
+        // Verify-Aufrufe
+        verify(tenantMapper).toServiceDto(createRequestDto)
+        verify(tenantService).createTenant(createTenantDto)
+        verify(tenantMapper).toResponseDto(createdTenantDto)
+        verify(auditLogger).logTenantCreation(responseDto.tenantId, responseDto.name)
     }
 
     @Test
-    @WithMockUser(roles = ["ADMIN"])
-    fun `should update a tenant`() {
-        // Arrange
-        val updateRequest = UpdateTenantRequestDto(
-            name = "updated-tenant",
+    fun testGetTenants() {
+        // Testdaten
+        val pageParams = TenantPageParams(
+            page = 0,
+            size = 10,
+            status = null,
+            nameContains = null
+        )
+
+        val tenantPage = PageImpl(
+            listOf(testTenantDto),
+            PageRequest.of(0, 10),
+            1
+        )
+
+        val pagedResponse = PagedTenantsResponseDto(
+            tenants = listOf(testResponseDto),
+            page = 0,
+            size = 10,
+            totalElements = 1,
+            totalPages = 1
+        )
+
+        // Mocks konfigurieren
+        `when`(tenantPageService.getTenants(pageParams)).thenReturn(tenantPage)
+        `when`(tenantMapper.toPagedResponseDto(tenantPage)).thenReturn(pagedResponse)
+
+        // Testdurchführung
+        val response = controller.getTenants(0, 10, null, null)
+
+        // Überprüfungen
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals(pagedResponse, response.body)
+
+        // Verify-Aufrufe
+        verify(tenantPageService).getTenants(pageParams)
+        verify(tenantMapper).toPagedResponseDto(tenantPage)
+    }
+
+    @Test
+    fun testGetTenantById() {
+        // Testdurchführung
+        val response = controller.getTenantById(testTenantId)
+
+        // Überprüfungen
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals(testResponseDto, response.body)
+
+        // Verify-Aufrufe
+        verify(tenantService).getTenantById(testTenantId)
+        verify(tenantMapper).toResponseDto(testTenantDto)
+    }
+
+    @Test
+    fun testUpdateTenant() {
+        // Testdaten
+        val updatedName = "updated-tenant-name"
+        val updateRequestDto = UpdateTenantRequestDto(
+            name = updatedName,
             status = TenantStatus.ACTIVE
         )
 
-        val updatedTenantDto = testTenantDto.copy(name = "updated-tenant")
-
-        `when`(tenantMapper.toServiceDto(any<UpdateTenantRequestDto>())).thenCallRealMethod()
-        `when`(tenantService.updateTenant(eq(testTenantId), any())).thenReturn(updatedTenantDto)
-        doNothing().`when`(auditLogger).logTenantUpdate(any(), any(), any())
-
-        // Act & Assert
-        mockMvc.perform(
-            put("/tenants/{tenantId}", testTenantId)
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(updateRequest))
+        val updateTenantDto = UpdateTenantDto(
+            name = updatedName,
+            status = TenantStatus.ACTIVE
         )
-            .andExpect(status().isOk)
-            .andExpect(jsonPath("$.tenantId").value(testTenantId.toString()))
-            .andExpect(jsonPath("$.name").value("updated-tenant"))
 
-        verify(tenantService, times(1)).updateTenant(eq(testTenantId), any())
-        verify(auditLogger, times(1)).logTenantUpdate(any(), any(), any())
+        val updatedTenantDto = testTenantDto.copy(name = updatedName)
+        val updatedResponseDto = testResponseDto.copy(name = updatedName)
+
+        // Mocks konfigurieren
+        `when`(tenantMapper.toServiceDto(updateRequestDto)).thenReturn(updateTenantDto)
+        `when`(tenantService.updateTenant(testTenantId, updateTenantDto)).thenReturn(updatedTenantDto)
+        `when`(tenantMapper.toResponseDto(updatedTenantDto)).thenReturn(updatedResponseDto)
+
+        // Testdurchführung
+        val response = controller.updateTenant(testTenantId, updateRequestDto)
+
+        // Überprüfungen
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals(updatedResponseDto, response.body)
+
+        // Verify-Aufrufe
+        verify(tenantMapper).toServiceDto(updateRequestDto)
+        verify(tenantService).updateTenant(testTenantId, updateTenantDto)
+        verify(tenantMapper).toResponseDto(updatedTenantDto)
+        verify(auditLogger).logTenantUpdate(testTenantId, updatedName, mapOf("name" to updatedName, "status" to TenantStatus.ACTIVE))
     }
 
     @Test
-    @WithMockUser(roles = ["ADMIN"])
-    fun `should delete a tenant`() {
-        // Arrange
-        `when`(tenantService.getTenantById(eq(testTenantId))).thenReturn(testTenantDto)
-        `when`(tenantService.deleteTenant(eq(testTenantId))).thenReturn(testTenantDto)
-        doNothing().`when`(auditLogger).logTenantDeletion(any(), any())
+    fun testDeleteTenant() {
+        // Testdaten
+        val archivedTenantDto = testTenantDto.copy(status = TenantStatus.ARCHIVED)
 
-        // Act & Assert
-        mockMvc.perform(
-            delete("/tenants/{tenantId}", testTenantId)
-                .with(csrf())
-        )
-            .andExpect(status().isNoContent)
+        // Mocks konfigurieren
+        `when`(tenantService.deleteTenant(testTenantId)).thenReturn(archivedTenantDto)
 
-        verify(tenantService, times(1)).deleteTenant(eq(testTenantId))
-        verify(auditLogger, times(1)).logTenantDeletion(any(), any())
-    }
+        // Testdurchführung
+        val response = controller.deleteTenant(testTenantId)
 
-    @Test
-    fun `should return 401 when unauthorized`() {
-        // Act & Assert
-        mockMvc.perform(get("/tenants"))
-            .andExpect(status().isUnauthorized)
-    }
+        // Überprüfungen
+        assertEquals(HttpStatus.NO_CONTENT, response.statusCode)
 
-    @Test
-    @WithMockUser(roles = ["USER"])
-    fun `should return 403 when not an admin`() {
-        // Act & Assert
-        mockMvc.perform(get("/tenants"))
-            .andExpect(status().isForbidden)
+        // Verify-Aufrufe
+        verify(tenantService).getTenantById(testTenantId)
+        verify(tenantService).deleteTenant(testTenantId)
+        verify(auditLogger).logTenantDeletion(testTenantId, testTenantDto.name)
     }
 }

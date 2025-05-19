@@ -14,12 +14,12 @@ import org.springframework.stereotype.Component
  * Mapper for converting between Tenant DTOs in the multitenancy module and the API DTOs.
  */
 @Component
-class TenantMapper {
+open class TenantMapper : TenantMapperInterface {
 
     /**
      * Convert a CreateTenantRequestDto to a CreateTenantDto used by the service layer.
      */
-    fun toServiceDto(requestDto: CreateTenantRequestDto): CreateTenantDto =
+    override fun toServiceDto(requestDto: CreateTenantRequestDto): CreateTenantDto =
         CreateTenantDto(
             name = requestDto.name,
             status = requestDto.status
@@ -28,7 +28,7 @@ class TenantMapper {
     /**
      * Convert an UpdateTenantRequestDto to an UpdateTenantDto used by the service layer.
      */
-    fun toServiceDto(requestDto: UpdateTenantRequestDto): UpdateTenantDto =
+    override fun toServiceDto(requestDto: UpdateTenantRequestDto): UpdateTenantDto =
         UpdateTenantDto(
             name = requestDto.name,
             status = requestDto.status
@@ -37,7 +37,7 @@ class TenantMapper {
     /**
      * Convert a TenantDto from the service layer to a TenantResponseDto for the API.
      */
-    fun toResponseDto(tenantDto: TenantDto): TenantResponseDto =
+    override fun toResponseDto(tenantDto: TenantDto): TenantResponseDto =
         TenantResponseDto(
             tenantId = tenantDto.tenantId,
             name = tenantDto.name,
@@ -49,7 +49,7 @@ class TenantMapper {
     /**
      * Convert a Page of TenantDto to a PagedTenantsResponseDto for the API.
      */
-    fun toPagedResponseDto(tenantPage: Page<TenantDto>): PagedTenantsResponseDto =
+    override fun toPagedResponseDto(tenantPage: Page<TenantDto>): PagedTenantsResponseDto =
         PagedTenantsResponseDto(
             tenants = tenantPage.content.map { toResponseDto(it) },
             page = tenantPage.number,

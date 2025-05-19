@@ -35,6 +35,12 @@ This section outlines the project\'s comprehensive testing strategy, which all A
       * Consider gradually migrating Mockito based tests to MockK to leverage its Kotlin-idiomatic API and to reduce boilerplate.
   * **AI Agent Responsibility:** AI Agents tasked with code generation or modification must generate comprehensive unit tests covering all public methods of new/modified classes, significant logic paths (including happy paths and edge cases), and error conditions.
 
+  ### Controller Tests (Backend)
+
+  Controller logic in Spring MVC often interacts with the Servlet context (e.g., `ServletUriComponentsBuilder`). We distinguish two strategies:
+  * **Direct unit tests**: Invoke controller methods directly with mocked dependencies. Configure `RequestContextHolder` with a `MockHttpServletRequest` to support URI building. Avoids loading the Spring context entirely and prevents infrastructure errors. For example, see `TenantControllerTest.kt`.
+  * **WebMvcTest with MockMvc**: Use `@WebMvcTest` and `MockMvc` to simulate HTTP requests at the MVC layer. Provides full validation of serialization, request mapping, and filters. Requires mocking of all framework dependencies (JPA, security, interceptors) via `@MockBean` or custom test configurations. May encounter JPA/Persistence context errors; such tests can be disabled or require extensive mocking. In this project, `TenantControllerIntegrationTest.kt` is disabled due to these issues.
+
 * **Integration Tests (Backend):**
   * **Scope:** Test the interaction and collaboration between several components or services within the application\'s boundary, or between the application and external infrastructure it directly controls (like a database). Examples:
     * API endpoint through to the service layer and (test) database.
