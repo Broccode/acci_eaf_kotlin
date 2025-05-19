@@ -12,6 +12,7 @@ import org.axonframework.queryhandling.QueryBus
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Primary
 
 /**
  * Konfiguration für die Integration des Tenant-Kontexts in Axon Framework.
@@ -89,6 +90,7 @@ class TenantAxonConfig {
      * @param tenantMessageHandlerInterceptor Der Interceptor für eingehende Nachrichten
      */
     @Bean
+    @Primary
     fun configureEventBus(
         eventBus: EventBus,
         tenantMessageDispatchInterceptor: TenantMessageDispatchInterceptor<Message<*>>,

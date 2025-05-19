@@ -18,6 +18,7 @@ dependencies {
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.actuator)
     implementation(libs.bundles.axon)
+    implementation("io.axoniq.console:console-framework-client-spring-boot-starter:1.9.2")
 
     // Datenbanken und JDBC - Für TenantAwareDataSourceConfig
     implementation(libs.spring.boot.starter.data.jpa) // Enthält JDBC-Unterstützung

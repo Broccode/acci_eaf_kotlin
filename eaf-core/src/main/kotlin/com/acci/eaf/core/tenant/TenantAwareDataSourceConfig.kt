@@ -19,7 +19,7 @@ import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy
  * session variable on each connection before it's used.
  */
 @Configuration
-@ConditionalOnProperty(name = ["eaf.multitenancy.datasource.enabled"], havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = ["eaf.multitenancy.datasource.enabled"], havingValue = "true", matchIfMissing = false)
 class TenantAwareDataSourceConfig {
 
     private val logger = LoggerFactory.getLogger(TenantAwareDataSourceConfig::class.java)
