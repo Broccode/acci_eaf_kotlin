@@ -1,5 +1,6 @@
 package com.acci.eaf.iam.application.port.input
 
+import com.acci.eaf.iam.domain.model.UserStatus
 import java.util.UUID
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -41,6 +42,21 @@ interface UserService {
     fun updateUser(command: UpdateUserCommand): UserDto
 
     /**
+     * Aktualisiert den Status eines Benutzers.
+     *
+     * @param userId die ID des zu aktualisierenden Benutzers
+     * @param tenantId die ID des Tenants
+     * @param newStatus der neue Status des Benutzers
+     * @return das DTO des aktualisierten Benutzers
+     * @throws UserNotFoundException wenn kein Benutzer mit dieser ID existiert
+     */
+    fun updateUserStatus(
+        userId: UUID,
+        tenantId: UUID,
+        newStatus: UserStatus,
+    ): UserDto
+
+    /**
      * Setzt das Passwort eines Benutzers.
      *
      * @param command das Command mit der Benutzer-ID und dem neuen Passwort
@@ -69,6 +85,20 @@ interface UserService {
     fun searchUsers(
         tenantId: UUID,
         searchTerm: String,
+        pageable: Pageable,
+    ): Page<UserDto>
+
+    /**
+     * Sucht nach Benutzern in einem Tenant anhand eines Status.
+     *
+     * @param tenantId die ID des Tenants
+     * @param status der Status der Benutzer
+     * @param pageable die Paginierungsparameter
+     * @return eine paginierte Liste von Benutzer-DTOs, die den Status haben
+     */
+    fun findUsersByStatus(
+        tenantId: UUID,
+        status: UserStatus,
         pageable: Pageable,
     ): Page<UserDto>
 }

@@ -2,9 +2,9 @@ spring:
   application:
     name: eaf-iam
   datasource:
-    url: ${POSTGRESQL_URL:jdbc:postgresql://localhost:5432/eaf}
-    username: ${POSTGRESQL_USERNAME:postgres}
-    password: ${POSTGRESQL_PASSWORD:postgres}
+    url: ${POSTGRESQL_URL:jdbc:postgresql://localhost:5432/eaf_multitenancy_db}
+    username: ${POSTGRESQL_USERNAME:eaf_user}
+    password: ${POSTGRESQL_PASSWORD:eaf_password}
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -30,4 +30,4 @@ eaf:
       require-special-char: true
       special-chars: "!@#$%^&*()_-+=[{]}|:;,<.>/?"
       max-consecutive-identical-chars: 3
-      check-common-passwords: 0 
+      check-common-passwords: 0

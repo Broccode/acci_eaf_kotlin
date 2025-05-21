@@ -140,6 +140,47 @@ The ACCI EAF, particularly through its `eaf-iam` and notification capabilities, 
 * **Link to Official Docs:**
   * OASIS SAML 2.0 Standard: [https://www.oasis-open.org/standards#samlv2.0](https://www.google.com/search?q=https://www.oasis-open.org/standards%23samlv2.0) (includes Core, Bindings, Profiles specifications).
 
+### 7.1.5 Local User Authentication Endpoint
+
+* **Purpose:** Used by clients to authenticate local EAF users with username/password credentials.
+* **Endpoint:** `POST /api/iam/auth/login`
+* **Request Body Schema:**
+
+```json
+{
+  "usernameOrEmail": "string", // Can be in format "user@tenantidentifier"
+  "password": "string",
+  "tenantHint": "string" // Optional, if not included in usernameOrEmail
+}
+```
+
+* **Response Schema (200 OK):**
+
+```json
+{
+  "accessToken": "string", // JWT token
+  "refreshToken": "string", // Optional, for token refresh
+  "tokenType": "Bearer",
+  "expiresIn": 3600 // Seconds
+}
+```
+
+* **Error Responses:**
+  * `401 Unauthorized`: Invalid credentials or account locked/inactive
+  * `400 Bad Request`: Invalid request format
+* **JWT Token Structure:**
+  * The JWT access token contains the following claims:
+    * `sub`: User ID (UUID)
+    * `tenantId`: Tenant ID (UUID)
+    * `username`: Username
+    * `roles`: Array of user roles
+    * `exp`: Expiration timestamp
+    * `iat`: Issued at timestamp
+* **Security Notes:**
+  * The endpoint has rate limiting to prevent brute force attacks
+  * Failed login attempts lead to temporary account lockout
+  * All login attempts (successful and failed) are logged in the audit log
+
 ### 7.2 Internal APIs Provided
 
 #### 7.2.1 ACCI EAF Control Plane API (`eaf-controlplane-api`)

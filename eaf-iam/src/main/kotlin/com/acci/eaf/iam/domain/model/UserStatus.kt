@@ -33,4 +33,10 @@ enum class UserStatus {
      * Der Benutzer muss sein Passwort ändern, bevor er sich wieder anmelden kann.
      */
     PASSWORD_EXPIRED,
+
+    /**
+     * Der Benutzer wurde vom System gesperrt, aufgrund zu vieler fehlgeschlagener Anmeldeversuche.
+     * Eine Anmeldung ist erst nach Ablauf der Sperrzeit wieder möglich.
+     */
+    LOCKED_BY_SYSTEM,
 }

@@ -2,52 +2,68 @@ package com.acci.eaf.iam.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder
-import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder
+import org.springframework.security.web.SecurityFilterChain
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 /**
- * Konfigurationsklasse für sicherheitsrelevante Aspekte des IAM-Moduls.
- *
- * Diese Klasse stellt sicher, dass sichere Passwort-Hashing-Algorithmen verwendet werden
- * und ermöglicht die nahtlose Migration zwischen verschiedenen Algorithmen durch die
- * Verwendung des DelegatingPasswordEncoder.
+ * Konfiguration für Spring Security.
  */
 @Configuration
+@EnableWebSecurity
 class SecurityConfig {
 
     /**
-     * Konfiguriert einen [DelegatingPasswordEncoder], der mehrere sichere
-     * Hashing-Algorithmen unterstützt und einen optimalen Algorithmus als Standard verwendet.
+     * Konfiguriert die Security-Filter-Chain.
      *
-     * Nutzt aktuell Argon2id als Standard-Algorithmus, mit BCrypt, PBKDF2 und SCrypt als Fallback-Optionen.
-     * Diese Konfiguration ermöglicht die nahtlose Migration zwischen verschiedenen Algorithmen
-     * und bietet Zukunftssicherheit bei Entdeckung von Schwachstellen in einzelnen Algorithmen.
+     * @param http das HttpSecurity-Objekt
+     * @return die konfigurierte SecurityFilterChain
+     */
+    @Bean
+    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+        http.csrf { it.disable() }
+            .cors { it.configurationSource(corsConfigurationSource()) }
+            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+            .authorizeHttpRequests { authorize ->
+                authorize
+                    .requestMatchers("/api/iam/auth/**").permitAll()
+                    .anyRequest().authenticated()
+            }
+
+        return http.build()
+    }
+
+    /**
+     * Konfiguriert den PasswordEncoder für die Passwort-Hashing-Funktion.
      *
-     * @return der konfigurierte [PasswordEncoder] für die Anwendung
+     * @return der konfigurierte PasswordEncoder
      */
     @Bean
     fun passwordEncoder(): PasswordEncoder {
-        // Definiere die verfügbaren Encoder
-        val encoders = mutableMapOf<String, PasswordEncoder>()
+        return BCryptPasswordEncoder()
+    }
 
-        // Argon2id - aktuell empfohlener Standard für hohe Sicherheit
-        // Einstellungen: 16MB RAM, 2 Iterationen, 1 Parallelismus
-        encoders["argon2id"] = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8()
+    /**
+     * Konfiguriert die CORS-Einstellungen.
+     *
+     * @return die CORS-Konfiguration
+     */
+    @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource {
+        val configuration = CorsConfiguration()
+        configuration.allowedOrigins = listOf("*") // In production, restrict to specific domains
+        configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
+        configuration.allowedHeaders = listOf("Authorization", "Content-Type", "X-Tenant-ID")
+        configuration.exposedHeaders = listOf("Authorization")
 
-        // BCrypt - weit verbreitet, gut unterstützt, Stärke 12
-        encoders["bcrypt"] = BCryptPasswordEncoder(12)
-
-        // PBKDF2 - FIPS 140-2/3 konform, wichtig für einige regulierte Umgebungen
-        encoders["pbkdf2"] = Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8()
-
-        // SCrypt - Memory-Hard-Funktion, komplexer zu knacken
-        encoders["scrypt"] = SCryptPasswordEncoder.defaultsForSpringSecurity_v5_8()
-
-        // Nutze DelegatingPasswordEncoder mit Argon2id als Standard
-        return DelegatingPasswordEncoder("argon2id", encoders)
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+        return source
     }
 }

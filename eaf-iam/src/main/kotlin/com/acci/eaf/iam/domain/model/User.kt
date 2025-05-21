@@ -52,6 +52,18 @@ class User(
     var email: String? = null,
 
     /**
+     * Der Vorname des Benutzers. Optional.
+     */
+    @Column(name = "first_name")
+    var firstName: String? = null,
+
+    /**
+     * Der Nachname des Benutzers. Optional.
+     */
+    @Column(name = "last_name")
+    var lastName: String? = null,
+
+    /**
      * Der gehashte Passwort-Wert. Wird für die Authentifizierung verwendet.
      * Das Passwort wird niemals im Klartext gespeichert.
      */
@@ -76,6 +88,12 @@ class User(
      */
     @Column(name = "updated_at", nullable = false)
     var updatedAt: Instant = Instant.now(),
+
+    /**
+     * Der Zeitpunkt der letzten Anmeldung des Benutzers. Optional.
+     */
+    @Column(name = "last_login_at")
+    var lastLoginAt: Instant? = null,
 ) {
     /**
      * Prüft, ob der Benutzer aktiv ist und sich anmelden kann.
@@ -90,5 +108,15 @@ class User(
     @PreUpdate
     fun onUpdate() {
         updatedAt = Instant.now()
+    }
+
+    /**
+     * Gibt den Anzeigenamen des Benutzers zurück, basierend auf Vor- und Nachname oder Benutzername.
+     *
+     * @return der Anzeigename des Benutzers
+     */
+    fun getDisplayName(): String {
+        val names = listOfNotNull(firstName, lastName)
+        return if (names.isNotEmpty()) names.joinToString(" ") else username
     }
 }

@@ -43,6 +43,20 @@ data class CreateUserCommand(
     val email: String? = null,
 
     /**
+     * Der Vorname des Benutzers.
+     * Optional.
+     */
+    @field:Size(max = 255, message = "Vorname darf maximal 255 Zeichen lang sein")
+    val firstName: String? = null,
+
+    /**
+     * Der Nachname des Benutzers.
+     * Optional.
+     */
+    @field:Size(max = 255, message = "Nachname darf maximal 255 Zeichen lang sein")
+    val lastName: String? = null,
+
+    /**
      * Der anfängliche Status des Benutzers.
      * Standardmäßig auf ACTIVE gesetzt.
      */

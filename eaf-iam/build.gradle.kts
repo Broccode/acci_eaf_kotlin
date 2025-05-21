@@ -33,6 +33,17 @@ dependencies {
     // Validation
     implementation(libs.spring.boot.starter.validation)
 
+    // JWT für Token-basierte Authentifizierung
+    implementation("io.jsonwebtoken:jjwt-api:0.12.3")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3")
+
+    // OpenAPI/Swagger Dokumentation
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
+
+    // Jackson
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1")
+
     // Logging
     implementation(libs.bundles.logging)
     implementation("org.apache.logging.log4j:log4j-api:2.22.1")
@@ -54,6 +65,9 @@ dependencies {
     testImplementation("org.testcontainers:postgresql:1.19.1")
     testImplementation("org.jetbrains.kotlin:kotlin-test:2.0.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:2.0.0")
+
+    // H2 In-Memory Datenbank für Tests
+    testRuntimeOnly("com.h2database:h2:2.2.224")
 }
 
 java {

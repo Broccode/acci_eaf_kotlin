@@ -17,6 +17,12 @@ data class SetPasswordCommand(
     val userId: UUID,
 
     /**
+     * Die ID des Tenants, zu dem der Benutzer gehört.
+     */
+    @field:NotNull(message = "Tenant-ID ist erforderlich")
+    val tenantId: UUID,
+
+    /**
      * Das neue Passwort im Klartext.
      * Wird später gehasht und niemals gespeichert.
      */

@@ -34,6 +34,21 @@ data class UserDto(
     val email: String?,
 
     /**
+     * Der Vorname des Benutzers. Kann null sein.
+     */
+    val firstName: String?,
+
+    /**
+     * Der Nachname des Benutzers. Kann null sein.
+     */
+    val lastName: String?,
+
+    /**
+     * Der Anzeigename des Benutzers, basierend auf Vor- und Nachname oder Benutzername.
+     */
+    val displayName: String,
+
+    /**
      * Der aktuelle Status des Benutzers.
      */
     val status: UserStatus,
@@ -47,6 +62,11 @@ data class UserDto(
      * Der Zeitpunkt, zu dem der Benutzer zuletzt aktualisiert wurde.
      */
     val updatedAt: Instant,
+
+    /**
+     * Der Zeitpunkt der letzten Anmeldung des Benutzers. Kann null sein.
+     */
+    val lastLoginAt: Instant? = null,
 ) {
     companion object {
         /**
@@ -61,9 +81,13 @@ data class UserDto(
                 tenantId = user.tenantId,
                 username = user.username,
                 email = user.email,
+                firstName = user.firstName,
+                lastName = user.lastName,
+                displayName = user.getDisplayName(),
                 status = user.status,
                 createdAt = user.createdAt,
-                updatedAt = user.updatedAt
+                updatedAt = user.updatedAt,
+                lastLoginAt = user.lastLoginAt
             )
     }
 }

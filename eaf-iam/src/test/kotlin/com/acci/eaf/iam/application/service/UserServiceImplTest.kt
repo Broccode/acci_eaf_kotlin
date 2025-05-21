@@ -4,6 +4,7 @@ import com.acci.eaf.iam.application.port.input.CreateUserCommand
 import com.acci.eaf.iam.application.port.input.SetPasswordCommand
 import com.acci.eaf.iam.application.port.input.UpdateUserCommand
 import com.acci.eaf.iam.application.port.out.UserRepository
+import com.acci.eaf.iam.audit.AuditLogger
 import com.acci.eaf.iam.domain.exception.PasswordValidationException
 import com.acci.eaf.iam.domain.exception.UserAlreadyExistsException
 import com.acci.eaf.iam.domain.exception.UserNotFoundException
@@ -35,6 +36,7 @@ class UserServiceImplTest {
     private lateinit var userRepository: UserRepository
     private lateinit var passwordEncoder: PasswordEncoder
     private lateinit var passwordValidator: PasswordValidator
+    private lateinit var auditLogger: AuditLogger
     private lateinit var userService: UserServiceImpl
 
     @BeforeEach
@@ -42,7 +44,8 @@ class UserServiceImplTest {
         userRepository = mockk()
         passwordEncoder = mockk()
         passwordValidator = mockk()
-        userService = UserServiceImpl(userRepository, passwordEncoder, passwordValidator)
+        auditLogger = mockk(relaxed = true) // relaxed, damit wir nicht jeden Aufruf mocken müssen
+        userService = UserServiceImpl(userRepository, passwordEncoder, passwordValidator, auditLogger)
     }
 
     @Nested
@@ -251,6 +254,7 @@ class UserServiceImplTest {
             val newEmail = "new@example.com"
             val command = UpdateUserCommand(
                 userId = userId,
+                tenantId = tenantId,
                 email = newEmail
             )
 
@@ -292,6 +296,7 @@ class UserServiceImplTest {
             val newStatus = UserStatus.LOCKED_BY_ADMIN
             val command = UpdateUserCommand(
                 userId = userId,
+                tenantId = tenantId,
                 status = newStatus
             )
 
@@ -334,6 +339,7 @@ class UserServiceImplTest {
             val newStatus = UserStatus.DISABLED_BY_ADMIN
             val command = UpdateUserCommand(
                 userId = userId,
+                tenantId = tenantId,
                 email = newEmail,
                 status = newStatus
             )
@@ -363,12 +369,51 @@ class UserServiceImplTest {
         fun shouldThrowUserNotFoundExceptionWhenIdDoesNotExist() {
             // Arrange
             val userId = UUID.randomUUID()
+            val tenantId = UUID.randomUUID()
             val command = UpdateUserCommand(
                 userId = userId,
+                tenantId = tenantId,
                 email = "new@example.com"
             )
 
             every { userRepository.findById(userId) } returns Optional.empty()
+
+            // Act & Assert
+            val exception = assertThrows<UserNotFoundException> {
+                userService.updateUser(command)
+            }
+
+            // Check that the exception contains the right message
+            assertTrue(exception.message.contains(userId.toString()))
+
+            // Verify interactions
+            verify { userRepository.findById(userId) }
+            verify(exactly = 0) { userRepository.save(any()) }
+        }
+
+        @Test
+        @DisplayName("Sollte UserNotFoundException werfen, wenn der Benutzer zu einem anderen Tenant gehört")
+        fun shouldThrowUserNotFoundExceptionWhenUserBelongsToDifferentTenant() {
+            // Arrange
+            val userId = UUID.randomUUID()
+            val tenantId = UUID.randomUUID()
+            val differentTenantId = UUID.randomUUID()
+            val user = User(
+                id = userId,
+                tenantId = differentTenantId, // Anderer Tenant als in Command
+                username = "testuser",
+                email = "test@example.com",
+                passwordHash = "hashedPassword",
+                status = UserStatus.ACTIVE
+            )
+
+            val command = UpdateUserCommand(
+                userId = userId,
+                tenantId = tenantId, // Dieser Tenant ist anders als der des Benutzers
+                email = "new@example.com"
+            )
+
+            every { userRepository.findById(userId) } returns Optional.of(user)
 
             // Act & Assert
             val exception = assertThrows<UserNotFoundException> {
@@ -406,6 +451,7 @@ class UserServiceImplTest {
             val newPassword = "NewValidPassword123!"
             val command = SetPasswordCommand(
                 userId = userId,
+                tenantId = tenantId,
                 newPassword = newPassword
             )
 
@@ -432,12 +478,54 @@ class UserServiceImplTest {
         fun shouldThrowUserNotFoundExceptionWhenIdDoesNotExist() {
             // Arrange
             val userId = UUID.randomUUID()
+            val tenantId = UUID.randomUUID()
             val command = SetPasswordCommand(
                 userId = userId,
+                tenantId = tenantId,
                 newPassword = "ValidPassword123!"
             )
 
             every { userRepository.findById(userId) } returns Optional.empty()
+
+            // Act & Assert
+            val exception = assertThrows<UserNotFoundException> {
+                userService.setPassword(command)
+            }
+
+            // Check that the exception contains the right message
+            assertTrue(exception.message.contains(userId.toString()))
+
+            // Verify interactions
+            verify { userRepository.findById(userId) }
+            verify(exactly = 0) { passwordValidator.validate(any()) }
+            verify(exactly = 0) { passwordEncoder.encode(any()) }
+            verify(exactly = 0) { userRepository.save(any()) }
+        }
+
+        @Test
+        @DisplayName("Sollte UserNotFoundException werfen, wenn der Benutzer zu einem anderen Tenant gehört")
+        fun shouldThrowUserNotFoundExceptionWhenUserBelongsToDifferentTenant() {
+            // Arrange
+            val userId = UUID.randomUUID()
+            val tenantId = UUID.randomUUID()
+            val differentTenantId = UUID.randomUUID()
+            val user = User(
+                id = userId,
+                tenantId = differentTenantId, // Anderer Tenant als in Command
+                username = "testuser",
+                email = "test@example.com",
+                passwordHash = "oldHashedPassword",
+                status = UserStatus.ACTIVE
+            )
+
+            val newPassword = "NewValidPassword123!"
+            val command = SetPasswordCommand(
+                userId = userId,
+                tenantId = tenantId, // Dieser Tenant ist anders als der des Benutzers
+                newPassword = newPassword
+            )
+
+            every { userRepository.findById(userId) } returns Optional.of(user)
 
             // Act & Assert
             val exception = assertThrows<UserNotFoundException> {
@@ -472,6 +560,7 @@ class UserServiceImplTest {
             val newPassword = "weak"
             val command = SetPasswordCommand(
                 userId = userId,
+                tenantId = tenantId,
                 newPassword = newPassword
             )
 
