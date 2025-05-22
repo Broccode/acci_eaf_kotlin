@@ -225,7 +225,7 @@ class UserServiceImplTest {
             }
 
             // Check that the exception contains the right message
-            assertTrue(exception.message.contains(userId.toString()))
+            assertTrue(exception.message!!.contains(userId.toString()))
 
             // Verify interactions
             verify { userRepository.findById(userId) }
@@ -384,7 +384,7 @@ class UserServiceImplTest {
             }
 
             // Check that the exception contains the right message
-            assertTrue(exception.message.contains(userId.toString()))
+            assertTrue(exception.message!!.contains(userId.toString()))
 
             // Verify interactions
             verify { userRepository.findById(userId) }
@@ -421,7 +421,7 @@ class UserServiceImplTest {
             }
 
             // Check that the exception contains the right message
-            assertTrue(exception.message.contains(userId.toString()))
+            assertTrue(exception.message!!.contains(userId.toString()))
 
             // Verify interactions
             verify { userRepository.findById(userId) }
@@ -493,7 +493,7 @@ class UserServiceImplTest {
             }
 
             // Check that the exception contains the right message
-            assertTrue(exception.message.contains(userId.toString()))
+            assertTrue(exception.message!!.contains(userId.toString()))
 
             // Verify interactions
             verify { userRepository.findById(userId) }
@@ -533,7 +533,7 @@ class UserServiceImplTest {
             }
 
             // Check that the exception contains the right message
-            assertTrue(exception.message.contains(userId.toString()))
+            assertTrue(exception.message!!.contains(userId.toString()))
 
             // Verify interactions
             verify { userRepository.findById(userId) }

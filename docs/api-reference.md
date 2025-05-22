@@ -403,3 +403,382 @@ The ACCI EAF, particularly through its `eaf-iam` and notification capabilities, 
 * **Rate Limits:** To be defined. Calls to `/validations` might be frequent from many deployed instances, so appropriate strategies (e.g., per `activationId` or per client IP/application ID representing the customer) are necessary.
 
 * **Link to Detailed API Specification:** *(Placeholder: An OpenAPI (Swagger) specification will be generated and maintained for this API as part of the development process. It will reside in `docs/api/licenseserver-v1.yml` or be available via a Swagger UI endpoint.)*
+
+#### 7.2.5 RBAC Management API
+
+* **Purpose:** This API provides endpoints for managing Roles, Permissions and their assignment to users within the ACCI EAF ecosystem. It supports both system-wide (global) roles and tenant-specific roles, with appropriate tenant isolation.
+
+* **Base URL(s):**
+  * For system-wide permissions: `/api/controlplane/permissions`
+  * For system-wide roles: `/api/controlplane/roles`
+  * For tenant-specific roles: `/api/controlplane/tenants/{tenantId}/roles`
+  * For user role assignments: `/api/controlplane/tenants/{tenantId}/users/{userId}/roles`
+
+* **Authentication/Authorization:**
+  * **Authentication:** All endpoints are protected and require authentication with JWT tokens.
+  * **Authorization:** Endpoints are protected with permission-based authorization using Spring Security's `@PreAuthorize` annotation.
+    * System-wide permission and role management requires `role:admin` or specific permissions like `role:read`, `role:create`, etc.
+    * Tenant-specific role management requires the same permissions, plus being a member of the specified tenant or having the `tenant:admin` permission.
+
+* **Key Endpoints for Permissions Management:**
+
+  * **List All Permissions**
+    * **Endpoint:** `GET /api/controlplane/permissions`
+    * **Description:** Retrieves a paginated list of all available system permissions.
+    * **Required Permission:** `permission:read`
+    * **Request Parameters:**
+      * Pagination parameters: `page`, `size`, `sort`
+    * **Response Body Example:**
+
+      ```json
+      {
+        "content": [
+          {
+            "id": "550e8400-e29b-41d4-a716-446655440000",
+            "name": "user:create",
+            "description": "Create user accounts"
+          },
+          {
+            "id": "550e8400-e29b-41d4-a716-446655440001",
+            "name": "role:read",
+            "description": "View roles"
+          }
+        ],
+        "pageable": {
+          "pageNumber": 0,
+          "pageSize": 20,
+          "sort": {
+            "sorted": true,
+            "unsorted": false,
+            "empty": false
+          },
+          "offset": 0,
+          "paged": true,
+          "unpaged": false
+        },
+        "totalElements": 2,
+        "totalPages": 1,
+        "last": true,
+        "size": 20,
+        "number": 0,
+        "sort": {
+          "sorted": true,
+          "unsorted": false,
+          "empty": false
+        },
+        "numberOfElements": 2,
+        "first": true,
+        "empty": false
+      }
+      ```
+
+  * **Get Permission by ID**
+    * **Endpoint:** `GET /api/controlplane/permissions/{permissionId}`
+    * **Description:** Retrieves a specific permission by its ID.
+    * **Required Permission:** `permission:read`
+    * **Path Variables:**
+      * `permissionId`: UUID of the permission
+    * **Response Body Example:**
+
+      ```json
+      {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "name": "user:create",
+        "description": "Create user accounts"
+      }
+      ```
+
+  * **Search Permissions**
+    * **Endpoint:** `GET /api/controlplane/permissions/search`
+    * **Description:** Searches for permissions whose names contain the specified text.
+    * **Required Permission:** `permission:read`
+    * **Request Parameters:**
+      * `namePart`: Part of the permission name to search for
+      * Pagination parameters: `page`, `size`, `sort`
+    * **Response Body:** Same structure as the "List All Permissions" endpoint
+
+* **Key Endpoints for Global Role Management:**
+
+  * **List All Global Roles**
+    * **Endpoint:** `GET /api/controlplane/roles`
+    * **Description:** Retrieves a paginated list of all system-wide roles.
+    * **Required Permission:** `role:read`
+    * **Request Parameters:**
+      * Pagination parameters: `page`, `size`, `sort`
+    * **Response Body Example:**
+
+      ```json
+      {
+        "content": [
+          {
+            "id": "550e8400-e29b-41d4-a716-446655440002",
+            "name": "System Administrator",
+            "description": "Full system access",
+            "tenantId": null,
+            "permissionIds": [
+              "550e8400-e29b-41d4-a716-446655440000",
+              "550e8400-e29b-41d4-a716-446655440001"
+            ]
+          }
+        ],
+        "pageable": {
+          "pageNumber": 0,
+          "pageSize": 20,
+          "sort": {
+            "sorted": true,
+            "unsorted": false,
+            "empty": false
+          },
+          "offset": 0,
+          "paged": true,
+          "unpaged": false
+        },
+        "totalElements": 1,
+        "totalPages": 1,
+        "last": true,
+        "size": 20,
+        "number": 0,
+        "sort": {
+          "sorted": true,
+          "unsorted": false,
+          "empty": false
+        },
+        "numberOfElements": 1,
+        "first": true,
+        "empty": false
+      }
+      ```
+
+  * **Create Global Role**
+    * **Endpoint:** `POST /api/controlplane/roles`
+    * **Description:** Creates a new system-wide role.
+    * **Required Permission:** `role:create`
+    * **Request Body Example:**
+
+      ```json
+      {
+        "name": "System Auditor",
+        "description": "Read-only access to system resources"
+      }
+      ```
+
+    * **Response Body Example:**
+
+      ```json
+      {
+        "id": "550e8400-e29b-41d4-a716-446655440003",
+        "name": "System Auditor",
+        "description": "Read-only access to system resources",
+        "tenantId": null,
+        "permissionIds": []
+      }
+      ```
+
+  * **Get Global Role by ID**
+    * **Endpoint:** `GET /api/controlplane/roles/{roleId}`
+    * **Description:** Retrieves a specific system-wide role by its ID.
+    * **Required Permission:** `role:read`
+    * **Path Variables:**
+      * `roleId`: UUID of the role
+    * **Response Body Example:** Same structure as in the response of "Create Global Role"
+
+  * **Update Global Role**
+    * **Endpoint:** `PUT /api/controlplane/roles/{roleId}`
+    * **Description:** Updates an existing system-wide role.
+    * **Required Permission:** `role:update`
+    * **Path Variables:**
+      * `roleId`: UUID of the role to update
+    * **Request Body Example:**
+
+      ```json
+      {
+        "name": "System Auditor Plus",
+        "description": "Enhanced read-only access to system resources"
+      }
+      ```
+
+    * **Response Body Example:**
+
+      ```json
+      {
+        "id": "550e8400-e29b-41d4-a716-446655440003",
+        "name": "System Auditor Plus",
+        "description": "Enhanced read-only access to system resources",
+        "tenantId": null,
+        "permissionIds": []
+      }
+      ```
+
+  * **Delete Global Role**
+    * **Endpoint:** `DELETE /api/controlplane/roles/{roleId}`
+    * **Description:** Deletes a system-wide role.
+    * **Required Permission:** `role:delete`
+    * **Path Variables:**
+      * `roleId`: UUID of the role to delete
+    * **Response:** HTTP 204 No Content
+
+  * **Add Permission to Role**
+    * **Endpoint:** `POST /api/controlplane/roles/{roleId}/permissions/{permissionId}`
+    * **Description:** Adds a permission to a role.
+    * **Required Permission:** `role:update`
+    * **Path Variables:**
+      * `roleId`: UUID of the role
+      * `permissionId`: UUID of the permission to add
+    * **Response Body Example:**
+
+      ```json
+      {
+        "id": "550e8400-e29b-41d4-a716-446655440003",
+        "name": "System Auditor Plus",
+        "description": "Enhanced read-only access to system resources",
+        "tenantId": null,
+        "permissionIds": [
+          "550e8400-e29b-41d4-a716-446655440001"
+        ]
+      }
+      ```
+
+  * **Remove Permission from Role**
+    * **Endpoint:** `DELETE /api/controlplane/roles/{roleId}/permissions/{permissionId}`
+    * **Description:** Removes a permission from a role.
+    * **Required Permission:** `role:update`
+    * **Path Variables:**
+      * `roleId`: UUID of the role
+      * `permissionId`: UUID of the permission to remove
+    * **Response Body Example:**
+
+      ```json
+      {
+        "id": "550e8400-e29b-41d4-a716-446655440003",
+        "name": "System Auditor Plus",
+        "description": "Enhanced read-only access to system resources",
+        "tenantId": null,
+        "permissionIds": []
+      }
+      ```
+
+  * **List Permissions for Role**
+    * **Endpoint:** `GET /api/controlplane/roles/{roleId}/permissions`
+    * **Description:** Retrieves all permissions assigned to a role.
+    * **Required Permission:** `role:read`
+    * **Path Variables:**
+      * `roleId`: UUID of the role
+    * **Response Body Example:**
+
+      ```json
+      [
+        {
+          "id": "550e8400-e29b-41d4-a716-446655440001",
+          "name": "role:read",
+          "description": "View roles"
+        }
+      ]
+      ```
+
+* **Key Endpoints for Tenant-Specific Role Management:**
+
+  * **List Tenant Roles**
+    * **Endpoint:** `GET /api/controlplane/tenants/{tenantId}/roles`
+    * **Description:** Retrieves a paginated list of roles specific to a tenant.
+    * **Required Permission:** `role:read` and membership in the specified tenant
+    * **Path Variables:**
+      * `tenantId`: UUID of the tenant
+    * **Request Parameters:**
+      * Pagination parameters: `page`, `size`, `sort`
+    * **Response Body Example:** Similar structure to global roles, but with non-null `tenantId` matching the path parameter
+
+  * **List Available Roles for Tenant**
+    * **Endpoint:** `GET /api/controlplane/tenants/{tenantId}/roles/available`
+    * **Description:** Retrieves all roles available for a tenant (both tenant-specific and system-wide roles).
+    * **Required Permission:** `role:read` and membership in the specified tenant
+    * **Path Variables:**
+      * `tenantId`: UUID of the tenant
+    * **Request Parameters:**
+      * Pagination parameters: `page`, `size`, `sort`
+    * **Response Body Example:** Similar structure to global roles list, containing both system-wide roles (`tenantId: null`) and tenant-specific roles
+
+  * **Create Tenant Role**
+    * **Endpoint:** `POST /api/controlplane/tenants/{tenantId}/roles`
+    * **Description:** Creates a new role specific to a tenant.
+    * **Required Permission:** `role:create` and membership in the specified tenant
+    * **Path Variables:**
+      * `tenantId`: UUID of the tenant
+    * **Request Body Example:**
+
+      ```json
+      {
+        "name": "Tenant Admin",
+        "description": "Administrator for this tenant"
+      }
+      ```
+
+    * **Response Body Example:**
+
+      ```json
+      {
+        "id": "550e8400-e29b-41d4-a716-446655440004",
+        "name": "Tenant Admin",
+        "description": "Administrator for this tenant",
+        "tenantId": "550e8400-e29b-41d4-a716-446655440010",
+        "permissionIds": []
+      }
+      ```
+
+  * **Other Tenant Role Endpoints**
+    * The endpoints for getting, updating, deleting, and managing permissions for tenant-specific roles follow the same patterns as their global counterparts, but with the `/api/controlplane/tenants/{tenantId}/roles` base path and the tenant membership restriction.
+
+* **Key Endpoints for User Role Assignment:**
+
+  * **List User Roles**
+    * **Endpoint:** `GET /api/controlplane/tenants/{tenantId}/users/{userId}/roles`
+    * **Description:** Retrieves all roles assigned to a user.
+    * **Required Permission:** `role:read` and membership in the specified tenant
+    * **Path Variables:**
+      * `tenantId`: UUID of the tenant
+      * `userId`: UUID of the user
+    * **Response Body Example:**
+
+      ```json
+      [
+        {
+          "id": "550e8400-e29b-41d4-a716-446655440004",
+          "name": "Tenant Admin",
+          "description": "Administrator for this tenant",
+          "tenantId": "550e8400-e29b-41d4-a716-446655440010",
+          "permissionIds": []
+        }
+      ]
+      ```
+
+  * **Assign Role to User**
+    * **Endpoint:** `POST /api/controlplane/tenants/{tenantId}/users/{userId}/roles/{roleId}`
+    * **Description:** Assigns a role to a user.
+    * **Required Permission:** `role:assign` and membership in the specified tenant
+    * **Path Variables:**
+      * `tenantId`: UUID of the tenant
+      * `userId`: UUID of the user
+      * `roleId`: UUID of the role to assign
+    * **Response:** HTTP 204 No Content
+
+  * **Remove Role from User**
+    * **Endpoint:** `DELETE /api/controlplane/tenants/{tenantId}/users/{userId}/roles/{roleId}`
+    * **Description:** Removes a role from a user.
+    * **Required Permission:** `role:assign` and membership in the specified tenant
+    * **Path Variables:**
+      * `tenantId`: UUID of the tenant
+      * `userId`: UUID of the user
+      * `roleId`: UUID of the role to remove
+    * **Response:** HTTP 204 No Content
+
+* **Error Responses:**
+  * `400 Bad Request`: Invalid request format or data validation error
+  * `401 Unauthorized`: Missing or invalid authentication
+  * `403 Forbidden`: Insufficient permissions to perform the operation
+  * `404 Not Found`: Requested resource not found
+  * `409 Conflict`: Resource already exists (e.g., when creating a role with a name that already exists)
+  * Error response body follows the standard format with timestamp, status, error message, and path
+
+* **Security Notes:**
+  * All endpoints enforce tenant isolation, ensuring that users can only manage roles and permissions within their own tenant
+  * System-wide roles and permissions are only manageable by users with specific global administrative permissions
+  * All administrative changes are logged in the audit log for accountability

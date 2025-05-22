@@ -9,6 +9,7 @@ import com.acci.eaf.iam.config.JwtTokenProvider
 import com.acci.eaf.iam.domain.model.User
 import com.acci.eaf.iam.domain.model.UserStatus
 import com.fasterxml.jackson.databind.ObjectMapper
+import java.util.UUID
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -24,7 +25,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import java.util.UUID
 
 @SpringBootTest(
     classes = [IamTestApplication::class],
@@ -110,7 +110,9 @@ class AuthenticationControllerIntegrationTest {
 
         assert(jwtTokenProvider.validateToken(response.accessToken))
         assert(jwtTokenProvider.getUsernameFromToken(response.accessToken) == testUsername)
-        assert(jwtTokenProvider.getTenantIdFromToken(response.accessToken) == testTenantId)
+        assert(
+            jwtTokenProvider.getTenantIdFromToken(response.accessToken) == testTenantId
+        )
     }
 
     @Test
@@ -263,7 +265,7 @@ class AuthenticationControllerIntegrationTest {
     fun `when logging in with username@tenant format, then succeed`() {
         // Given
         val loginRequest = LoginRequestDTO(
-            usernameOrEmail = "$testUsername@${testTenantId}",
+            usernameOrEmail = "$testUsername@$testTenantId",
             password = testPassword
         )
 

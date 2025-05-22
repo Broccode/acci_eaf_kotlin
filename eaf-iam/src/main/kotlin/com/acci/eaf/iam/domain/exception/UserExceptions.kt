@@ -1,14 +1,6 @@
 package com.acci.eaf.iam.domain.exception
 
 /**
- * Exception, die geworfen wird, wenn ein Benutzer nicht gefunden wurde.
- *
- * @property userId Die ID des Benutzers, der nicht gefunden wurde, oder null, wenn nach anderen Kriterien gesucht wurde.
- * @property message Eine detaillierte Nachricht, die den Fehler beschreibt.
- */
-class UserNotFoundException(val userId: String? = null, override val message: String) : RuntimeException(message)
-
-/**
  * Exception, die geworfen wird, wenn ein Benutzer bereits existiert.
  *
  * @property username Der Benutzername, der bereits existiert.

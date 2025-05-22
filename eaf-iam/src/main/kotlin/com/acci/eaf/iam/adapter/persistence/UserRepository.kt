@@ -1,10 +1,10 @@
 package com.acci.eaf.iam.adapter.persistence
 
 import com.acci.eaf.iam.domain.model.User
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.stereotype.Repository
 import java.util.Optional
 import java.util.UUID
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 
 /**
  * Repository für den Zugriff auf User-Entitäten in der Datenbank.

@@ -4,7 +4,6 @@ import com.acci.eaf.iam.adapter.rest.dto.CreateUserRequest
 import com.acci.eaf.iam.adapter.rest.dto.SetPasswordRequest
 import com.acci.eaf.iam.adapter.rest.dto.UpdateUserRequest
 import com.acci.eaf.iam.adapter.rest.dto.UpdateUserStatusRequest
-import com.acci.eaf.iam.adapter.rest.dto.UserResponse
 import com.acci.eaf.iam.application.port.input.UserDto
 import com.acci.eaf.iam.application.port.input.UserService
 import com.acci.eaf.iam.domain.model.UserStatus
@@ -34,7 +33,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import org.springframework.web.servlet.config.annotation.EnableWebMvc
 
 class UserManagementControllerIntegrationTest {
 
@@ -46,14 +44,13 @@ class UserManagementControllerIntegrationTest {
     private val userId = UUID.randomUUID()
     private val now = Instant.now()
 
-    private fun createObjectMapper(): ObjectMapper {
-        return ObjectMapper()
+    private fun createObjectMapper(): ObjectMapper =
+        ObjectMapper()
             .registerModule(KotlinModule.Builder().build())
             .registerModule(JavaTimeModule())
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
             .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-    }
 
     @BeforeEach
     fun setup() {

@@ -1,15 +1,16 @@
 package com.acci.eaf.iam.config
 
+import com.acci.eaf.iam.application.port.api.PermissionService
 import com.acci.eaf.iam.domain.model.User
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Component
 import java.security.Key
 import java.util.Date
 import java.util.UUID
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Component
 
 /**
  * Service für die Verwaltung von JWT-Tokens.
@@ -19,7 +20,8 @@ import java.util.UUID
 class JwtTokenProvider(
     @Value("\${app.jwt.secret}") private val jwtSecret: String,
     @Value("\${app.jwt.expiration}") private val jwtExpirationInMs: Long,
-    @Value("\${app.jwt.refresh-expiration:604800000}") private val refreshExpirationInMs: Long
+    @Value("\${app.jwt.refresh-expiration:604800000}") private val refreshExpirationInMs: Long,
+    private val permissionService: PermissionService,
 ) {
 
     private val key: Key = Keys.hmacShaKeyFor(jwtSecret.toByteArray())
@@ -35,11 +37,15 @@ class JwtTokenProvider(
         val now = Date()
         val expiryDate = Date(now.time + jwtExpirationInMs)
 
+        // Hole die effektiven Berechtigungen des Benutzers
+        val permissions = permissionService.getEffectivePermissionsByUser(user.id.toString())
+
         return Jwts.builder()
             .subject(user.id.toString())
             .claim("tenantId", user.tenantId.toString())
             .claim("username", user.username)
             .claim("roles", roles)
+            .claim("permissions", permissions) // Füge Berechtigungen zum Token hinzu
             .issuedAt(now)
             .expiration(expiryDate)
             .signWith(key)
@@ -131,13 +137,23 @@ class JwtTokenProvider(
     }
 
     /**
+     * Extrahiert die Berechtigungen aus einem JWT.
+     *
+     * @param token der JWT
+     * @return die Liste der Berechtigungen
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun getPermissionsFromToken(token: String): List<String> {
+        val claims = getClaimsFromToken(token)
+        return claims.get("permissions", List::class.java) as? List<String> ?: emptyList()
+    }
+
+    /**
      * Gibt die Ablaufzeit des Access Tokens in Sekunden zurück.
      *
      * @return die Ablaufzeit in Sekunden
      */
-    fun getAccessTokenExpirationInSeconds(): Long {
-        return jwtExpirationInMs / 1000
-    }
+    fun getAccessTokenExpirationInSeconds(): Long = jwtExpirationInMs / 1000
 
     /**
      * Extrahiert die Claims aus einem JWT.
@@ -145,11 +161,10 @@ class JwtTokenProvider(
      * @param token der JWT
      * @return die Claims
      */
-    private fun getClaimsFromToken(token: String): Claims {
-        return Jwts.parser()
+    private fun getClaimsFromToken(token: String): Claims =
+        Jwts.parser()
             .setSigningKey(key)
             .build()
             .parseSignedClaims(token)
             .payload
-    }
 }

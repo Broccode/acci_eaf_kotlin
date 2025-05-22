@@ -22,5 +22,5 @@ data class LoginRequestDTO(
     /**
      * Optionale Tenant-Kennung, falls nicht im Benutzernamen enthalten.
      */
-    val tenantHint: String? = null
+    val tenantHint: String? = null,
 )

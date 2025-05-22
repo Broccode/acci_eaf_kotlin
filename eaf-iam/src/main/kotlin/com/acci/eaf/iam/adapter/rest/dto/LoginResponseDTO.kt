@@ -22,5 +22,5 @@ data class LoginResponseDTO(
     /**
      * Die Gültigkeitsdauer des Access Tokens in Sekunden.
      */
-    val expiresIn: Long
+    val expiresIn: Long,
 )

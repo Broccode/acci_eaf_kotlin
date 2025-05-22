@@ -245,8 +245,10 @@ class UserServiceImpl(
             val oldStatus = user.status
             user.status = newStatus
             val updatedUser = userRepository.save(user)
-            logger.info("Status für Benutzer mit ID '{}' wurde erfolgreich von '{}' auf '{}' aktualisiert",
-                userId, oldStatus, newStatus)
+            logger.info(
+                "Status für Benutzer mit ID '{}' wurde erfolgreich von '{}' auf '{}' aktualisiert",
+                userId, oldStatus, newStatus
+            )
 
             // Audit-Logging
             auditLogger.logUserStatusChange(user.id, user.username, user.tenantId, newStatus.toString())

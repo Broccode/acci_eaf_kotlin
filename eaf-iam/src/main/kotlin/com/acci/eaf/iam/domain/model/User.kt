@@ -4,7 +4,11 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
+import jakarta.persistence.FetchType
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.JoinTable
+import jakarta.persistence.ManyToMany
 import jakarta.persistence.PreUpdate
 import jakarta.persistence.Table
 import jakarta.persistence.UniqueConstraint
@@ -94,6 +98,17 @@ class User(
      */
     @Column(name = "last_login_at")
     var lastLoginAt: Instant? = null,
+
+    /**
+     * Die Rollen, die dem Benutzer zugewiesen sind.
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "user_roles",
+        joinColumns = [JoinColumn(name = "user_id")],
+        inverseJoinColumns = [JoinColumn(name = "role_id")]
+    )
+    val roles: MutableSet<Role> = mutableSetOf(),
 ) {
     /**
      * Prüft, ob der Benutzer aktiv ist und sich anmelden kann.
@@ -119,4 +134,42 @@ class User(
         val names = listOfNotNull(firstName, lastName)
         return if (names.isNotEmpty()) names.joinToString(" ") else username
     }
+
+    /**
+     * Fügt eine Rolle dem Benutzer hinzu.
+     *
+     * @param role Die hinzuzufügende Rolle
+     * @return Der Benutzer selbst für Method Chaining
+     */
+    fun addRole(role: Role): User {
+        roles.add(role)
+        return this
+    }
+
+    /**
+     * Entfernt eine Rolle vom Benutzer.
+     *
+     * @param role Die zu entfernende Rolle
+     * @return Der Benutzer selbst für Method Chaining
+     */
+    fun removeRole(role: Role): User {
+        roles.remove(role)
+        return this
+    }
+
+    /**
+     * Prüft, ob der Benutzer eine bestimmte Rolle hat.
+     *
+     * @param roleName Der Name der zu prüfenden Rolle
+     * @return true, wenn der Benutzer die Rolle hat, sonst false
+     */
+    fun hasRole(roleName: String): Boolean = roles.any { it.name == roleName }
+
+    /**
+     * Prüft, ob der Benutzer eine bestimmte Berechtigung hat.
+     *
+     * @param permissionName Der Name der zu prüfenden Berechtigung
+     * @return true, wenn der Benutzer eine Rolle mit dieser Berechtigung hat, sonst false
+     */
+    fun hasPermission(permissionName: String): Boolean = roles.any { it.hasPermission(permissionName) }
 }

@@ -19,9 +19,7 @@ import org.springframework.web.server.ResponseStatusException
  */
 @RestController
 @RequestMapping("/api/iam/auth")
-class AuthenticationController(
-    private val authenticationService: AuthenticationService
-) {
+class AuthenticationController(private val authenticationService: AuthenticationService) {
 
     private val logger = LoggerFactory.getLogger(AuthenticationController::class.java)
 
@@ -32,8 +30,8 @@ class AuthenticationController(
      * @return LoginResponseDTO mit Access Token und ggf. Refresh Token
      */
     @PostMapping("/login")
-    fun login(@Valid @RequestBody loginRequest: LoginRequestDTO): ResponseEntity<LoginResponseDTO> {
-        return try {
+    fun login(@Valid @RequestBody loginRequest: LoginRequestDTO): ResponseEntity<LoginResponseDTO> =
+        try {
             val response = authenticationService.authenticate(loginRequest)
             ResponseEntity.ok(response)
         } catch (e: AuthenticationException) {
@@ -44,5 +42,4 @@ class AuthenticationController(
             logger.error("Unerwarteter Fehler bei der Authentifizierung", e)
             throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Ein Fehler ist aufgetreten")
         }
-    }
 }

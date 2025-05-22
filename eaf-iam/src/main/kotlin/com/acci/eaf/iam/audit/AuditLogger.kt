@@ -18,7 +18,11 @@ class AuditLogger {
     /**
      * Log a user creation event.
      */
-    fun logUserCreation(userId: UUID, username: String, tenantId: UUID) {
+    fun logUserCreation(
+        userId: UUID,
+        username: String,
+        tenantId: UUID,
+    ) {
         val actor = getCurrentActor()
         logger.info(
             "AUDIT: USER_CREATED - Actor: {}, UserId: {}, Username: {}, TenantId: {}",
@@ -47,7 +51,11 @@ class AuditLogger {
     /**
      * Log a user password change event.
      */
-    fun logPasswordChange(userId: UUID, username: String, tenantId: UUID) {
+    fun logPasswordChange(
+        userId: UUID,
+        username: String,
+        tenantId: UUID,
+    ) {
         val actor = getCurrentActor()
         logger.info(
             "AUDIT: USER_PASSWORD_CHANGED - Actor: {}, UserId: {}, Username: {}, TenantId: {}",
@@ -59,7 +67,12 @@ class AuditLogger {
     /**
      * Log a user status change event.
      */
-    fun logUserStatusChange(userId: UUID, username: String, tenantId: UUID, newStatus: String) {
+    fun logUserStatusChange(
+        userId: UUID,
+        username: String,
+        tenantId: UUID,
+        newStatus: String,
+    ) {
         val actor = getCurrentActor()
         logger.info(
             "AUDIT: USER_STATUS_CHANGED - Actor: {}, UserId: {}, Username: {}, TenantId: {}, NewStatus: {}",
@@ -85,7 +98,11 @@ class AuditLogger {
      * @param tenantId die ID des Tenants
      * @param reason der Grund für den Fehlschlag
      */
-    fun logAuthenticationFailure(username: String, tenantId: UUID, reason: String) {
+    fun logAuthenticationFailure(
+        username: String,
+        tenantId: UUID,
+        reason: String,
+    ) {
         logger.warn("AUDIT: Authentication failure for user '{}' in tenant '{}': {}", username, tenantId, reason)
     }
 
@@ -96,7 +113,11 @@ class AuditLogger {
      * @param tenantId die ID des Tenants
      * @param reason der Grund für die Sperrung
      */
-    fun logAccountLockout(username: String, tenantId: UUID, reason: String) {
+    fun logAccountLockout(
+        username: String,
+        tenantId: UUID,
+        reason: String,
+    ) {
         logger.warn("AUDIT: Account locked for user '{}' in tenant '{}': {}", username, tenantId, reason)
     }
 
@@ -117,7 +138,11 @@ class AuditLogger {
      * @param tenantId die ID des Tenants
      * @param tokenType der Typ des Tokens (z.B. "access", "refresh")
      */
-    fun logTokenGeneration(username: String, tenantId: UUID, tokenType: String) {
+    fun logTokenGeneration(
+        username: String,
+        tenantId: UUID,
+        tokenType: String,
+    ) {
         logger.info("AUDIT: {} token generated for user '{}' in tenant '{}'", tokenType, username, tenantId)
     }
 

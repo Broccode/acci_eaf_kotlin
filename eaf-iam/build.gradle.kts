@@ -4,8 +4,14 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
-    id("org.springframework.boot") version "3.2.3"
+    id("org.springframework.boot") version "3.2.3" apply false
     id("io.spring.dependency-management") version "1.1.4"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom(libs.spring.boot.bom.get().toString())
+    }
 }
 
 version = "0.1.0"
@@ -61,6 +67,8 @@ dependencies {
     testImplementation(libs.bundles.testing.core)
     testImplementation(libs.bundles.testing.kotest)
     testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.spring.security.test)
+    testImplementation(libs.mockk)
     testImplementation("org.testcontainers:junit-jupiter:1.19.1")
     testImplementation("org.testcontainers:postgresql:1.19.1")
     testImplementation("org.jetbrains.kotlin:kotlin-test:2.0.0")

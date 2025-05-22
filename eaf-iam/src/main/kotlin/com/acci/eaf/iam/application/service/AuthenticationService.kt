@@ -7,12 +7,11 @@ import com.acci.eaf.iam.audit.AuditLogger
 import com.acci.eaf.iam.config.JwtTokenProvider
 import com.acci.eaf.iam.domain.exception.AuthenticationException
 import com.acci.eaf.iam.domain.model.User
-import com.acci.eaf.iam.domain.model.UserStatus
+import java.time.Instant
+import java.util.UUID
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.Instant
-import java.util.UUID
 
 /**
  * Service für die Authentifizierung von Benutzern.
@@ -23,7 +22,7 @@ class AuthenticationService(
     private val passwordEncoder: PasswordEncoder,
     private val jwtTokenProvider: JwtTokenProvider,
     private val accountLockoutService: AccountLockoutService,
-    private val auditLogger: AuditLogger
+    private val auditLogger: AuditLogger,
 ) {
 
     /**
@@ -167,7 +166,11 @@ class AuthenticationService(
      * @param tenantId die ID des Tenants
      * @param reason der Grund für den Fehlschlag
      */
-    private fun handleFailedAuthentication(username: String, tenantId: UUID, reason: String) {
+    private fun handleFailedAuthentication(
+        username: String,
+        tenantId: UUID,
+        reason: String,
+    ) {
         // Fehlgeschlagenen Anmeldeversuch registrieren
         val locked = accountLockoutService.recordFailedAttempt(username, tenantId)
 

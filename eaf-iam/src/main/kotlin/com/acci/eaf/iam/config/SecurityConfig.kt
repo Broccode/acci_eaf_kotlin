@@ -2,12 +2,14 @@ package com.acci.eaf.iam.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
@@ -17,7 +19,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
  */
 @Configuration
 @EnableWebSecurity
-class SecurityConfig {
+@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
+class SecurityConfig(private val jwtAuthenticationFilter: JwtAuthenticationFilter) {
 
     /**
      * Konfiguriert die Security-Filter-Chain.
@@ -33,8 +36,18 @@ class SecurityConfig {
             .authorizeHttpRequests { authorize ->
                 authorize
                     .requestMatchers("/api/iam/auth/**").permitAll()
+                    .requestMatchers("/api/controlplane/**")
+                    .hasAnyAuthority(
+                        "role:admin",
+                        "role:read",
+                        "role:create",
+                        "role:update",
+                        "role:delete",
+                        "role:assign"
+                    )
                     .anyRequest().authenticated()
             }
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
 
         return http.build()
     }
@@ -45,9 +58,7 @@ class SecurityConfig {
      * @return der konfigurierte PasswordEncoder
      */
     @Bean
-    fun passwordEncoder(): PasswordEncoder {
-        return BCryptPasswordEncoder()
-    }
+    fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
     /**
      * Konfiguriert die CORS-Einstellungen.
@@ -66,4 +77,10 @@ class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration)
         return source
     }
+
+    /**
+     * Bean für die Tenant-Sicherheitskomponente.
+     */
+    @Bean
+    fun tenantSecurity(): TenantSecurity = TenantSecurity()
 }

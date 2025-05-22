@@ -1,15 +1,14 @@
 package com.acci.eaf.iam.application.service
 
 import com.acci.eaf.iam.adapter.persistence.UserRepository
-import com.acci.eaf.iam.domain.model.User
 import com.acci.eaf.iam.domain.model.UserStatus
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import java.time.Duration
 import java.time.Instant
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 /**
  * Service zur Verwaltung der Kontosperrung nach zu vielen fehlgeschlagenen Anmeldeversuchen.
@@ -18,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap
 class AccountLockoutService(
     private val userRepository: UserRepository,
     @Value("\${app.security.lockout.max-attempts:5}") private val maxFailedAttempts: Int,
-    @Value("\${app.security.lockout.duration-minutes:15}") private val lockoutDurationMinutes: Long
+    @Value("\${app.security.lockout.duration-minutes:15}") private val lockoutDurationMinutes: Long,
 ) {
     // In-Memory-Cache für fehlgeschlagene Anmeldeversuche
     // In einer Produktionsumgebung sollte ein verteilter Cache oder eine Datenbank verwendet werden
@@ -34,7 +33,7 @@ class AccountLockoutService(
      */
     @Transactional
     fun recordFailedAttempt(username: String, tenantId: UUID): Boolean {
-        val key = "${username}@${tenantId}"
+        val key = "$username@$tenantId"
 
         // Prüfen, ob das Konto bereits gesperrt ist
         if (isAccountLocked(username, tenantId)) {
@@ -71,7 +70,7 @@ class AccountLockoutService(
      * @return true, wenn das Konto gesperrt ist, sonst false
      */
     fun isAccountLocked(username: String, tenantId: UUID): Boolean {
-        val key = "${username}@${tenantId}"
+        val key = "$username@$tenantId"
         val lockTime = lockedAccounts[key] ?: return false
 
         // Prüfen, ob die Sperrzeit abgelaufen ist
@@ -93,7 +92,7 @@ class AccountLockoutService(
      * @param tenantId die ID des Tenants
      */
     fun resetFailedAttempts(username: String, tenantId: UUID) {
-        val key = "${username}@${tenantId}"
+        val key = "$username@$tenantId"
         failedAttempts.remove(key)
     }
 
@@ -105,7 +104,7 @@ class AccountLockoutService(
      */
     @Transactional
     fun lockAccount(username: String, tenantId: UUID) {
-        val key = "${username}@${tenantId}"
+        val key = "$username@$tenantId"
         lockedAccounts[key] = Instant.now()
 
         userRepository.findByUsernameAndTenantId(username, tenantId).ifPresent { user ->

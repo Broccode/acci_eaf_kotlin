@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.31.xsd">
+
+    <changeSet id="002-create-roles-table" author="iam-developer">
+        <comment>Create roles table for RBAC</comment>
+        <createTable tableName="roles">
+            <column name="role_id" type="uuid">
+                <constraints primaryKey="true" primaryKeyName="pk_roles" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="tenant_id" type="uuid">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+            constraintName="uk_role_name_tenant"
+            tableName="roles"
+            columnNames="name, tenant_id"/>
+    </changeSet>
+
+    <changeSet id="002-create-permissions-table" author="iam-developer">
+        <comment>Create permissions table for RBAC</comment>
+        <createTable tableName="permissions">
+            <column name="permission_id" type="uuid">
+                <constraints primaryKey="true" primaryKeyName="pk_permissions" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="uk_permission_name"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="002-create-role-permissions-table" author="iam-developer">
+        <comment>Create join table for role-permission many-to-many relationship</comment>
+        <createTable tableName="role_permissions">
+            <column name="role_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="permission_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey
+            constraintName="pk_role_permissions"
+            tableName="role_permissions"
+            columnNames="role_id, permission_id"/>
+
+        <addForeignKeyConstraint
+            constraintName="fk_role_permissions_role"
+            baseTableName="role_permissions"
+            baseColumnNames="role_id"
+            referencedTableName="roles"
+            referencedColumnNames="role_id"
+            onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint
+            constraintName="fk_role_permissions_permission"
+            baseTableName="role_permissions"
+            baseColumnNames="permission_id"
+            referencedTableName="permissions"
+            referencedColumnNames="permission_id"
+            onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="002-create-user-roles-table" author="iam-developer">
+        <comment>Create join table for user-role many-to-many relationship</comment>
+        <createTable tableName="user_roles">
+            <column name="user_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey
+            constraintName="pk_user_roles"
+            tableName="user_roles"
+            columnNames="user_id, role_id"/>
+
+        <addForeignKeyConstraint
+            constraintName="fk_user_roles_user"
+            baseTableName="user_roles"
+            baseColumnNames="user_id"
+            referencedTableName="local_users"
+            referencedColumnNames="user_id"
+            onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint
+            constraintName="fk_user_roles_role"
+            baseTableName="user_roles"
+            baseColumnNames="role_id"
+            referencedTableName="roles"
+            referencedColumnNames="role_id"
+            onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="002-insert-default-permissions" author="iam-developer">
+        <comment>Insert default system permissions</comment>
+        <sql>
+            -- System Management Permissions
+            INSERT INTO permissions (permission_id, name, description) VALUES
+            (gen_random_uuid(), 'system:admin', 'Full system administration capability'),
+            (gen_random_uuid(), 'system:view', 'View system information');
+
+            -- Tenant Management Permissions
+            INSERT INTO permissions (permission_id, name, description) VALUES
+            (gen_random_uuid(), 'tenant:create', 'Create new tenants'),
+            (gen_random_uuid(), 'tenant:view', 'View tenant details'),
+            (gen_random_uuid(), 'tenant:edit', 'Edit tenant information'),
+            (gen_random_uuid(), 'tenant:delete', 'Delete tenants');
+
+            -- User Management Permissions
+            INSERT INTO permissions (permission_id, name, description) VALUES
+            (gen_random_uuid(), 'user:create', 'Create new users'),
+            (gen_random_uuid(), 'user:view', 'View user details'),
+            (gen_random_uuid(), 'user:edit', 'Edit user information'),
+            (gen_random_uuid(), 'user:delete', 'Delete users');
+
+            -- Role Management Permissions
+            INSERT INTO permissions (permission_id, name, description) VALUES
+            (gen_random_uuid(), 'role:create', 'Create new roles'),
+            (gen_random_uuid(), 'role:view', 'View role details'),
+            (gen_random_uuid(), 'role:edit', 'Edit role information'),
+            (gen_random_uuid(), 'role:delete', 'Delete roles'),
+            (gen_random_uuid(), 'role:assign', 'Assign roles to users');
+        </sql>
+    </changeSet>
+
+    <changeSet id="002-create-system-admin-role" author="iam-developer">
+        <comment>Create EAF Super-Admin role</comment>
+        <sql>
+            -- Create EAF Super-Admin role (global, no tenant)
+            INSERT INTO roles (role_id, name, description, tenant_id) VALUES
+            (gen_random_uuid(), 'EAF_SUPER_ADMIN', 'EAF Super Administrator with full system access', null);
+
+            -- Assign all permissions to the EAF Super-Admin role
+            INSERT INTO role_permissions (role_id, permission_id)
+            SELECT
+                (SELECT role_id FROM roles WHERE name = 'EAF_SUPER_ADMIN'),
+                permission_id
+            FROM permissions;
+        </sql>
+    </changeSet>
+
+    <changeSet id="002-create-tenant-admin-role" author="iam-developer">
+        <comment>Create Tenant Admin role template</comment>
+        <sql>
+            -- Create Tenant Admin role template (global, no tenant)
+            INSERT INTO roles (role_id, name, description, tenant_id) VALUES
+            (gen_random_uuid(), 'TENANT_ADMIN', 'Tenant Administrator with tenant management capabilities', null);
+
+            -- Assign tenant management permissions to the Tenant Admin role
+            INSERT INTO role_permissions (role_id, permission_id)
+            SELECT
+                (SELECT role_id FROM roles WHERE name = 'TENANT_ADMIN'),
+                permission_id
+            FROM permissions
+            WHERE name IN ('tenant:view', 'tenant:edit', 'user:create', 'user:view', 'user:edit', 'user:delete',
+                          'role:create', 'role:view', 'role:edit', 'role:delete', 'role:assign');
+        </sql>
+    </changeSet>
+
+    <changeSet id="002-rollback" author="iam-developer">
+        <rollback>
+            DROP TABLE IF EXISTS user_roles;
+            DROP TABLE IF EXISTS role_permissions;
+            DROP TABLE IF EXISTS permissions;
+            DROP TABLE IF EXISTS roles;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

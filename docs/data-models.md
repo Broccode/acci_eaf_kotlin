@@ -145,7 +145,41 @@ these will be represented as Aggregates, whose state is derived from a sequence 
 
 * **Validation Rules:** `activationId`, `licenseKey`, `customerId`, `productCode`, `instanceId` are mandatory. `status` reflects the lifecycle.
 
-*{Further core entities such as `Role`, `Permission`, `LicenseDefinition`, `IdentityProviderConfig`, `I18NTranslationBundle`, `AuditEvent`, `PluginDescriptor`, etc., would be defined here in a similar manner.}*
+#### 8.1.5 Role
+
+* **Description:** Represents a role within the IAM system that can be assigned to users or service accounts. Roles are collections of permissions that define what actions a user can perform. Roles can be system-wide (global) or specific to a tenant. Managed by `eaf-iam`.
+* **Schema / Data Class Definition (Kotlin):**
+
+    ```kotlin
+    data class Role(
+        val roleId: UUID, // Primary identifier
+        val name: String, // Name of the role, unique per tenant
+        val description: String? = null, // Optional description
+        val tenantId: UUID? = null, // Null for system-wide roles, tenant ID for tenant-specific roles
+        val permissions: Set<Permission> = emptySet(), // Permissions assigned to this role
+        val users: Set<User> = emptySet() // Users assigned to this role
+    )
+    ```
+
+* **Validation Rules:** `roleId` is mandatory and unique. `name` is mandatory and unique within a tenant (or globally for system-wide roles). `tenantId` can be null for system-wide roles.
+
+#### 8.1.6 Permission
+
+* **Description:** Represents a specific permission or capability within the IAM system. Permissions define fine-grained access control and are assigned to roles. Permissions are system-defined and cannot be created by tenant administrators. Managed by `eaf-iam`.
+* **Schema / Data Class Definition (Kotlin):**
+
+    ```kotlin
+    data class Permission(
+        val permissionId: UUID, // Primary identifier
+        val name: String, // Unique name of the permission (e.g., "user:create", "role:read")
+        val description: String? = null, // Optional description
+        val roles: Set<Role> = emptySet() // Roles that include this permission
+    )
+    ```
+
+* **Validation Rules:** `permissionId` is mandatory and unique. `name` is mandatory and globally unique.
+
+*{Further core entities such as `LicenseDefinition`, `IdentityProviderConfig`, `I18NTranslationBundle`, `AuditEvent`, `PluginDescriptor`, etc., would be defined here in a similar manner.}*
 
 ### 8.2 API Payload Schemas (If distinct)
 

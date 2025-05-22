@@ -7,5 +7,6 @@
 
     <!-- Include all change files in correct order -->
     <include file="changes/001-create-local-users-table.xml" relativeToChangelogFile="true"/>
-    
-</databaseChangeLog> 
+    <include file="changes/002-create-roles-and-permissions-tables.xml" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>
