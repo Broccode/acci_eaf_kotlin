@@ -181,6 +181,288 @@ The ACCI EAF, particularly through its `eaf-iam` and notification capabilities, 
   * Failed login attempts lead to temporary account lockout
   * All login attempts (successful and failed) are logged in the audit log
 
+### 7.1.6 Service Account Management API
+
+* **Purpose:** Used by tenant administrators to manage service accounts for machine-to-machine API access.
+* **Base Path:** `/api/controlplane/tenants/{tenantId}/service-accounts`
+* **Authentication:** Bearer token required, tenant admin permissions
+* **Authorization:** All endpoints require appropriate service account permissions and tenant access
+
+#### 7.1.6.1 Create Service Account
+
+* **Endpoint:** `POST /api/controlplane/tenants/{tenantId}/service-accounts`
+* **Required Permission:** `service_account:create`
+* **Request Body Schema:**
+
+```json
+{
+  "description": "string", // Optional, max 1024 characters
+  "expiresAt": "2024-12-31T23:59:59Z", // Optional ISO-8601 datetime, null = default expiration
+  "roles": ["uuid1", "uuid2"] // Optional set of Role IDs to assign
+}
+```
+
+* **Response Schema (201 Created):**
+
+```json
+{
+  "clientId": "string", // System-generated unique client ID
+  "clientSecret": "string" // One-time display only, cannot be retrieved again
+}
+```
+
+* **Error Responses:**
+  * `400 Bad Request`: Invalid request data or validation errors
+  * `401 Unauthorized`: Authentication required
+  * `403 Forbidden`: Insufficient permissions or tenant access denied
+  * `409 Conflict`: Service account limit reached
+
+#### 7.1.6.2 List Service Accounts
+
+* **Endpoint:** `GET /api/controlplane/tenants/{tenantId}/service-accounts`
+* **Required Permission:** `service_account:read`
+* **Query Parameters:**
+  * `page`: Page number (default: 0)
+  * `size`: Page size (default: 20, max: 100)
+  * `status`: Filter by status (ACTIVE, INACTIVE)
+  * `search`: Free text search in description and client ID
+* **Response Schema (200 OK):**
+
+```json
+[
+  {
+    "serviceAccountId": "uuid",
+    "clientId": "string",
+    "description": "string",
+    "status": "ACTIVE|INACTIVE",
+    "createdAt": "2023-01-01T10:00:00Z",
+    "expiresAt": "2024-01-01T10:00:00Z", // null if no expiration
+    "roles": ["uuid1", "uuid2"] // Array of assigned Role IDs
+  }
+]
+```
+
+#### 7.1.6.3 Get Service Account Details
+
+* **Endpoint:** `GET /api/controlplane/tenants/{tenantId}/service-accounts/{serviceAccountId}`
+* **Required Permission:** `service_account:read`
+* **Response Schema (200 OK):**
+
+```json
+{
+  "serviceAccountId": "uuid",
+  "clientId": "string",
+  "description": "string",
+  "status": "ACTIVE|INACTIVE",
+  "createdAt": "2023-01-01T10:00:00Z",
+  "expiresAt": "2024-01-01T10:00:00Z", // null if no expiration
+  "roles": ["uuid1", "uuid2"] // Array of assigned Role IDs
+}
+```
+
+* **Error Responses:**
+  * `404 Not Found`: Service account not found or not accessible
+
+#### 7.1.6.4 Update Service Account
+
+* **Endpoint:** `PUT /api/controlplane/tenants/{tenantId}/service-accounts/{serviceAccountId}`
+* **Required Permission:** `service_account:update`
+* **Request Body Schema:**
+
+```json
+{
+  "description": "string", // Optional
+  "status": "ACTIVE|INACTIVE", // Optional
+  "expiresAt": "2024-12-31T23:59:59Z", // Optional ISO-8601 datetime
+  "roles": ["uuid1", "uuid2"] // Optional set of Role IDs to assign
+}
+```
+
+* **Response Schema (200 OK):**
+
+```json
+{
+  "serviceAccountId": "uuid",
+  "clientId": "string",
+  "description": "string",
+  "status": "ACTIVE|INACTIVE",
+  "createdAt": "2023-01-01T10:00:00Z",
+  "expiresAt": "2024-01-01T10:00:00Z",
+  "roles": ["uuid1", "uuid2"]
+}
+```
+
+#### 7.1.6.5 Delete Service Account (Soft Delete)
+
+* **Endpoint:** `DELETE /api/controlplane/tenants/{tenantId}/service-accounts/{serviceAccountId}`
+* **Required Permission:** `service_account:delete`
+* **Response:** `204 No Content`
+* **Behavior:** Deactivates the service account (sets status to INACTIVE)
+
+#### 7.1.6.6 Rotate Service Account Secret
+
+* **Endpoint:** `POST /api/controlplane/tenants/{tenantId}/service-accounts/{serviceAccountId}/rotate-secret`
+* **Required Permission:** `service_account:manage_credentials`
+* **Response Schema (200 OK):**
+
+```json
+{
+  "clientId": "string", // Usually unchanged
+  "clientSecret": "string" // New secret, one-time display only
+}
+```
+
+* **Security Notes:**
+  * Client secrets are hashed using secure algorithms (Argon2id/bcrypt)
+  * Secrets are only displayed once during creation/rotation
+  * All administrative actions are logged in the audit trail
+  * Service accounts have configurable default and maximum expiration periods
+  * Expired or inactive service accounts cannot authenticate
+
+### 7.1.7 Service Account Authentication (OAuth 2.0 Client Credentials)
+
+The EAF provides OAuth 2.0 Client Credentials Grant Flow for service account authentication, enabling machine-to-machine API access.
+
+#### 7.1.7.1 Token Endpoint
+
+* **Endpoint:** `POST /oauth2/token`
+* **Content-Type:** `application/x-www-form-urlencoded`
+* **Request Parameters:**
+
+```
+grant_type=client_credentials
+client_id={clientId}
+client_secret={clientSecret}
+scope=api
+```
+
+* **Response Schema (200 OK):**
+
+```json
+{
+  "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "scope": "api"
+}
+```
+
+#### 7.1.7.2 JWT Token Claims
+
+Successful authentication returns a JWT access token containing service account specific claims:
+
+```json
+{
+  "iss": "http://localhost:8080",
+  "sub": "client-id-value",
+  "aud": ["api"],
+  "exp": 1640995200,
+  "iat": 1640991600,
+  "serviceAccountId": "uuid",
+  "clientId": "string",
+  "tenantId": "uuid",
+  "roles": ["ROLE_uuid1", "ROLE_uuid2"],
+  "type": "service_account"
+}
+```
+
+#### 7.1.7.3 Authentication Validation
+
+The authentication process validates:
+
+* Client credentials against hashed secret
+* Service account status (must be `ACTIVE`)
+* Service account expiration date (if set)
+* Tenant context and availability
+
+#### 7.1.7.4 Error Responses
+
+* **401 Unauthorized - Invalid Client:**
+
+```json
+{
+  "error": "invalid_client",
+  "error_description": "Client authentication failed"
+}
+```
+
+* **400 Bad Request - Unsupported Grant Type:**
+
+```json
+{
+  "error": "unsupported_grant_type",
+  "error_description": "Grant type not supported"
+}
+```
+
+#### 7.1.7.5 Security Features
+
+* **Audit Logging:** All authentication attempts are logged with detailed audit information
+* **Rate Limiting:** Protection against brute force attacks
+* **Secure Token Expiry:** Token validity never exceeds service account expiration date
+* **Tenant Isolation:** Service accounts are strictly scoped to their tenant context
+
+#### 7.1.7.6 Using Access Tokens
+
+Include the access token in API requests:
+
+```
+Authorization: Bearer {access_token}
+```
+
+The token provides access to APIs based on the service account's assigned roles and permissions.
+
+### 7.1.8 Service Account Role Management
+
+#### 7.1.8.1 Get Service Account Roles
+
+* **Endpoint:** `GET /api/controlplane/tenants/{tenantId}/service-accounts/{serviceAccountId}/roles`
+* **Required Permission:** `service_account:read`
+* **Response Schema (200 OK):**
+
+```json
+["uuid1", "uuid2", "uuid3"]
+```
+
+#### 7.1.8.2 Assign Roles to Service Account
+
+* **Endpoint:** `POST /api/controlplane/tenants/{tenantId}/service-accounts/{serviceAccountId}/roles`
+* **Required Permission:** `service_account:assign_roles`
+* **Request Body Schema:**
+
+```json
+["uuid1", "uuid2"]
+```
+
+* **Response:** `204 No Content`
+* **Behavior:** Adds the specified roles to the service account's existing roles
+
+#### 7.1.8.3 Remove Roles from Service Account
+
+* **Endpoint:** `DELETE /api/controlplane/tenants/{tenantId}/service-accounts/{serviceAccountId}/roles`
+* **Required Permission:** `service_account:assign_roles`
+* **Request Body Schema:**
+
+```json
+["uuid1", "uuid2"]
+```
+
+* **Response:** `204 No Content`
+* **Behavior:** Removes the specified roles from the service account
+
+#### 7.1.8.4 Set Service Account Roles (Replace All)
+
+* **Endpoint:** `PUT /api/controlplane/tenants/{tenantId}/service-accounts/{serviceAccountId}/roles`
+* **Required Permission:** `service_account:assign_roles`
+* **Request Body Schema:**
+
+```json
+["uuid1", "uuid2", "uuid3"]
+```
+
+* **Response:** `204 No Content`
+* **Behavior:** Replaces all existing roles with the specified set of roles
+
 ### 7.2 Internal APIs Provided
 
 #### 7.2.1 ACCI EAF Control Plane API (`eaf-controlplane-api`)

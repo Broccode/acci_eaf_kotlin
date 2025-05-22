@@ -12,12 +12,9 @@ import com.acci.eaf.iam.domain.exception.RoleAlreadyExistsException
 import com.acci.eaf.iam.domain.exception.RoleNotFoundException
 import com.acci.eaf.iam.domain.model.Permission
 import com.acci.eaf.iam.domain.model.Role
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
-import io.mockk.justRun
-import io.mockk.mockk
-import io.mockk.slot
 import io.mockk.verify as mockkVerify
 import java.util.Optional // Specific import for Optional
 import java.util.UUID // Specific import for UUID
@@ -28,7 +25,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.PageRequest
 
 @ExtendWith(MockKExtension::class)
 class RoleServiceImplTest {
@@ -55,6 +52,13 @@ class RoleServiceImplTest {
 
     @BeforeEach
     fun setUp() {
+        // Mock all audit service methods to avoid MockKExceptions
+        justRun { auditService.logRoleCreated(any()) }
+        justRun { auditService.logRoleUpdated(any(), any()) }
+        justRun { auditService.logRoleDeleted(any()) }
+        justRun { auditService.logPermissionAddedToRole(any(), any()) }
+        justRun { auditService.logPermissionRemovedFromRole(any(), any()) }
+
         roleService = RoleServiceImpl(
             roleRepository,
             permissionRepository,
@@ -87,7 +91,7 @@ class RoleServiceImplTest {
         val expectedDto = RoleDto.fromEntity(savedRoleWithId)
 
         every { roleRepository.existsByNameAndTenantId(command.name, command.tenantId) } returns false
-        every { roleRepository.save(io.mockk.any<Role>()) } returns savedRoleWithId
+        every { roleRepository.save(any<Role>()) } returns savedRoleWithId
 
         // When
         val result = roleService.createRole(command)
@@ -97,7 +101,7 @@ class RoleServiceImplTest {
         mockkVerify { roleRepository.existsByNameAndTenantId(command.name, command.tenantId) }
         mockkVerify { roleRepository.save(capture(roleSlot)) }
         assertEquals(command.name, roleSlot.captured.name)
-        mockkVerify { auditService.logRoleCreated(io.mockk.eq(savedRoleWithId)) }
+        mockkVerify { auditService.logRoleCreated(eq(savedRoleWithId)) }
     }
 
     @Test
@@ -117,7 +121,7 @@ class RoleServiceImplTest {
         }
 
         mockkVerify { roleRepository.existsByNameAndTenantId(command.name, command.tenantId) }
-        mockkVerify(exactly = 0) { roleRepository.save(io.mockk.any<Role>()) }
+        mockkVerify(exactly = 0) { roleRepository.save(any<Role>()) }
     }
 
     @Test
@@ -177,7 +181,7 @@ class RoleServiceImplTest {
 
         every { roleRepository.findById(roleId) } returns Optional.of(existingRole)
         every { roleRepository.existsByNameAndTenantId(command.name, existingRole.tenantId) } returns false
-        every { roleRepository.save(io.mockk.any<Role>()) } returns updatedRoleEntity
+        every { roleRepository.save(any<Role>()) } returns updatedRoleEntity
 
         // When
         val result = roleService.updateRole(command)
@@ -190,7 +194,7 @@ class RoleServiceImplTest {
         val capturedRole = roleSlot.captured
         assertEquals(command.name, capturedRole.name)
         assertEquals(command.description, capturedRole.description)
-        mockkVerify { auditService.logRoleUpdated(io.mockk.eq(updatedRoleEntity), io.mockk.eq(existingRole.name)) }
+        mockkVerify { auditService.logRoleUpdated(eq(updatedRoleEntity), eq("Original Name")) }
     }
 
     @Test
@@ -228,15 +232,15 @@ class RoleServiceImplTest {
         )
 
         every { roleRepository.findById(roleId) } returns Optional.of(role)
-        justRun { roleRepository.delete(io.mockk.any<Role>()) }
+        justRun { roleRepository.delete(any<Role>()) }
 
         // When
         roleService.deleteRole(roleId)
 
         // Then
         mockkVerify { roleRepository.findById(roleId) }
-        mockkVerify { roleRepository.delete(io.mockk.eq(role)) }
-        mockkVerify { auditService.logRoleDeleted(io.mockk.eq(role)) }
+        mockkVerify { roleRepository.delete(eq(role)) }
+        mockkVerify { auditService.logRoleDeleted(eq(role)) }
     }
 
     @Test
@@ -258,9 +262,8 @@ class RoleServiceImplTest {
         )
         val expectedDtos = roles.map { RoleDto.fromEntity(it) }
 
-        val pageable = mockk<Pageable>()
-        val page = PageImpl(roles)
-        val expectedPageDto = PageImpl(expectedDtos, pageable, roles.size.toLong())
+        val pageable = PageRequest.of(0, 10)
+        val page = PageImpl(roles, pageable, roles.size.toLong())
 
         every { roleRepository.findByTenantId(tenantId, pageable) } returns page
 
@@ -268,9 +271,9 @@ class RoleServiceImplTest {
         val result = roleService.getRolesByTenant(tenantId, pageable)
 
         // Then
-        assertEquals(expectedPageDto.content, result.content)
-        assertEquals(expectedPageDto.totalPages, result.totalPages)
-        assertEquals(expectedPageDto.totalElements, result.totalElements)
+        assertEquals(expectedDtos, result.content)
+        assertEquals(page.totalPages, result.totalPages)
+        assertEquals(page.totalElements, result.totalElements)
     }
 
     @Test
@@ -302,7 +305,7 @@ class RoleServiceImplTest {
 
         every { roleRepository.findById(roleId) } returns Optional.of(role)
         every { permissionRepository.findById(permissionId) } returns Optional.of(permission)
-        every { roleRepository.save(io.mockk.any<Role>()) } returns roleWithPermission
+        every { roleRepository.save(any<Role>()) } returns roleWithPermission
 
         // When
         val result = roleService.addPermissionToRole(roleId, permissionId)
@@ -314,7 +317,7 @@ class RoleServiceImplTest {
         mockkVerify { roleRepository.save(capture(roleSlot)) }
         val capturedRole = roleSlot.captured
         assertTrue(capturedRole.permissions.contains(permission))
-        mockkVerify { auditService.logPermissionAddedToRole(io.mockk.eq(roleWithPermission), io.mockk.eq(permission)) }
+        mockkVerify { auditService.logPermissionAddedToRole(eq(roleWithPermission), eq(permission)) }
     }
 
     @Test
@@ -346,7 +349,7 @@ class RoleServiceImplTest {
 
         every { roleRepository.findById(roleId) } returns Optional.of(roleWithPermission)
         every { permissionRepository.findById(permissionId) } returns Optional.of(permission)
-        every { roleRepository.save(io.mockk.any<Role>()) } returns roleWithoutPermission
+        every { roleRepository.save(any<Role>()) } returns roleWithoutPermission
 
         // When
         val result = roleService.removePermissionFromRole(roleId, permissionId)
@@ -358,7 +361,7 @@ class RoleServiceImplTest {
         mockkVerify { roleRepository.save(capture(roleSlot)) }
         val capturedRole = roleSlot.captured
         assertTrue(!capturedRole.permissions.contains(permission))
-        mockkVerify { auditService.logPermissionRemovedFromRole(io.mockk.eq(permission), io.mockk.eq(roleWithPermission)) }
+        mockkVerify { auditService.logPermissionRemovedFromRole(eq(roleWithPermission), eq(permission)) }
     }
 
     @Test
@@ -370,8 +373,8 @@ class RoleServiceImplTest {
         assertFailsWith<RoleNotFoundException> {
             roleService.addPermissionToRole(roleId, permissionId)
         }
-        mockkVerify(exactly = 0) { permissionRepository.findById(io.mockk.any<UUID>()) }
-        mockkVerify(exactly = 0) { roleRepository.save(io.mockk.any<Role>()) }
+        mockkVerify(exactly = 0) { permissionRepository.findById(any<UUID>()) }
+        mockkVerify(exactly = 0) { roleRepository.save(any<Role>()) }
     }
 
     @Test
@@ -393,7 +396,7 @@ class RoleServiceImplTest {
         }
         mockkVerify { roleRepository.findById(roleId) }
         mockkVerify { permissionRepository.findById(permissionId) }
-        mockkVerify(exactly = 0) { roleRepository.save(io.mockk.any<Role>()) }
+        mockkVerify(exactly = 0) { roleRepository.save(any<Role>()) }
     }
 
     @Test
@@ -405,8 +408,8 @@ class RoleServiceImplTest {
         assertFailsWith<RoleNotFoundException> {
             roleService.removePermissionFromRole(roleId, permissionId)
         }
-        mockkVerify(exactly = 0) { permissionRepository.findById(io.mockk.any<UUID>()) }
-        mockkVerify(exactly = 0) { roleRepository.save(io.mockk.any<Role>()) }
+        mockkVerify(exactly = 0) { permissionRepository.findById(any<UUID>()) }
+        mockkVerify(exactly = 0) { roleRepository.save(any<Role>()) }
     }
 
     @Test
@@ -428,6 +431,6 @@ class RoleServiceImplTest {
         }
         mockkVerify { roleRepository.findById(roleId) }
         mockkVerify { permissionRepository.findById(permissionId) }
-        mockkVerify(exactly = 0) { roleRepository.save(io.mockk.any<Role>()) }
+        mockkVerify(exactly = 0) { roleRepository.save(any<Role>()) }
     }
 }

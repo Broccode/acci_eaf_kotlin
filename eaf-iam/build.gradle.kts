@@ -21,6 +21,14 @@ dependencies {
     implementation(project(":eaf-core"))
     implementation(project(":eaf-multitenancy"))
 
+    // Axon Framework für CQRS/Event Sourcing
+    implementation("org.axonframework:axon-spring-boot-starter:4.9.1") {
+        // Exclude log4j conflicts
+        exclude(group = "org.apache.logging.log4j", module = "log4j-slf4j2-impl")
+    }
+    implementation("org.axonframework:axon-modelling:4.9.1")
+    implementation("org.axonframework:axon-eventsourcing:4.9.1")
+
     // Kotlin Core
     implementation(libs.bundles.kotlin.core)
     implementation(libs.bundles.kotlin.extensions)
@@ -30,6 +38,7 @@ dependencies {
     implementation(libs.spring.boot.starter.actuator)
     implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.spring.boot.starter.security)
+    implementation("org.springframework.security:spring-security-oauth2-authorization-server:1.2.1")
 
     // Datenbanken
     implementation(libs.postgresql)

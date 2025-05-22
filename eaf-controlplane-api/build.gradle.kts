@@ -18,6 +18,10 @@ dependencies {
         // Exclude log4j dependencies that conflict with Spring Boot's Logback
         exclude(group = "org.apache.logging.log4j", module = "log4j-slf4j2-impl")
     }
+    implementation(project(":eaf-iam")) {
+        // Exclude log4j dependencies that conflict with Spring Boot's Logback
+        exclude(group = "org.apache.logging.log4j", module = "log4j-slf4j2-impl")
+    }
     implementation(project(":eaf-multitenancy")) {
         // Exclude log4j dependencies that conflict with Spring Boot's Logback
         exclude(group = "org.apache.logging.log4j", module = "log4j-slf4j2-impl")

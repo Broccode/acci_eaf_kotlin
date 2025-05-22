@@ -8,5 +8,7 @@
     <!-- Include all change files in correct order -->
     <include file="changes/001-create-local-users-table.xml" relativeToChangelogFile="true"/>
     <include file="changes/002-create-roles-and-permissions-tables.xml" relativeToChangelogFile="true"/>
+    <include file="changes/002-create-service-accounts-table.sql" relativeToChangelogFile="true"/>
+    <include file="changes/003-add-service-account-permissions.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

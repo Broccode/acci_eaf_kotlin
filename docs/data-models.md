@@ -327,3 +327,117 @@ Some EAF modules might require storing configuration or state data that is not e
     ```
 
 Database schema migrations for read models and configuration/state tables will be managed using **Liquibase** (Version `4.31.1`), integrated into the build and deployment process.
+
+## ServiceAccount Entity
+
+Represents a Service Account for machine-to-machine authentication.
+
+**Kotlin Data Class (`ServiceAccount.kt`):**
+
+```kotlin
+package com.acci.eaf.iam.domain.model
+
+import java.time.OffsetDateTime
+import java.util.UUID
+
+/**
+ * Represents a Service Account for machine-to-machine authentication.
+ */
+data class ServiceAccount(
+    /**
+     * Unique identifier for the Service Account.
+     */
+    val serviceAccountId: UUID = UUID.randomUUID(),
+
+    /**
+     * Identifier of the tenant this service account belongs to.
+     */
+    val tenantId: UUID,
+
+    /**
+     * Client ID for the service account, unique per tenant. System-generated.
+     */
+    val clientId: String,
+
+    /**
+     * Hashed client secret.
+     */
+    val clientSecretHash: String,
+
+    /**
+     * Salt used for hashing the client secret.
+     */
+    val salt: String,
+
+    /**
+     * Optional description for the service account.
+     */
+    val description: String?,
+
+    /**
+     * Status of the service account.
+     */
+    val status: ServiceAccountStatus,
+
+    /**
+     * Set of Role IDs assigned to this service account.
+     */
+    val roles: Set<UUID> = emptySet(),
+
+    /**
+     * Timestamp when the service account was created.
+     */
+    val createdAt: OffsetDateTime = OffsetDateTime.now(),
+
+    /**
+     * Timestamp when the service account expires. Nullable for no expiration.
+     */
+    val expiresAt: OffsetDateTime?
+)
+
+/**
+ * Enum representing the status of a Service Account.
+ */
+enum class ServiceAccountStatus {
+    ACTIVE,
+    INACTIVE
+}
+```
+
+**PostgreSQL Table (`service_accounts`):**
+
+```sql
+CREATE TABLE service_accounts (
+    service_account_id UUID PRIMARY KEY,
+    tenant_id UUID NOT NULL,
+    client_id VARCHAR(255) NOT NULL,
+    client_secret_hash VARCHAR(255) NOT NULL,
+    salt VARCHAR(255) NOT NULL,
+    description VARCHAR(1024),
+    status VARCHAR(50) NOT NULL, -- Corresponds to ServiceAccountStatus enum
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMPTZ,
+    CONSTRAINT fk_service_accounts_tenant_id FOREIGN KEY (tenant_id) REFERENCES tenants(tenant_id) ON DELETE CASCADE,
+    CONSTRAINT uq_service_accounts_client_id_tenant_id UNIQUE (client_id, tenant_id)
+);
+
+CREATE INDEX idx_service_accounts_tenant_id ON service_accounts(tenant_id);
+CREATE INDEX idx_service_accounts_client_id ON service_accounts(client_id);
+```
+
+**PostgreSQL Join Table (`service_account_roles`):**
+
+This table links service accounts to their assigned roles.
+
+```sql
+CREATE TABLE service_account_roles (
+    service_account_id UUID NOT NULL,
+    role_id UUID NOT NULL,
+    PRIMARY KEY (service_account_id, role_id),
+    CONSTRAINT fk_sar_service_account_id FOREIGN KEY (service_account_id) REFERENCES service_accounts(service_account_id) ON DELETE CASCADE,
+    CONSTRAINT fk_sar_role_id FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE -- Assumes a 'roles' table exists
+);
+
+CREATE INDEX idx_sar_service_account_id ON service_account_roles(service_account_id);
+CREATE INDEX idx_sar_role_id ON service_account_roles(role_id);
+```
