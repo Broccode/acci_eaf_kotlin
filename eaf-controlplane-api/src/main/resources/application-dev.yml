@@ -1,0 +1,97 @@
+spring:
+  application:
+    name: eaf-controlplane-api
+
+  # H2 In-Memory Database für Development
+  datasource:
+    url: jdbc:h2:mem:eaf_dev;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: false
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop  # Creates tables on startup, drops on shutdown
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+        show_sql: true
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: embedded
+
+  # Liquibase deaktivieren für Development (verwenden JPA DDL stattdessen)
+  liquibase:
+    enabled: false
+
+  # Security configuration für Development
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Dummy JWT configuration für Development
+          issuer-uri: http://localhost:8080/auth/realms/eaf
+
+# Logging configuration für Development
+logging:
+  level:
+    com.acci.eaf: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+# Development specific server configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /controlplane/api/v1
+
+# OpenAPI/Swagger für Development
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    disable-swagger-default-url: true
+  packages-to-scan: com.acci.eaf.controlplane.api.controller
+
+# Management endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+
+# Axon Framework Konfiguration für Development
+axon:
+  axonserver:
+    enabled: false  # AxonServer deaktivieren für Development
+    suppress-download-message: true
+  serializer:
+    general: jackson
+    events: jackson
+    messages: jackson
+  eventhandling:
+    processors:
+      # Event Processing Configuration
+      default:
+        mode: subscribing
+  # JPA-basierter Event Store für Development
+  eventsourcing:
+    event-store-type: jpa  # Events in H2-Datenbank speichern

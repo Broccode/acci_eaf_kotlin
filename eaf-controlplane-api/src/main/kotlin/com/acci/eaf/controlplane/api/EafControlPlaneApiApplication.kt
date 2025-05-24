@@ -11,7 +11,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
  * This API provides CRUD operations for tenant management.
  */
 @SpringBootApplication
-@ComponentScan(basePackages = ["com.acci.eaf"])
+@ComponentScan(basePackages = [
+    "com.acci.eaf.controlplane.api",  // Control Plane API components
+    "com.acci.eaf.multitenancy"       // Multitenancy module (needed for tenant management)
+])
 @EntityScan(basePackages = ["com.acci.eaf.multitenancy.domain"])
 @EnableJpaRepositories(basePackages = ["com.acci.eaf.multitenancy.repository"])
 class EafControlPlaneApiApplication

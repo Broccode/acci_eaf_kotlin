@@ -22,7 +22,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  * Uses RFC 7807 Problem Details for HTTP APIs format.
  */
 @RestControllerAdvice
-class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
+class ControlPlaneGlobalExceptionHandler : ResponseEntityExceptionHandler() {
 
     /**
      * Handle validation errors.

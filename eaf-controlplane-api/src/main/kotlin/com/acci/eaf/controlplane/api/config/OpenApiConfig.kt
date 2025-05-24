@@ -14,10 +14,10 @@ import org.springframework.context.annotation.Configuration
  * Configuration for OpenAPI 3.0 documentation generation.
  */
 @Configuration
-class OpenApiConfig {
+class ControlPlaneOpenApiConfig {
 
     @Bean
-    fun customOpenAPI(): OpenAPI {
+    fun controlPlaneCustomOpenAPI(): OpenAPI {
         val securitySchemeName = "bearerAuth"
 
         return OpenAPI()

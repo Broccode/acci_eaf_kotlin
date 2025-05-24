@@ -36,6 +36,7 @@ dependencies {
     // Datenbank und JPA
     implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.postgresql)
+    runtimeOnly("com.h2database:h2")  // H2 für Development/Testing
 
     // OpenAPI documentation
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")

@@ -31,7 +31,8 @@ import org.springframework.web.bind.annotation.RestController
 
 // Placeholder DTOs removed, actual DTOs are imported above.
 
-@RestController
+// TODO: Temporarily disabled until IAM module is properly configured
+// @RestController
 @RequestMapping("/api/controlplane/tenants/{tenantId}/service-accounts")
 @Validated // Enables validation of path variables, request parameters, etc.
 class ServiceAccountController(private val serviceAccountManagementService: ServiceAccountManagementService) {

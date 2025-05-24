@@ -12,6 +12,53 @@ This module provides a RESTful API for tenant management in the ACCI Enterprise 
 - Comprehensive API documentation via OpenAPI/Swagger
 - Audit logging of all tenant operations
 
+## Development
+
+### Prerequisites
+
+- Java 21 or higher
+- PostgreSQL database (for production)
+- H2 database (for development/testing - included)
+
+### Running the Application
+
+1. **Development Mode** (uses H2 in-memory database):
+
+   ```bash
+   # From the project root directory
+   ./gradlew :eaf-controlplane-api:bootRun
+   
+   # Or from the eaf-controlplane-api directory
+   cd eaf-controlplane-api
+   ../gradlew bootRun
+   ```
+
+2. **With specific profile**:
+
+   ```bash
+   ./gradlew :eaf-controlplane-api:bootRun --args='--spring.profiles.active=dev'
+   ```
+
+3. **Building the application**:
+
+   ```bash
+   ./gradlew :eaf-controlplane-api:build
+   ```
+
+4. **Running tests**:
+
+   ```bash
+   ./gradlew :eaf-controlplane-api:test
+   ```
+
+### Application URLs
+
+When running locally, the application will be available at:
+
+- **API Base**: `http://localhost:8080/controlplane/api/v1`
+- **Swagger UI**: `http://localhost:8080/controlplane/api/v1/swagger-ui.html`
+- **OpenAPI Spec**: `http://localhost:8080/controlplane/api/v1/api-docs`
+
 ## API Endpoints
 
 | HTTP Method | Endpoint            | Description                   | Security             |
