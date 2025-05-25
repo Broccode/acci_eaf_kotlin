@@ -1,22 +1,23 @@
 // Basis-Typen für die Control Plane UI
 
-export interface User {
-  id: string;
-  username: string;
-  email: string;
-  status: 'ACTIVE' | 'INACTIVE' | 'LOCKED_BY_ADMIN' | 'DISABLED_BY_ADMIN';
-  tenantId: string;
-  createdAt: string;
-  updatedAt: string;
-}
+// Export tenant types
+export type {
+  Tenant,
+  TenantStatus,
+  CreateTenantRequest,
+  UpdateTenantRequest,
+  TenantListResponse
+} from './tenant';
 
-export interface Tenant {
-  tenantId: string;
-  name: string;
-  status: 'ACTIVE' | 'INACTIVE' | 'SUSPENDED' | 'PENDING_VERIFICATION';
-  createdAt: string;
-  updatedAt: string;
-}
+// Export user types
+export type {
+  User,
+  UserStatus,
+  CreateUserRequest,
+  UpdateUserRequest,
+  UserListResponse,
+  PasswordResetRequest
+} from './user';
 
 export interface AuthResponse {
   accessToken: string;

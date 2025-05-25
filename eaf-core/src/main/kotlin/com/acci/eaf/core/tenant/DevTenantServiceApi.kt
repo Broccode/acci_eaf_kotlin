@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service
 @Service
 @Profile("dev")
 class DevTenantServiceApi : TenantServiceApi {
-
     // In-Memory-Speicher für Test-Tenants
     private val tenants = ConcurrentHashMap<UUID, TenantInfo>()
 

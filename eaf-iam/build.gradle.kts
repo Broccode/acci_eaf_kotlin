@@ -10,7 +10,11 @@ plugins {
 
 dependencyManagement {
     imports {
-        mavenBom(libs.spring.boot.bom.get().toString())
+        mavenBom(
+            libs.spring.boot.bom
+                .get()
+                .toString()
+        )
     }
 }
 

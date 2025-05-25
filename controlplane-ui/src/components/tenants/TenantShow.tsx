@@ -1,4 +1,4 @@
-import { Info, PlayArrow, Stop } from '@mui/icons-material';
+import { Info, People, PlayArrow, Stop } from '@mui/icons-material';
 import { Box, Card, CardContent, Chip, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import {
@@ -126,6 +126,16 @@ const TenantShowActions = () => {
     <TopToolbar>
       <ListButton />
       <EditButton />
+
+      <Button
+        component="a"
+        href={`#/tenants/${record.id}/users`}
+        color="primary"
+        variant="outlined"
+        startIcon={<People />}
+      >
+        Manage Users
+      </Button>
 
       {record.status === 'INACTIVE' && (
         <Button

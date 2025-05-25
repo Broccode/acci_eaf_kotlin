@@ -18,6 +18,10 @@ import { TenantCreate } from './components/tenants/TenantCreate';
 import { TenantEdit } from './components/tenants/TenantEdit';
 import { TenantList } from './components/tenants/TenantList';
 import { TenantShow } from './components/tenants/TenantShow';
+import { UserCreate } from './components/users/UserCreate';
+import { UserEdit } from './components/users/UserEdit';
+import { UserList } from './components/users/UserList';
+import { UserShow } from './components/users/UserShow';
 import { Dashboard } from './pages/Dashboard';
 import { LoginPage } from './pages/LoginPage';
 import { authProvider } from './services/authProvider';
@@ -150,6 +154,15 @@ function App() {
           edit={TenantEdit}
           show={TenantShow}
           options={{ label: 'Tenants' }}
+        />
+        {/* User Management Resource mit vollständigen CRUD-Operationen */}
+        <Resource
+          name="users"
+          list={UserList}
+          create={UserCreate}
+          edit={UserEdit}
+          show={UserShow}
+          options={{ label: 'Users' }}
         />
       </Admin>
     </ThemeProvider>
