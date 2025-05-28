@@ -42,7 +42,7 @@ dependencies {
     implementation(libs.spring.boot.starter.actuator)
     implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.spring.boot.starter.security)
-    implementation("org.springframework.security:spring-security-oauth2-authorization-server:1.2.1")
+    implementation("org.springframework.security:spring-security-oauth2-authorization-server:1.2.3")
 
     // Datenbanken
     implementation(libs.postgresql)
