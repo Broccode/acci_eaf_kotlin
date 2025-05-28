@@ -4,13 +4,13 @@ This task provides instructions for validating documentation against checklists.
 
 ## Context
 
-The BMAD Method uses various checklists to ensure quality and completeness of different artifacts. The mapping between checklists and their required documents is defined in `checklist-mappings.yml`. This allows for easy addition of new checklists without modifying this task.
+The BMAD Method uses various checklists to ensure quality and completeness of different artifacts. The mapping between checklists and their required documents is defined in `checklist-mappings`. This allows for easy addition of new checklists without modifying this task.
 
 ## Instructions
 
 1. **Initial Assessment**
 
-   - Check `checklist-mappings.yml` for available checklists
+   - Check `checklist-mappings` for available checklists
    - If user provides a checklist name:
      - Look for exact match in checklist-mappings.yml
      - If no exact match, try fuzzy matching (e.g. "architecture checklist" -> "architect-checklist")
@@ -25,7 +25,7 @@ The BMAD Method uses various checklists to ensure quality and completeness of di
 
 2. **Document Location**
 
-   - Look up the required documents and default locations in `checklist-mappings.yml`
+   - Look up the required documents and default locations in `checklist-mappings`
    - For each required document:
      - Check all default locations specified in the mapping
      - If not found, ask the user for the document location

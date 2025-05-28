@@ -2,7 +2,7 @@
 
 ## Goal, Objective and Context
 
-Keep this brief and to the point in the final output - this should come mostly from the user or the provided brief, but ask for clarifications as needed.
+This should come mostly from the user or the provided brief, but ask for clarifications as needed.
 
 ## Functional Requirements (MVP)
 
@@ -10,12 +10,15 @@ You should have a good idea at this point, but clarify suggest question and expl
 
 ## Non Functional Requirements (MVP)
 
+You should have a good idea at this point, but clarify suggest question and explain to ensure these are correct.
+
 ## User Interaction and Design Goals
 
 {
 If the product includes a User Interface (UI), this section captures the Product Manager's high-level vision and goals for the User Experience (UX). This information will serve as a crucial starting point and brief for the Design Architect.
 
 Consider and elicit information from the user regarding:
+
 - **Overall Vision & Experience:** What is the desired look and feel (e.g., "modern and minimalist," "friendly and approachable," "data-intensive and professional")? What kind of experience should users have?
 - **Key Interaction Paradigms:** Are there specific ways users will interact with core features (e.g., "drag-and-drop interface for X," "wizard-style setup for Y," "real-time dashboard for Z")?
 - **Core Screens/Views (Conceptual):** From a product perspective, what are the most critical screens or views necessary to deliver the MVP's value? (e.g., "Login Screen," "Main Dashboard," "Item Detail Page," "Settings Page").
@@ -39,17 +42,17 @@ How will we validate functionality beyond unit testing? Will we want manual scri
 ## Epic Overview
 
 - **Epic {#}: {Title}**
-    - Goal: {A concise 1-2 sentence statement describing the primary objective and value of this Epic.}
-    - Story {#}: As a {type of user/system}, I want {to perform an action / achieve a goal} so that {I can realize a benefit / achieve a reason}.
-        - {Acceptance Criteria List}
-    - Story {#}: As a {type of user/system}, I want {to perform an action / achieve a goal} so that {I can realize a benefit / achieve a reason}.
-        - {Acceptance Criteria List}
+  - Goal: {A concise 1-2 sentence statement describing the primary objective and value of this Epic.}
+  - Story {#}: As a {type of user/system}, I want {to perform an action / achieve a goal} so that {I can realize a benefit / achieve a reason}.
+    - {Acceptance Criteria List}
+  - Story {#}: As a {type of user/system}, I want {to perform an action / achieve a goal} so that {I can realize a benefit / achieve a reason}.
+    - {Acceptance Criteria List}
 - **Epic {#}: {Title}**
-    - Goal: {A concise 1-2 sentence statement describing the primary objective and value of this Epic.}
-    - Story {#}: As a {type of user/system}, I want {to perform an action / achieve a goal} so that {I can realize a benefit / achieve a reason}.
-        - {Acceptance Criteria List}
-    - Story {#}: As a {type of user/system}, I want {to perform an action / achieve a goal} so that {I can realize a benefit / achieve a reason}.
-        - {Acceptance Criteria List}
+  - Goal: {A concise 1-2 sentence statement describing the primary objective and value of this Epic.}
+  - Story {#}: As a {type of user/system}, I want {to perform an action / achieve a goal} so that {I can realize a benefit / achieve a reason}.
+    - {Acceptance Criteria List}
+  - Story {#}: As a {type of user/system}, I want {to perform an action / achieve a goal} so that {I can realize a benefit / achieve a reason}.
+    - {Acceptance Criteria List}
 
 ## Key Reference Documents
 
@@ -64,19 +67,23 @@ Anything you and the user agreed it out of scope or can be removed from scope to
 {This section is to be populated ONLY if the PM is operating in the 'Simplified PM-to-Development Workflow'. It captures essential technical foundations that would typically be defined by an Architect, allowing for a more direct path to development. This information should be gathered after initial PRD sections (Goals, Users, etc.) are drafted, and ideally before or in parallel with detailed Epic/Story definition, and updated as needed.}
 
 ### Technology Stack Selections
+
 {Collaboratively define the core technologies. Be specific about choices and versions where appropriate.}
--   **Primary Backend Language/Framework:** {e.g., Python/FastAPI, Node.js/Express, Java/Spring Boot}
--   **Primary Frontend Language/Framework (if applicable):** {e.g., TypeScript/React (Next.js), JavaScript/Vue.js}
--   **Database:** {e.g., PostgreSQL, MongoDB, AWS DynamoDB}
--   **Key Libraries/Services (Backend):** {e.g., Authentication (JWT, OAuth provider), ORM (SQLAlchemy), Caching (Redis)}
--   **Key Libraries/Services (Frontend, if applicable):** {e.g., UI Component Library (Material-UI, Tailwind CSS + Headless UI), State Management (Redux, Zustand)}
--   **Deployment Platform/Environment:** {e.g., Docker on AWS ECS, Vercel, Netlify, Kubernetes}
--   **Version Control System:** {e.g., Git with GitHub/GitLab}
+
+- **Primary Backend Language/Framework:** {e.g., Python/FastAPI, Node.js/Express, Java/Spring Boot}
+- **Primary Frontend Language/Framework (if applicable):** {e.g., TypeScript/React (Next.js), JavaScript/Vue.js}
+- **Database:** {e.g., PostgreSQL, MongoDB, AWS DynamoDB}
+- **Key Libraries/Services (Backend):** {e.g., Authentication (JWT, OAuth provider), ORM (SQLAlchemy), Caching (Redis)}
+- **Key Libraries/Services (Frontend, if applicable):** {e.g., UI Component Library (Material-UI, Tailwind CSS + Headless UI), State Management (Redux, Zustand)}
+- **Deployment Platform/Environment:** {e.g., Docker on AWS ECS, Vercel, Netlify, Kubernetes}
+- **Version Control System:** {e.g., Git with GitHub/GitLab}
 
 ### Proposed Application Structure
+
 {Describe the high-level organization of the codebase. This might include a simple text-based directory layout, a list of main modules/components, and a brief explanation of how they interact. The goal is to provide a clear starting point for developers.}
 
 Example:
+
 ```
 /
 ├── app/                  # Main application source code
@@ -94,25 +101,24 @@ Example:
 ├── requirements.txt
 └── README.md
 ```
--   **Monorepo/Polyrepo:** {Specify if a monorepo or polyrepo structure is envisioned, and briefly why.}
--   **Key Modules/Components and Responsibilities:**
-    -   {Module 1 Name}: {Brief description of its purpose and key responsibilities}
-    -   {Module 2 Name}: {Brief description of its purpose and key responsibilities}
-    -   ...
--   **Data Flow Overview (Conceptual):** {Briefly describe how data is expected to flow between major components, e.g., Frontend -> API -> Core Logic -> Database.}
+
+- **Monorepo/Polyrepo:** {Specify if a monorepo or polyrepo structure is envisioned, and briefly why.}
+- **Key Modules/Components and Responsibilities:**
+  - {Module 1 Name}: {Brief description of its purpose and key responsibilities}
+  - {Module 2 Name}: {Brief description of its purpose and key responsibilities}
+  - ...
+- **Data Flow Overview (Conceptual):** {Briefly describe how data is expected to flow between major components, e.g., Frontend -> API -> Core Logic -> Database.}
 
 ## Change Log
 
-| Change        | Date       | Version | Description                  | Author         |
-| ------------- | ---------- | ------- | ---------------------------- | -------------- |
+| Change | Date | Version | Description | Author |
+| ------ | ---- | ------- | ----------- | ------ |
 
 ----- END PRD START CHECKLIST OUTPUT ------
 
 ## Checklist Results Report
 
 ----- END Checklist START Design Architect `UI/UX Specification Mode` Prompt ------
-
-
 
 ----- END Design Architect `UI/UX Specification Mode` Prompt START Architect Prompt ------
 
@@ -158,4 +164,3 @@ Based on our discussions and requirements analysis for the {Product Name}, I've 
 - {Any other technical context the Architect should consider}
 
 ----- END Architect Prompt -----
-

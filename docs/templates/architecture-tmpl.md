@@ -21,9 +21,17 @@ If the project includes a significant user interface, a separate Frontend Archit
 
 { Insert high-level mermaid system context or interaction diagram here - e.g., Mermaid Class C4 Models Layer 1 and 2 }
 
+## Architectural / Design Patterns Adopted
+
+{ List the key high-level patterns chosen for the architecture. These foundational patterns should be established early as they guide component design, interactions, and technology choices. }
+
+- **Pattern 1:** {e.g., Serverless, Event-Driven, Microservices, CQRS} - _Rationale/Reference:_ {Briefly why, or link to a more detailed explanation if needed}
+- **Pattern 2:** {e.g., Dependency Injection, Repository Pattern, Module Pattern} - _Rationale/Reference:_ {...}
+- **Pattern N:** {...}
+
 ## Component View
 
-{ Describe the major logical components or services of the system and their responsibilities, reflecting the decided overall architecture (e.g., distinct microservices, modules within a monolith, packages within a monorepo). Explain how they collaborate. }
+{ Describe the major logical components or services of the system and their responsibilities, reflecting the decided overall architecture (e.g., distinct microservices, modules within a monolith, packages within a monorepo) and the architectural patterns adopted. Explain how they collaborate. }
 
 - Component A: {Description of responsibility}
 
@@ -32,14 +40,6 @@ If the project includes a significant user interface, a separate Frontend Archit
 - Component N...: {Description of responsibility}
 
 { Insert component diagram here if it helps - e.g., using Mermaid graph TD or C4 Model Container/Component Diagram }
-
-### Architectural / Design Patterns Adopted
-
-{ List the key high-level patterns chosen in the architecture document. These foundational patterns should be established early as they guide component design, interactions, and technology choices. }
-
-- **Pattern 1:** {e.g., Serverless, Event-Driven, Microservices, CQRS} - _Rationale/Reference:_ {Briefly why, or link to a more detailed explanation if needed}
-- **Pattern 2:** {e.g., Dependency Injection, Repository Pattern, Module Pattern} - _Rationale/Reference:_ {...}
-- **Pattern N:** {...}
 
 ## Project Structure
 
@@ -91,13 +91,13 @@ If the project includes a significant user interface, a separate Frontend Archit
 
 ### Key Directory Descriptions
 
-docs/: Contains all project planning and reference documentation.
-infra/: Holds the Infrastructure as Code definitions (e.g., AWS CDK, Terraform).
-src/: Contains the main application source code. May be subdivided (e.g., `backend/`, `frontend/`, `shared/`) depending on project complexity and whether a separate frontend architecture document is in use.
-src/backend/core/ / src/core/ / src/domain/: Core business logic, entities, use cases, independent of frameworks/external services.
-src/backend/adapters/ / src/adapters/ / src/infrastructure/: Implementation details, interactions with databases, cloud SDKs, frameworks.
-src/backend/controllers/ / src/routes/ / src/pages/: Entry points for API requests or UI views (if UI is simple and not in a separate frontend structure).
-test/: Contains all automated tests, mirroring the src/ structure where applicable.
+- docs/: Contains all project planning and reference documentation.
+- infra/: Holds the Infrastructure as Code definitions (e.g., AWS CDK, Terraform).
+- src/: Contains the main application source code. May be subdivided (e.g., `backend/`, `frontend/`, `shared/`) depending on project complexity and whether a separate frontend architecture document is in use.
+- src/backend/core/ / src/core/ / src/domain/: Core business logic, entities, use cases, independent of frameworks/external services.
+- src/backend/adapters/ / src/adapters/ / src/infrastructure/: Implementation details, interactions with databases, cloud SDKs, frameworks.
+- src/backend/controllers/ / src/routes/ / src/pages/: Entry points for API requests or UI views (if UI is simple and not in a separate frontend structure).
+- test/: Contains all automated tests, mirroring the src/ structure where applicable.
 
 ### Notes
 
@@ -166,7 +166,6 @@ test/: Contains all automated tests, mirroring the src/ structure where applicab
     // ... other properties
   }
   ```
-  _(Alternatively, use JSON Schema, class definitions, or other relevant format)_
 - **Validation Rules:** {List any specific validation rules beyond basic types - e.g., max length, format, range.}
 
 ### API Payload Schemas (If distinct)
@@ -253,7 +252,7 @@ Must be definitive selections; do not list open-ended choices (e.g., for web scr
 - Infrastructure as Code (IaC): {Tool used - e.g., AWS CDK, Terraform...} - Location: {Link to IaC code repo/directory}
 - Deployment Strategy: {e.g., CI/CD pipeline with automated promotions, Blue/Green, Canary} - Tools: {e.g., Jenkins, GitHub Actions, GitLab CI}
 - Environments: {List environments - e.g., Development, Staging, Production}
-- Environment Promotion: {Describe steps, e.g., `dev` -> `staging` (manual approval / automated tests pass) -> `production` (automated after tests pass and optional manual approval)}
+- Environment Promotion: {Describe steps, e.g., `dev` -\> `staging` (manual approval / automated tests pass) -\> `production` (automated after tests pass and optional manual approval)}
 - Rollback Strategy: {e.g., Automated rollback on health check failure post-deployment, Manual trigger via CI/CD job, IaC state rollback. Specify primary mechanism.}
 
 ## Error Handling Strategy
@@ -298,10 +297,10 @@ Must be definitive selections; do not list open-ended choices (e.g., for web scr
 
 #### `{Language/Framework 1 Name, e.g., TypeScript/Node.js}` Specifics:
 
-- **Immutability:** `{e.g., "Always prefer immutable data structures. Use `Readonly<T>`, `ReadonlyArray<T>`, `as const` for object/array literals. Avoid direct mutation of objects/arrays passed as props or state. Consider libraries like Immer for complex state updates."}`
+- **Immutability:** `{e.g., "Always prefer immutable data structures. Use `Readonly\<T\>`, `ReadonlyArray\<T\>`, `as const` for object/array literals. Avoid direct mutation of objects/arrays passed as props or state. Consider libraries like Immer for complex state updates."}`
 - **Functional vs. OOP:** `{e.g., "Favor functional programming constructs (map, filter, reduce, pure functions) for data transformation and business logic where practical. Use classes for entities, services with clear state/responsibilities, or when framework conventions (e.g., NestJS) demand."}`
 - **Error Handling Specifics:** `{e.g., "Always use `Error`objects or extensions thereof for`throw`. Ensure `Promise`rejections are always`Error`objects. Use custom error classes inheriting from a base`AppError` for domain-specific errors."}`
-- **Null/Undefined Handling:** `{e.g., "Strict null checks (`strictNullChecks`) must be enabled. Avoid `!` non-null assertion operator; prefer explicit checks, optional chaining (`?.`), or nullish coalescing (`??`). Define clear strategies for optional function parameters and return types."}`
+- **Null/Undefined Handling:** `{e.g., "Strict null checks (`strictNullChecks`) must be enabled. Avoid `\!` non-null assertion operator; prefer explicit checks, optional chaining (`?.`), or nullish coalescing (`??`). Define clear strategies for optional function parameters and return types."}`
 - **Module System:** `{e.g., "Use ESModules (`import`/`export`) exclusively. Avoid CommonJS (`require`/`module.exports`) in new code."}`
 - **Logging Specifics:** `{e.g., "Use the chosen structured logging library. Log messages must include a correlation ID. Do not log sensitive PII. Use appropriate log levels."}`
 - **Framework Idioms (e.g., for NestJS/Express):** `{e.g., "NestJS: Always use decorators for defining modules, controllers, services, DTOs. Adhere strictly to the defined module structure and dependency injection patterns. Express: Define middleware patterns, routing structure."}`
@@ -373,4 +372,3 @@ Must be definitive selections; do not list open-ended choices (e.g., for web scr
 | ------ | ---- | ------- | ----------- | ------ |
 
 --- Below, Prompt for Design Architect (If Project has UI) To Produce Front End Architecture ----
-
