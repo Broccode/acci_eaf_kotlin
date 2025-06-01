@@ -17,7 +17,7 @@ import {
   useRefresh,
   useUpdate,
 } from 'react-admin';
-import type { Tenant } from '../../types/tenant';
+import type { Tenant } from '../../../types/tenant';
 
 /**
  * Status display component with color coding and description

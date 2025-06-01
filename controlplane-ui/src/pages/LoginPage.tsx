@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { authProvider } from '../services/authProvider';
+import { authProvider } from '../features/auth';
 
 interface LoginPageProps {
   onLoginSuccess?: () => void;

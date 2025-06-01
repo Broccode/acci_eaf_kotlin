@@ -1,6 +1,6 @@
 import type { DataProvider } from 'react-admin';
-import { tenantDataProvider } from './tenantDataProvider';
-import { userDataProvider } from './userDataProvider';
+import { tenantDataProvider } from '../features/tenants';
+import { userDataProvider } from '../features/users';
 
 // Combined Data Provider für React-Admin
 // Verwendet spezifische Provider für verschiedene Ressourcen

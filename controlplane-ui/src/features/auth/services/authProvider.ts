@@ -1,5 +1,5 @@
 import type { AuthProvider } from 'react-admin';
-import type { AuthResponse, LoginRequest } from '../types';
+import type { AuthResponse, LoginRequest } from '../../../types';
 
 // Mock API Service für Authentifizierung
 class AuthService {

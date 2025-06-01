@@ -306,9 +306,65 @@ class ComplexService(private val securityUtils: SecurityUtils) {
 }
 ```
 
-## 7. Audit and Monitoring
+## 7. UI for RBAC Management
 
-### 7.1 Audit Logging
+The EAF Control Plane provides a comprehensive UI for managing role assignments:
+
+### 7.1 User Role Management UI
+
+The user role management interface is integrated into the user detail view:
+
+- **Viewing Assigned Roles**: In the user detail view, a dedicated "Assigned Roles" section displays all roles currently assigned to the user
+- **Role Indicators**: System-wide roles are marked with an admin icon and primary color, while tenant-specific roles use a business icon and secondary color
+- **Role Descriptions**: Hovering over a role chip displays its description and scope (system-wide or tenant-specific)
+
+### 7.2 Role Assignment Dialog
+
+The role assignment functionality includes:
+
+- **Multi-select Interface**: Uses Material-UI Autocomplete component for intuitive role selection
+- **Visual Differentiation**: Clear visual indicators distinguish between system-wide and tenant-specific roles
+- **Confirmation Dialog**: All role changes require explicit confirmation before being applied
+- **Real-time Updates**: The UI refreshes immediately after successful role updates
+
+### 7.3 User List View
+
+The user list includes a placeholder for role indicators:
+
+- **Role Access**: A "View" button provides quick access to view user roles from the list
+- **Future Enhancement**: When the API supports returning role counts in list responses, this will display the actual number of assigned roles
+
+### 7.4 Implementation Details
+
+The UI implementation consists of:
+
+1. **UserRoles Component** (`controlplane-ui/src/components/users/UserRoles.tsx`):
+   - Displays currently assigned roles with visual indicators
+   - Provides "Manage Roles" button to open assignment dialog
+   - Handles loading states and error conditions
+
+2. **RoleAssignmentDialog Component** (`controlplane-ui/src/components/users/RoleAssignmentDialog.tsx`):
+   - Fetches available roles from the API
+   - Implements multi-select interface for role selection
+   - Manages role addition and removal operations
+   - Includes confirmation dialog for changes
+
+3. **Role Service** (`controlplane-ui/src/services/roleService.ts`):
+   - Provides API integration for all role-related operations
+   - Handles error responses and authentication
+   - Supports batch updates for efficient role management
+
+### 7.5 Permissions Required
+
+To manage role assignments through the UI, users must have:
+
+- `role:read` - To view available roles
+- `role:assign` - To assign or remove roles from users
+- Appropriate tenant membership for tenant-specific operations
+
+## 8. Audit and Monitoring
+
+### 8.1 Audit Logging
 
 All RBAC administrative actions are logged in the audit system:
 
@@ -316,7 +372,7 @@ All RBAC administrative actions are logged in the audit system:
 - Permission assignments to roles
 - Role assignments to users
 
-### 7.2 Security Monitoring
+### 8.2 Security Monitoring
 
 Security events related to RBAC include:
 
@@ -324,30 +380,30 @@ Security events related to RBAC include:
 - Attempts to access unauthorized resources
 - Changes to role/permission configurations
 
-## 8. Best Practices
+## 9. Best Practices
 
-### 8.1 Role Design
+### 9.1 Role Design
 
 - Create roles based on job functions, not individuals
 - Follow the principle of least privilege
 - Avoid creating too many fine-grained roles (role explosion)
 - Document the purpose and scope of each role
 
-### 8.2 Permission Assignment
+### 9.2 Permission Assignment
 
 - Assign only the permissions needed for the role
 - Regularly review and audit permission assignments
 - Consider the security implications of powerful permissions
 
-### 8.3 User-Role Assignment
+### 9.3 User-Role Assignment
 
 - Assign users to the minimum number of roles needed
 - Consider time-bound role assignments for temporary access
 - Regularly audit user-role assignments
 
-## 9. Extending the RBAC System
+## 10. Extending the RBAC System
 
-### 9.1 Adding New Permissions
+### 10.1 Adding New Permissions
 
 When extending the system with new functionality:
 
@@ -355,7 +411,7 @@ When extending the system with new functionality:
 2. Register the permissions in the database
 3. Update documentation
 
-### 9.2 Supporting ABAC
+### 10.2 Supporting ABAC
 
 The RBAC system is designed to be extensible toward Attribute-Based Access Control (ABAC) by:
 

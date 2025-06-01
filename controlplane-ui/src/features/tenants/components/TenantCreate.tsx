@@ -13,7 +13,7 @@ import {
   useNotify,
   useRedirect,
 } from 'react-admin';
-import type { CreateTenantRequest } from '../../types/tenant';
+import type { CreateTenantRequest } from '../../../types/tenant';
 
 /**
  * Custom toolbar with save button
